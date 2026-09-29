@@ -166,10 +166,163 @@
 // 42.0  → f64
 // true  → bool
 
+// fn main() {
+//     for index in 1..=4 {
+//         println!("index: {}", std::any::type_name_of_val(&index));
+//         let distance = index * 25;
+//         println!("{}: {}, distance type: {}", index, distance, std::any::type_name_of_val(&distance));
+//     }
+// }
+
+// fn main() {
+//     let mut distance = 0;
+
+//     while distance < 100 {
+//         println!("Before: {}", distance);
+//         distance += 30
+//     }
+
+//     println!("Final: {}", distance);
+// }
+
+// fn main() {
+//     let mut distance = 0;
+
+//     loop {
+//         distance += 30;
+
+//         if distance >= 100 {
+//             break;
+//         }
+
+//         println!("Inside: {}", distance);
+//     }
+
+//     println!("Final: {}", distance);
+// }
+
+// loops can be applied to an expression
+// fn main() {
+//     let mut distance = 10;
+
+//     let final_distance = loop {
+//         distance += 20;
+
+//         if distance >= 75 {
+//             break distance;
+//         }
+//     };
+
+//     println!("Distance: {}", distance);
+//     println!("Final distance: {}", final_distance)
+// }
+
+// scope is the term used to define things like variables that the function knows and doesn't know
+// this will throw an error when compiled:
+// fn main() {
+//     loop {
+//         let temporary = 42;
+//         break;
+//     }
+
+//     println!("{}", temporary);
+// }
+// Thus spake The Oracle (ChatGPT):
+// A variable remains usable while execution is inside the scope where that binding is valid.
+
+// fn main() {
+//     let distance = 50;
+
+//     if distance <= 100 {
+//         let label = "near";
+//         println!("Inside: {}", label);
+//     }
+
+//     println!("Outside: {}", label);
+// }
+// Inner scopes can access bindings from their surrounding scope, 
+// but surrounding scopes cannot access bindings created only inside an inner scope.
+
+// fn main() {
+//     let distance = 50;
+
+//     let label = if distance <= 100 {
+//         "near"
+//     } else {
+//         "far"
+//     };
+
+//     println!("{}", label);
+// }
+
+// this will throw a compiler error because E and F need access to variables out of scope
+// fn main() {
+//     let x = 10;
+
+//     {
+//         let y = 20;
+//         let sum = x + y;
+
+//         println!("A: {}", x);
+//         println!("B: {}", y);
+//         println!("C: {}", sum);
+//     }
+
+//     println!("D: {}", x);
+//     println!("E: {}", y);
+//     println!("F: {}", sum);
+// }
+
+// Shadowing versus mutation. Same end result:
+// SHADOWING
+
+// let distance = 50;
+// let distance = distance + 25;
+//     ↑
+// creates a new binding
+
+
+// MUTATION
+
+// let mut distance = 50;
+// distance += 25;
+//     ↑
+// changes the existing binding
+
+// mutability
+// same binding
+// same type
+// value can change
+
+// shadowing
+// new binding
+// name reused
+// type can change
+
+// mut means binding's value can change, it doesn't mean that the type can change.
+
+// note here how we can legally change the type
+// fn main() {
+// 	let distance = 50;
+// 	let distance = distance + 25;
+// 	let distance = distance as f64 / 2.0;
+
+// 	println!("{}", distance);
+// 	println!("{}", std::any::type_name_of_val(&distance));
+// }
+
+// as
+// → explicit primitive cast
+
+// .into()
+// → broader type conversion mechanism
+
 fn main() {
-    for index in 1..=4 {
-        println!("{}", std::any::type_name_of_val(&index));
-        let distance = index * 25;
-        println!("{}: {}, distance type: {}", index, distance, std::any::type_name_of_val(&distance));
-    }
+    let a = 83.7_f64 as i32;
+    let b = 83.7_f64.round() as i32;
+    let c = 83.2_f64.round() as i32;
+
+    println!("a: {}", a);
+    println!("b: {}", b);
+    println!("c: {}", c);
 }
