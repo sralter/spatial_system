@@ -107,6 +107,8 @@
 // - how many bytes are currently used
 // - how much memory has been allocated
 
+// 2.3 Move semantics
+
 // an f64 coordinate is easy to copy, it's only 8 bits:
 // let x = 583421.73;
 // But imagine a 4 GB raster, or a table of points 200 million rows long.
@@ -122,18 +124,122 @@
 // bool    → Copy
 // String  → not Copy
 
-fn main() {
-	let feature_type = String::from("building");
+// fn main() {
+// 	let feature_type = String::from("building");
 
-	let another_name = feature_type;
-//  let another_name = feature_type.clone(); // safe implementation if you want to copy the value
+// 	let another_name = feature_type;
+// //  let another_name = feature_type.clone(); // safe implementation if you want to copy the value
 
-	println!("another: {}", another_name);
-	println!("original: {}", feature_type);
-}
+// 	println!("another: {}", another_name);
+// 	println!("original: {}", feature_type);
+// }
 
-// Move versus Copy
+// Move vs Copy vs Clone
 // Moves reassign the metadata to the newest binding. It doesn't duplicate everything.
 // Move ≈ O(1)
 // Deep copy ≈ O(n)
+// This is valid:
+// let x = 42;
+// let y = x;
+// Because types liek i32, f64, and bool can be copied.
+// For something like String, use .clone() if you want to duplicate it, but it must be explicit.
+// Copy
+//     implicit duplication is allowed
+// Clone
+//     explicit duplication is available
+
+// fn main() {
+// 	let feature_type = String::from("building");
+
+// 	let another_name = feature_type.clone();
+
+// 	println!("original: {}", feature_type);
+// 	println!("another: {}", another_name);
+// }
+
+// if a: Vec<(f64, f64)>:
+// let b = a;
+// is much cheaper than:
+// let b = a.clone();
+
+// copy vs move vs clone redux:
+// 	copy
+	// let x = 42;
+	// let y = x;
+	// x valid
+	// y valid
+	// implicit duplicate
+	// cheap Copy type
+// move
+	// let a = String::from("building");
+	// let b = a;
+	// a no longer usable
+	// b owns original resource
+	// no deep duplication
+// clone
+	// let a = String::from("building");
+	// let b = a.clone();
+	// a valid
+	// b valid
+	// explicit independent duplicate
+
+// language semantics become systems architecture
+
+// 2.4 Why borrowing needs to exist
+
+// a move transfers ownership. A borrow does not.
+// concept of &
+// for now, think of & as roughly "borrow/reference this value rather than transfer ownership"
+
+// the & here is saying: Give this function temporary read access to the vector, because all we need is to ask the .len() of the points.
+fn point_count(points: &Vec<(f64, f64)>) -> usize {
+    points.len()
+}
+
+fn main() {
+    let points = vec![
+        (-73.9857, 40.7484),
+        (-73.9840, 40.7490),
+        (-73.9825, 40.7501),
+    ];
+
+    let count = point_count(&points);
+
+    println!("count: {}", count);
+    println!("points: {:?}", points);
+}
+
+// array
+// [T; N]
+// fixed length
+// fixed types
+
+// Vec
+// Vec<T>
+// dynamic length
+// fixed types
+
+// Move: ownership changed
+	// let b = a;
+	// before: a owns data
+	// after: a  X
+// 		  b owns data
+// Clone: makes two independent owned resources
+	// let b = a.clone();
+	// a owns data A
+	// b owns duplicated data B
+// Borrow: a still owns resource, b merely has permission to access it
+	// let b = &a;
+	// a
+	// │
+	// │ owns
+	// ▼
+	// data
+	// ▲
+	// │
+	// │ temporarily refers to
+	// b
+
+// Systems design principle:
+// Request the weakest capability necessary to perform the operation.
 
