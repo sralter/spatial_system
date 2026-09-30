@@ -78,12 +78,38 @@ fn main() {
     println!("Classify distances:");
     for distance in distances {
         let distance_result = classify_distance(distance);
-        println!("{}", distance_result);
+        println!("{}: {}", distance, distance_result);
     }
 
     println!("Classify qualities:");
     for qcode in quality_codes {
         let code_result = classify_quality(qcode);
-        println!("{}", code_result);
+        println!("{}: {}", qcode, code_result);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn classifies_distance_boundaries() {
+        assert_eq!(classify_distance(-1.0), "invalid");
+        assert_eq!(classify_distance(0.0), "near");
+        assert_eq!(classify_distance(100.0), "near");
+        assert_eq!(classify_distance(100.1), "medium");
+        assert_eq!(classify_distance(500.0), "medium");
+        assert_eq!(classify_distance(500.1), "far");
+        assert_eq!(classify_distance(MAX_DISTANCE_M), "far");
+        assert_eq!(classify_distance(MAX_DISTANCE_M + 0.1), "outside");
+    }
+
+    #[test]
+    fn classifies_quality_codes() {
+        assert_eq!(classify_quality(0), "missing");
+        assert_eq!(classify_quality(1), "usable");
+        assert_eq!(classify_quality(2), "usable");
+        assert_eq!(classify_quality(3), "good");
+        assert_eq!(classify_quality(9), "unknown");
     }
 }
