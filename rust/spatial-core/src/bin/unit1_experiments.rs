@@ -317,12 +317,64 @@
 // .into()
 // → broader type conversion mechanism
 
-fn main() {
-    let a = 83.7_f64 as i32;
-    let b = 83.7_f64.round() as i32;
-    let c = 83.2_f64.round() as i32;
+// fn main() {
+//     let a = 83.7_f64 as i32;
+//     let b = 83.7_f64.round() as i32;
+//     let c = 83.2_f64.round() as i32;
 
-    println!("a: {}", a);
-    println!("b: {}", b);
-    println!("c: {}", c);
+//     println!("a: {}", a);
+//     println!("b: {}", b);
+//     println!("c: {}", c);
+// }
+
+
+// let building_count = 42;   // i32
+// let average_area = 125.5;  // f64
+
+// // temporarily cast building_count to f64 for this operation
+// let total_area = building_count as f64 * average_area;
+
+// let vs const
+// let                         const
+// ────────────────────────────────────────
+// let threshold = 100.0;      const MAX_DISTANCE_M: f64 = 100.0;
+// type often inferred         type annotation required
+// ordinary variable binding   constant
+// usually snake_case          conventionally SCREAMING_SNAKE_CASE
+
+// const MAX_SEARCH_DISTANCE_M: f64 = 2_000.0; // underscore only for readability
+
+// fn classify_candidate(distance_m: f64) -> &'static str {
+//     if distance_m <= MAX_SEARCH_DISTANCE_M {
+//         "candidate"
+//     } else {
+//         "too far"
+//     }
+// }
+
+const MAX_DISTANCE_M: f64 = 100.0;
+
+fn main() {
+    let distance = 83.2;
+
+    if distance <= MAX_DISTANCE_M {
+        println!("Within threshold");
+    } else {
+        println!("Outside threshold");
+    }
+
+    MAX_DISTANCE_M = 200.0;
 }
+
+immutable let
+    binding created at runtime
+	can usually rely on inferred type
+    cannot be reassigned
+    can be shadowed by a new binding
+
+const
+    fixed constant value
+	requires an explicit type
+    cannot be reassigned
+    intended as a program-wide/static constant
+
