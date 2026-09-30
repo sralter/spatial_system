@@ -9,7 +9,6 @@
 //     println!("Doubled: {}", distance);
 // }
 
-
 // fn main() {
 //     let distance = 83.2;
 //     let doubled = double_distance(distance);
@@ -17,7 +16,6 @@
 // 	// check the (inferred) type of the variable
 //     println!("{}", std::any::type_name_of_val(&distance));
 // }
-
 
 // The following will throw a compile time error
 // because fn expects i64 but we are passing i32
@@ -127,9 +125,9 @@
 // enums: model a fixed set of valid states
 // Result: model success vesus failure explicitly
 
-// 
+//
 // # loops
-// 
+//
 
 // fn main() {
 //     let distances = [25.0, 73.5, 125.0];
@@ -152,7 +150,7 @@
 // }
 
 // fn main() {
-//     let distances = [-73.5, 25.0, 50.0, 83.2, 100.0, 142.7]; 
+//     let distances = [-73.5, 25.0, 50.0, 83.2, 100.0, 142.7];
 //     println!("{}", std::any::type_name_of_val(&distances));
 
 //     for distance in distances {
@@ -240,7 +238,7 @@
 
 //     println!("Outside: {}", label);
 // }
-// Inner scopes can access bindings from their surrounding scope, 
+// Inner scopes can access bindings from their surrounding scope,
 // but surrounding scopes cannot access bindings created only inside an inner scope.
 
 // fn main() {
@@ -280,7 +278,6 @@
 // let distance = distance + 25;
 //     ↑
 // creates a new binding
-
 
 // MUTATION
 
@@ -327,7 +324,6 @@
 //     println!("c: {}", c);
 // }
 
-
 // let building_count = 42;   // i32
 // let average_area = 125.5;  // f64
 
@@ -341,20 +337,6 @@
 // type often inferred         type annotation required
 // ordinary variable binding   constant
 // usually snake_case          conventionally SCREAMING_SNAKE_CASE
-
-const MAX_SEARCH_DISTANCE_M: f64 = 2_000.0; // underscore only for readability
-
-fn classify_candidate(distance_m: f64) -> &'static str {
-    if distance_m <= MAX_SEARCH_DISTANCE_M {
-        "candidate"
-    } else {
-        "too far"
-    }
-}
-
-fn main() {
-	classify_candidate(42.0);
-}
 
 // const MAX_DISTANCE_M: f64 = 100.0;
 
@@ -395,4 +377,206 @@ fn main() {
 // or, if we cd into the package:
 // cd rust/spatial-core
 // cargo run --bin unit1_experiments
+
+// cargo check
+// → type-check and compile-check the project without producing the final executable
+// → usually much faster than a full build/run cycle
+
+// cargo fmt --check
+// → verify formatting without changing files
+
+// cargo clippy
+// → run Rust's linter for suspicious, non-idiomatic, or improvable code
+
+// Important:
+// cargo run --release
+// Used when ready for heavy optimizing of machine code
+// Enables the release profile and compiller optimizations
+
+// package
+//     Cargo-managed project described by Cargo.toml
+
+// crate
+//     Rust compilation unit
+
+// target
+//     something Cargo can build, such as a binary or library
+
+// const MAX_SEARCH_DISTANCE_M: f64 = 2_000.0; // underscore only for readability
+
+// fn classify_candidate(distance_m: f64) -> &'static str {
+//     if distance_m <= MAX_SEARCH_DISTANCE_M {
+//         "candidate"
+//     } else {
+//         "too far"
+//     }
+// }
+
+// fn main() {
+//     //    f64            &str
+//     // let distance: f64 = "83.2"; // experiment for cargo check
+//     classify_candidate(42.0);
+
+// 	let mut distance = 42;
+// 	println!("{}", distance)
+// }
+
+// cargo check
+// → is the code valid Rust?
+
+// cargo fmt --check
+// → is it formatted according to rustfmt?
+
+// cargo clippy
+// → is it written in a suspicious, unnecessarily awkward, or non-idiomatic way?
+
+// The new workflow:
+// write Rust
+//    ↓
+// cargo check       ← does it compile/check?
+//    ↓
+// cargo fmt         ← standardize formatting
+//    ↓
+// cargo clippy      ← anything suspicious/non-idiomatic?
+//    ↓
+// cargo run         ← actually execute it
+
+// Fun fact: Rust can test code examples within documentation :mind-blow emoji:
+
+// tests
+
+// basic structure
+// #[test]
+// fn test_name() {
+//     arrange values
+//     call code
+//     assert expected behavior
+// }
+
+// println!()      // macro
+// assert_eq!()    // macro
+// #[test]         // attribute
+// #[cfg(test)]    // attribute
+
+// match
+// match is like Python's match or SQL's CASE but is more important due to enums and exhaustive handling.
+// match must be exhaustive, and include every potential pattern (it could be a catch-all, see below)
+// first, think of something like this:
+// fn classify_distance(distance: f64) -> &'static str {
+//     if distance < 0.0 {
+//         "invalid"
+//     } else if distance <= 50.0 {
+//         "very near"
+//     } else if distance <= 100.0 {
+//         "near"
+//     } else {
+//         "far"
+//     }
+// }
+
+// now with match:
+// the "=>", if read aloud, is like "then" or "maps to", like so:
+// fn describe_zone(zone: i32) -> &'static str {
+//     match zone {
+//         1 => "residential", // if the pattern is 1, then produce "missing"
+//         2 => "commercial",
+//         3 => "industrial",
+//         _ => "unknown", // anything else then produce "unknown". '_' is a catch-all pattern.
+//     }
+// }
+
+// "_" is like case... when... else in SQL:
+// case zone
+//     when 1 then 'residential'
+//     when 2 then 'commercial'
+//     when 3 then 'industrial'
+//     else 'unknown'
+// end
+
+// match is an expression so it can produce a value, just like if.
+// let label = match zone {
+//     1 => "residential",
+//     2 => "commercial",
+//     3 => "industrial",
+//     _ => "unknown",
+// };
+
+// fn describe_quality(code: i32) -> &'static str {
+//     match code {
+//         0 => "missing",
+//         1 => "poor",
+//         2 => "fair",
+//         3 => "good",
+//         _ => "unknown",
+//     }
+// }
+
+// fn main() {
+//     for code in 0..=4 {
+//         let quality = describe_quality(code);
+//         println!("{}: {}", code, quality);
+//     }
+// }
+
+// match pattern:
+// 1 | 2       → pattern 1 OR pattern 2
+
+// Boolean expression:
+// a || b      → a OR b
+
+// if distance < 0.0 || distance > 100.0 {
+//     println!("Outside range");
+// }
+
+// fn classify_score(score: i32) -> &'static str {
+//     match score {
+//         0..=49 => "low",
+//         50..=79 => "medium",
+//         80..=100 => "high",
+//         _ => "invalid",
+//     }
+// }
+
+// fn describe_quality(code: i32) -> &'static str {
+//     match code {
+//         0 => "missing",
+//         1 | 2 => "usable",
+//         3 => "good",
+//         _ => "unknown",
+//     }
+// }
+
+// 0..49     // 0 through 48; 49 excluded
+// 0..=49    // 0 through 49; 49 included
+// a..b     → a <= x < b
+// a..=b    → a <= x <= b
+
+// match requires inclusive range patterns like 0..=49
+// ranges as values/iterators can be exclusive:
+// for x in 0..50 {
+//     // x = 0 through 49
+// }
+
+// fn classify_score(score: i32) -> &'static str {
+//     match score {
+//         0..=49 => "low",
+//         50..=79 => "medium",
+//         80..=100 => "high",
+//         _ => "invalid",
+//     }
+// }
+
+// fn main() {
+//     let scores = [-1, 0, 49, 50, 79, 80, 100, 101];
+
+//     for score in scores {
+//         println!("{}: {}", score, classify_score(score));
+//     }
+// }
+
+// match wrap-up:
+// single value      1 => ...
+// or-pattern        1 | 2 => ...
+// inclusive range   0..=49 => ...
+// catch-all         _ => ...
 
