@@ -342,39 +342,57 @@
 // ordinary variable binding   constant
 // usually snake_case          conventionally SCREAMING_SNAKE_CASE
 
-// const MAX_SEARCH_DISTANCE_M: f64 = 2_000.0; // underscore only for readability
+const MAX_SEARCH_DISTANCE_M: f64 = 2_000.0; // underscore only for readability
 
-// fn classify_candidate(distance_m: f64) -> &'static str {
-//     if distance_m <= MAX_SEARCH_DISTANCE_M {
-//         "candidate"
-//     } else {
-//         "too far"
-//     }
-// }
-
-const MAX_DISTANCE_M: f64 = 100.0;
-
-fn main() {
-    let distance = 83.2;
-
-    if distance <= MAX_DISTANCE_M {
-        println!("Within threshold");
+fn classify_candidate(distance_m: f64) -> &'static str {
+    if distance_m <= MAX_SEARCH_DISTANCE_M {
+        "candidate"
     } else {
-        println!("Outside threshold");
+        "too far"
     }
-
-    MAX_DISTANCE_M = 200.0;
 }
 
-immutable let
-    binding created at runtime
-	can usually rely on inferred type
-    cannot be reassigned
-    can be shadowed by a new binding
+fn main() {
+	classify_candidate(42.0);
+}
 
-const
-    fixed constant value
-	requires an explicit type
-    cannot be reassigned
-    intended as a program-wide/static constant
+// const MAX_DISTANCE_M: f64 = 100.0;
+
+// fn main() {
+//     let distance = 83.2;
+
+//     if distance <= MAX_DISTANCE_M {
+//         println!("Within threshold");
+//     } else {
+//         println!("Outside threshold");
+//     }
+
+//     MAX_DISTANCE_M = 200.0;
+// }
+
+// immutable let
+//     binding created at runtime
+// 	can usually rely on inferred type
+//     cannot be reassigned
+//     can be shadowed by a new binding
+
+// const
+//     fixed constant value
+// 	requires an explicit type
+//     cannot be reassigned
+//     intended as a program-wide/static constant
+
+// introducting: Cargo
+// instead of:
+// rustc src/bin/unit1_experiments.rs
+// ./unit1_experiments
+// now we can just do: (from the package directory)
+// cargo run --bin unit1_experiments
+// this one command reads Cargo.toml, resolves package and target, compiles if needed, place build artifacts under target/, then runs the executable!
+
+// to run a compiled version of this script, execute this:
+// cargo run --manifest-path rust/spatial-core/Cargo.toml --bin unit1_experiments
+// or, if we cd into the package:
+// cd rust/spatial-core
+// cargo run --bin unit1_experiments
 
