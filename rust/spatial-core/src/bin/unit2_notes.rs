@@ -192,22 +192,29 @@
 // for now, think of & as roughly "borrow/reference this value rather than transfer ownership"
 
 // the & here is saying: Give this function temporary read access to the vector, because all we need is to ask the .len() of the points.
-fn point_count(points: &Vec<(f64, f64)>) -> usize {
-    points.len()
-}
+// fn point_count(points: &Vec<(f64, f64)>) -> usize {
+//     points.len()
+// }
 
-fn main() {
-    let points = vec![
-        (-73.9857, 40.7484),
-        (-73.9840, 40.7490),
-        (-73.9825, 40.7501),
-    ];
+// fn main() {
+//     let points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//         (-73.9825, 40.7501),
+//     ];
 
-    let count = point_count(&points);
+//     let count = point_count(&points);
 
-    println!("count: {}", count);
-    println!("points: {:?}", points);
-}
+//     println!("count: {}", count);
+//     println!("points: {:?}", points);
+// }
+
+// Vec vs Array
+
+// Vec<T> means a dynamically-sized vector containing values of type T
+// Vec<(f64, f64)> means a dynamically-sized vector of coordinate-like (f64, f64) tuples.
+
+// [f64; 3] is an array of exactly three f64 values.
 
 // array
 // [T; N]
@@ -242,4 +249,269 @@ fn main() {
 
 // Systems design principle:
 // Request the weakest capability necessary to perform the operation.
+
+// 2.5 The first borrowing rule
+// An immutable reference lets you read a value without taking ownership.
+
+// Concept of lifetime in resources, especially relevant in borrowing
+// Compare:
+
+// Version A
+// fn point_count(points: Vec<(f64, f64)>) -> usize {
+//     points.len()
+// }
+
+// fn main() {
+//     let points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//         (-73.9825, 40.7501),
+//     ];
+
+//     let count = point_count(points);
+
+//     println!("count: {}", count);
+//     println!("points: {:?}", points);
+// }
+
+// Version B
+// fn point_count(points: &Vec<(f64, f64)>) -> usize {
+//     points.len()
+// }
+
+// fn main() {
+//     let points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//         (-73.9825, 40.7501),
+//     ];
+
+//     let count = point_count(&points);
+
+//     println!("count: {}", count);
+//     println!("points: {:?}", points);
+// }
+
+// This will not compile
+// fn add_point(points: &Vec<(f64, f64)>) {
+//     points.push((-73.9810, 40.7510));
+// }
+
+// fn main() {
+//     let points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+//     add_point(&points);
+
+//     println!("{:?}", points);
+// }
+// It won't compile because add_point wants a borrow but points.push is attempting a mutation.
+
+// If T = Vec<(f64, f64)>, then &T = &Vec<(f64, f64)>
+// (T is the conventional generic type T, in the way that foo() is the generic function name)
+
+// Rust separates read access from write access
+
+// 2.6 Mutable borrowing
+
+// This will compile (compare to line ~296 above)
+// note the two `mut`s!
+// fn add_point(points: &mut Vec<(f64, f64)>) {
+// 	points.push((-73.9810, 40.7510));
+// }
+
+// fn main() {
+// 	let mut points = vec![
+// 		(73.9857, 40.7484),
+// 		(73.9840, 40.7490),
+// 	];
+
+// 	add_point(&mut points);
+
+// 	println!("{:?}", points);
+// }
+
+// owner: let mut points // &T    : permission to read
+// borrower: &mut points // &mut T: permission to read and write
+
+// Compare these two. First only needs read access, second needs to modify. API documentation in code itself and enforced by compiler!
+// fn point_count(points: &Vec<(f64, f64)>)
+// fn add_point(points: &mut Vec<(f64, f64)>)
+
+// fn add_point(points: &mut Vec<(f64, f64)>) {
+//     points.push((-73.9810, 40.7510));
+// }
+
+// fn main() {
+//     let mut points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+// 	println!("Before: {:?}", points);
+
+//     add_point(&mut points);
+
+//     println!("{:?}", points);
+// }
+
+// 2.7: Many readers one writer rule
+// Roughly speaking: Rust allows aliasing, but only allows it if there are either A: many readers OR B: one writer. Not many readers and writers.
+
+// This will compile:
+// fn main() {
+//     let points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+//     let first_reader = &points;
+//     let second_reader = &points;
+
+//     println!("{:?}", first_reader);
+//     println!("{:?}", second_reader);
+// }
+
+// This will not:
+// fn main() {
+//     let mut points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+//     let writer = &mut points;
+//     let reader = &points;
+
+//     println!("{:?}", writer);
+//     println!("{:?}", reader);
+// }
+// The conflict is about simultaneous access permissions
+
+// A borrow's lifetime can end at its last actual use, rather than automatically lasting until the end of the surrounding block.
+
+// fn main() {
+//     let mut points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+//     let reader = &points;
+
+//     println!("reader: {:?}", reader);
+
+//     points.push((-73.9810, 40.7510));
+
+//     println!("points: {:?}", points);
+// }
+
+// This will fail because a mutation can invalidate existing references.
+// fn main() {
+//     let mut points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+//     let reader = &points;
+
+//     points.push((-73.9810, 40.7510));
+
+//     println!("reader: {:?}", reader);
+// }
+
+// fn main(/*here's some comment, woah inline comments using SQL multiline block comment syntax!*/) {
+// 	println!("Testing here!")
+// }
+
+// This works because each iteration of reader safely uses the version of points to make the print statement.
+// let reader = &points;
+// println!("{:?}", reader);
+
+// points.push((-73.9810, 40.7510));
+
+// let reader2 = &points;
+// println!("{:?}", reader2);
+
+// This compiles:
+// fn main() {
+//     let mut points = vec![
+//         (-73.9857, 40.7484),
+//         (-73.9840, 40.7490),
+//     ];
+
+//     let reader1 = &points;
+//     println!("reader1: {:?}", reader1);
+
+//     points.push((-73.9810, 40.7510));
+
+//     let reader2 = &points;
+//     println!("reader2: {:?}", reader2);
+// }
+
+// fn calculate_bbox(points: &Vec<(f64, f64)>)
+// this function gets access
+// this function does not own the Vec
+// this reference cannot mutate the Vec
+// the owner remains responsible for the Vec
+
+// fn reproject(points: &mut Vec<(f64, f64)>)
+// this function does not own the Vec
+// BUT
+// it receives temporary mutation rights
+
+// fn consume_points(points: Vec<(f64, f64)>)
+// this function receives ownership
+
+// mutable borrowing is useful when you want in-place modification while preserving ownership in the caller.
+
+// 2.8 Vec<T>
+
+// basic Vec operations:
+// points.len()
+// points.push(...)
+// points[0]
+
+// fn main() {
+//     let mut elevations = vec![12.5, 18.2, 9.7];
+
+//     println!("length: {}", elevations.len());
+//     println!("first: {}", elevations[0]);
+
+//     elevations.push(21.4);
+
+//     println!("length: {}", elevations.len());
+//     println!("last: {}", elevations[3]);
+// }
+
+// compile-time errors vs. runtime panics vs. valid execution
+// fn main() {
+//     let elevations = vec![12.5, 18.2, 9.7];
+
+//     println!("{}", elevations[1]);
+//     println!("{}", elevations[3]);
+// }
+
+// static information
+// 		known from program/type structure before execution
+//  vs 
+// dynamic information
+// 		determined while the program runs
+
+// fn main() {
+//     let elevations = vec![12.5, 18.2, 9.7];
+
+//     let first = elevations.get(1);
+//     let missing = elevations.get(3);
+
+//     println!("{:?}", first);
+//     println!("{:?}", missing);
+// }
+
+// product types vs sum types:
+// product type:
+// A AND B
+
+// sum type:
+// A OR B
 
