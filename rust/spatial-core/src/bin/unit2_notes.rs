@@ -588,29 +588,126 @@
 // SpatialValue::Elevation(18.2)
 // SpatialValue::BuildingCount(42)
 
-enum SpatialValue {
-    Elevation(f64),
-    BuildingCount(i32),
-}
+// enum SpatialValue {
+//     Elevation(f64),
+//     BuildingCount(i32),
+// }
 
-fn describe(value: SpatialValue) {
-    match value {
-        SpatialValue::Elevation(x) => {
-            println!("Elevation: {}", x);
-        }
-        SpatialValue::BuildingCount(n) => {
-            println!("Buildings: {}", n);
-        }
-    }
-}
+// fn describe(value: SpatialValue) {
+//     match value {
+//         SpatialValue::Elevation(x) => {
+//             println!("Elevation: {}", x);
+//         }
+//         SpatialValue::BuildingCount(n) => {
+//             println!("Buildings: {}", n);
+//         }
+//     }
+// }
 
-fn main() {
-    let value = SpatialValue::Elevation(18.2);
+// fn main() {
+//     let value = SpatialValue::Elevation(18.2);
 
-    describe(value);
-}
+//     describe(value);
+// }
 // here, Elevation(18.2) is a type SpatialValue, variant Elevation, and payload 18.2_f64
 // enums are OR (product type), so SpatialValue can be Elevation(f64) OR BuildingCount(i32)
 
 // 2.11 Structs: product types with names
+
+// struct Observation { // Observation = x: f64 AND y: f64 AND elevation_m: f64
+//     x: f64,
+//     y: f64,
+//     elevation_m: f64,
+// }
+
+// Structs are closer to dataclass from Python.
+// Python:
+// from dataclasses import dataclass
+
+// @dataclass
+// class Observation:
+//     x: float
+//     y: float
+//     elevation_m: float
+// obs = Observation(
+//     x=583421.73,
+//     y=4512398.12,
+//     elevation_m=18.2,
+// )
+// Rust:
+// let obs = Observation {
+//     x: 583421.73,
+//     y: 4512398.12,
+//     elevation_m: 18.2,
+// };
+
+// tuples are fine for geospatial data, but structs are much better given that we will be building domain-oriented software
+// obs.0 is not as good as obs.x or obs.elevation_m
+
+// CS Lens: modeling a building record. If every building must have id, x, and y, then a struct makes sense:
+// struct Building {
+// 	id: i64,
+// 	x: i64,
+// 	y: i64,
+// }
+
+// struct Observation {
+//     x: f64,
+//     y: f64,
+//     elevation_m: f64,
+// }
+
+// fn main() {
+//     let obs = Observation {
+//         x: 583421.73,
+//         y: 4512398.12,
+//         elevation_m: 18.2,
+//     };
+
+//     println!("x: {}", obs.x);
+//     println!("y: {}", obs.y);
+//     println!("elevation: {}", obs.elevation_m);
+// }
+
+// You could put an enum within a struct!
+// enum GeometryType {
+//     Point,
+//     LineString,
+//     Polygon,
+// }
+
+// struct Clinic {
+//     id: i64,
+//     x: i64,
+//     y: i64,
+//     geom: GeometryType,
+// }
+// let clinic = Clinic {
+//     id: 123,
+//     x: 75,
+//     y: -45,
+//     geom: GeometryType::Point,
+// };
+// Clinic (product)
+// =
+// id
+// AND x
+// AND y
+// AND geom
+// GeometryType
+// =
+// Point (sum)
+// OR LineString
+// OR Polygon
+
+// enum variants carrying geometry data
+// enum Geometry {
+//     Point(f64, f64),
+//     LineString(Vec<(f64, f64)>),
+// }
+// let a = Geometry::Point(-73.9857, 40.7484);
+// let b = Geometry::LineString(vec![
+//     (-73.9857, 40.7484),
+//     (-73.9840, 40.7490),
+// ]);
 
