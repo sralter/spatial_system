@@ -512,6 +512,105 @@
 // product type:
 // A AND B
 
-// sum type:
+// sum type: Option<T> like Option<&f64>
 // A OR B
+// it can be destructured like how we do let (a, b) = value; --> Some(T) OR None --> can be destructured --> match value { Some(x) => ..., None => ..., }
+
+// instead of having a sentinel value of -9999, which would require downstream functions to remember what -9999 means,
+// we could encode the missingness as part of the representation itself.
+
+// fn main() {
+//     let elevations = vec![12.5, 18.2, 9.7];
+
+//     let value = elevations.get(1);
+
+//     match value { // "if value has the shape Some(...), do this, otherwise if it has the shape None, do that". It's pattern matching.
+//         Some(elevation) => println!("Elevation: {}", elevation),
+//         None => println!("No elevation found"),
+//     }
+// }
+
+// for match, Rust requires 'exhaustive matching', meaning every possible variant needs to be handled.
+
+// fn main() {
+//     let elevations = vec![12.5, 18.2, 9.7];
+
+//     let value = elevations.get(10);
+
+//     match value {
+//         Some(elevation) => println!("Elevation: {}", elevation),
+//     }
+// }
+
+// 2.9 Wildcard matching
+// NOTE: I am using an AI which can be fallible. We covered "_" before.
+// match requires that all possible states must be covered (some + the rest can be caught by the _ wildcard)
+
+// fn main() {
+//     let crs_code = 26918;
+
+//     match crs_code {
+//         4326 => println!("WGS 84"),
+//         32618 => println!("UTM Zone 18N"),
+//         _ => println!("Other CRS"),
+//     }
+// }
+
+// concept of closed versus open sets. i32 is basically open, compared to enum which is closed.
+
+// enum
+
+// enum SupportedCrs {
+//     Wgs84,
+//     Utm18N,
+//     Nad83Utm18N,
+// }
+
+// fn describe_crs(crs: SupportedCrs) {
+//     match crs {
+//         SupportedCrs::Wgs84 => println!("EPSG:4326"),
+//         SupportedCrs::Utm18N => println!("EPSG:32618"),
+//         SupportedCrs::Nad83Utm18N => println!("EPSG:26918"),
+//     }
+// }
+
+// fn main() {
+//     let crs = SupportedCrs::Nad83Utm18N;
+
+//     describe_crs(crs);
+// }
+
+// 2.10 Enums can also carry data, not just variants:
+// enum SpatialValue {
+//     Elevation(f64),
+//     BuildingCount(i32),
+// }
+// SpatialValue::Elevation(18.2)
+// SpatialValue::BuildingCount(42)
+
+enum SpatialValue {
+    Elevation(f64),
+    BuildingCount(i32),
+}
+
+fn describe(value: SpatialValue) {
+    match value {
+        SpatialValue::Elevation(x) => {
+            println!("Elevation: {}", x);
+        }
+        SpatialValue::BuildingCount(n) => {
+            println!("Buildings: {}", n);
+        }
+    }
+}
+
+fn main() {
+    let value = SpatialValue::Elevation(18.2);
+
+    describe(value);
+}
+// here, Elevation(18.2) is a type SpatialValue, variant Elevation, and payload 18.2_f64
+// enums are OR (product type), so SpatialValue can be Elevation(f64) OR BuildingCount(i32)
+
+// 2.11 Structs: product types with names
 
