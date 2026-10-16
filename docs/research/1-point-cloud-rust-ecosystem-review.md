@@ -19,7 +19,14 @@ For each relevant project, record:
   5. Unsure - requires agent review
   6. It supports LAS file format.
   7. I think it could be useful when it comes time to write or read LAS files.
-  8. 
+  8. It should at least be a jumping off point for our purposes.
+
+- Cloud-Optimized Point Cloud (COPC) for Rust: https://github.com/360-geo/copc
+  - See its clone here: docs/research/open_source_repositories/copc
+  1. Streams the opening of COPC files with async functionality
+  2. This repo appears to be actively maintained, though its last activity was 3 months ago
+  3. There's a streaming section and a temporal section of the repo. The temporal section seems to control for filtering point clouds by their capture date. Other abstractions, which I take to mean individual modules, include chunks and error handling.
+  4. 
 
 Point3D representation
 coordinate numeric type
