@@ -26,7 +26,42 @@ For each relevant project, record:
   1. Streams the opening of COPC files with async functionality
   2. This repo appears to be actively maintained, though its last activity was 3 months ago
   3. There's a streaming section and a temporal section of the repo. The temporal section seems to control for filtering point clouds by their capture date. Other abstractions, which I take to mean individual modules, include chunks and error handling.
-  4. 
+  4. I'm not sure how to answer this. I think my knowledge of Rust is not at that point yet.
+  5. I see some "&" in the repo, so that would suggest that it uses borrowing, at least for some things.
+  6. LAZ, LAZ (and I assume COPC formats)
+  7. I think this could definitely be used, especially for seeing how to structure streaming code and temporal filtering.
+  8. We should study and reuse it.
+
+- SpatialRust computing suite for point clouds, computer vision, and GPU compute without C++/FII layer: https://github.com/rsasaki0109/SpatialRust.git
+  - See its clone here: docs/research/open_source_repositories/SpatialRust
+  1. This looks like to be a one-stop shop for geospatial processing that relies on the heavy use of agent-assisted coding
+  2. Very actively maintained. As of this writing (2026-10-16 17:19), the last commit was 33 minutes ago.
+  3. Hard to characterize the core abstractions. The crates/ directory has a huge amount within it: Vision, search, vocelization, pipeline, math, metrics, pipeline, io, etc.
+  4. I don't know how to answer this question right now.
+  5. Hard to give one answer for this.
+  6. The tags on the repo include `COPC`. IT seems to be focused mainly on raster (RGB+) and point cloud data.
+  7. This repo is perhaps the closest to what we are trying to build here. The difference is that we have an emphasis on edge computing, and I'm not sure if that is what this repo is focusing on. Also, we have a goal of creating a SQL engine for point clouds, which doesn't appear to be the focus here.
+  8. We should reuse and study it, with proper attribution, of course.
+
+- Pure math Rust spatial positioning methods and common filters: https://github.com/joeysapp/spatial-core
+  - See its clone here: docs/research/open_source_repositories/spatial-core
+  1. Looks to be like a Rust-based implementation of the mathematics behind spatial positioning.
+  2. This does not look to be actively maintained. In fact, it appears to have been a one-time upload so that the user could save and publish their work for the world to see.
+  3. Quaternion is one abstraction, one struct, that is based in pure mathematics and I had never heard of it before today.
+  4. As before, I don't think I know enough to answer this question correctly.
+  5. It borrows data as far as I can tell.
+  6. I'm not sure which formats it supports.
+  7. I think it could fit into our architecture. If we need to do spatial positioning processing, we should look to this implementation.
+  8. Perhaps it's more a repo that we should study rather than reuse, but that depends on a deeper review and the needs of the repo as it develops.
+
+- Rust-based autonomous vehicle LiDAR point cloud spatial octree filter: https://github.com/ejajmahmud/lidar-pointcloud-octree-spatial-filter-rust-lidar-octree-filter-v2026-b70
+  - See its clone here: docs/research/open_source_repositories/lidar-pointcloud-octree-spatial-filter-rust-lidar-octree-filter-v2026-b70
+  1. This looks to be a thin project. I thought there was more to it.
+   2. We should avoid this and find something that actually implements an autonomous vehicle octree filter.
+
+- Lightweight type-1 Rust Hypervisor for edge devices: https://github.com/syswonder/hvisor
+  - See its clone here: docs/research/open_source_repositories/hvisor
+  1. 
 
 Point3D representation
 coordinate numeric type
