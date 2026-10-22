@@ -61,95 +61,61 @@ For each relevant project, record:
 
 - Lightweight type-1 Rust Hypervisor for edge devices: https://github.com/syswonder/hvisor
   - See its clone here: docs/research/open_source_repositories/hvisor
-  1. 
+  1. A Rust-based virtual machine monitor to allow for edge computing. It creates virtual machines from a shared physical computer.
+  2. Yes, it is actively maintained, with the most-recent pushes occurring 3 days ago (as of 2026-10-19)
+  3. I don't know enough to answer this question
+  4. I don't know enough to answer this question
+  5. I'm not sure
+  6. I'm not sure
+  7. I think this could absolutely fit into our future architecture. In fact, we could use this exact project to handle the edge computing part of the project.
+  8. We should reuse it.
 
-Point3D representation
-coordinate numeric type
-slice vs iterator API
-dependencies
-error / empty-input behavior
-likely real-data library
-likely future Arrow strategy
-likely future indexing direction
-technologies deliberately deferred
+- 3D simulator for training autonomous drones and ground vehicles: deterministic Rust physics, procedurally generated worlds, batched Gymnasium API, Bevy viewer: https://github.com/robertscholz22/autonomousim
+  - See its clone here: docs/research/open_source_repositories/autonomousim
+  1. This is more for fun, but it allows for a virtual testing environment for the software running drones and vehicles
+  2. Yes, last update was two weeks ago (today is 2026-10-19)
+  3. I'm not sure
+  4. I'm not sure
+  5. I'm not sure
+  6. I'm not sure
+  7. I'm sure there's something that we could find useful, but maybe only use this repo if we decide we need simulations
+  8. Study it
 
-## Process
+- Apache Arrow: https://github.com/apache/arrow-rs
+  - I am not going to git clone this locally
+  1. Highly-regarded library, I list it here because we will most certainly use it at some point.
 
-### 1. Identify current Rust projects or crates relevant to:
-- LAS;
-- LAZ;
-- COPC;
-- point-cloud data structures;
-- point-cloud iteration;
-- spatial filtering;
-- voxelization;
-- geometry;
-- spatial indexes;
-- Arrow;
-- Parquet;
-- GeoArrow;
-- DataFusion;
-- numerical arrays;
-- serialization.
+- Apache DataFusion: https://github.com/apache/datafusion
+  - I am not going to git clone this locally
+  1. Highly-regarded library, I list it here because we will use it when creating our point cloud query tool
 
-For each relevant project, record:
-- What problem does it solve?
-- Is it actively maintained?
-- What are its core abstractions?
-- What data representation does it use?
-- Does it copy or borrow data?
-- What formats does it support?
-- Could it fit our future architecture?
-- Should we reuse it, study it, or avoid depending on it?
+- Machine Learning infrastructure in Rust, particularly numr (https://github.com/ml-rust/numr), a Rust-based NumPy equivalent (in progress): https://github.com/ml-rust
+  - I am not going to git clone this locally, it's probably too large
+  1. This seems like a promising library for our purposes, since we are relying on Rust for lower-level processing. However, Python's NumPy may be better when we need linear algebra and vectorized processing for heavy numerical loads.
 
-### 2. Key question
-> What abstractions have already proven useful for representing and processing 3D point data?
+- Serialization framework for Rust: https://github.com/serde-rs/serde
+  - I am not going to git clone this locally
+  1. Allows for serialization in Rust
+  2. Yes, it's widely used
+  3. I'm not sure
+  4. I'm not sure
+  5. I'm not sure
+  6. I'm not sure
+  7. Yes, I'm guessing we'll need to use it when we need data to be serialized
+  8. Reuse it
 
-### 3. Point-cloud data formats
-- LAS
-- LAZ
-- COPC
-- Parquet-based representations
-- Arrow-based representations
-- other relevant cloud-native approaches
+- Kubernetes Native Edge Computing Framework: https://github.com/kubeedge/kubeedge
+  - I am not going to git clone this locally
+  1. This seems like a well-known edge computing framework, though it's written in Go and seems to be a lot more complicated than what we'll need at the beginning. Maybe it will be useful in the future.
 
-Questions to ask:
-- How are points physically stored?
-- What attributes can points contain?
-- How is spatial locality represented?
-- How is random/spatial access achieved?
-- How is compression handled?
-- How does the format behave over object storage?
-- What ideas matter for our future edge system?
+- Rust library for point cloud processing: https://github.com/igd-geo/pasture
+  - I am not going to git clone this locally
+  1. This is an older repo but maybe worth studying for our work.
 
-### 4. Other data to collect:
-- SQL over point data;
-- spatial predicates over point collections;
-- partition pruning;
-- spatial indexing;
-- columnar point-cloud storage;
-- query planning;
-- distributed point-cloud querying.
+- Point Cloud Library: https://github.com/PointCloudLibrary/pcl
+  - I am not going to git clone this locally
+  1. This should be used as a reference and possibly reuse.
 
-### 5. Edge and distributed spatial systems
-Collect examples of systems where spatial or sensor data is processed near its source, such as:
-- edge filtering;
-- local aggregation;
-- constrained bandwidth;
-- delayed connectivity;
-- store-and-forward;
-- local inference;
-- event detection;
-- distributed spatial partitioning;
-- telemetry;
-- retry semantics;
-- central coordination.
-
-Satellite onboard processing should be one research category, but other domains will use similar ideas, like:
-- robotics;
-- autonomous vehicles;
-- drones;
-- environmental sensor networks;
-- mobile devices;
-- IoT;
-- industrial monitoring
+- Extension for PostgreSQL to allow it to store point clouds: https://github.com/pgpointcloud/pointcloud
+  - I am not going to git clone this locally
+  1. This is extremely close to what I was thinking, and may indicate that a "SQL engine for point clouds" already exists.
