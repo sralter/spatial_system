@@ -119,3 +119,9 @@ For each relevant project, record:
 - Extension for PostgreSQL to allow it to store point clouds: https://github.com/pgpointcloud/pointcloud
   - I am not going to git clone this locally
   1. This is extremely close to what I was thinking, and may indicate that a "SQL engine for point clouds" already exists.
+   
+- Rust-based GIS App: https://github.com/opengeos/RustGIS
+  - I am not going to git clone this locally
+  1. Probably the closest example of a large component of what we want to do. 
+     1. We could adapt individual operations for an edge computing demonstration?
+     2. Build on the work?
