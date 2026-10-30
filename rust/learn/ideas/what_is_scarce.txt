@@ -1,0 +1,219 @@
+What will be scarce in an ai-coding-led world? We’re seeing that SaaS is threatened by REA (see GitHub) where you can reverse engineer anything, software is threatened now. What is the moat? Deeper frameworks and formats? What is scarce in the tech world and economy? Where can job applicants do work that shows that they’re “skating to where the puck is going”, where the skills and use case landscape is not saturated?
+
+I think the most important shift to anticipate is this:
+When the cost of producing software approaches zero, the scarce resource stops being software itself and becomes the ability to create something that is correct, trusted, differentiated, and valuable in the real world.
+That doesn’t mean software engineering disappears. It means the economic value of different parts of software engineering changes. Producing a working application may become dramatically cheaper, while deciding what should be built, what it must guarantee, what data it can trust, and how it becomes part of a real organization remains difficult.
+Your question about deeper frameworks and formats gets at an important distinction. If AI can reproduce a SaaS product from its observable behavior, a proprietary interface or feature set might no longer be a durable competitive advantage. But the underlying infrastructure, data, domain expertise, distribution, and guarantees that make a product useful could remain extremely valuable.
+I’d look at this through three lenses:
+	•	What AI makes abundant: code, prototypes, interfaces, CRUD applications, integrations, and conventional data pipelines.
+	•	What AI makes more valuable: infrastructure, data quality, verification, specialized knowledge, and systems that operate reliably at scale.
+	•	What AI cannot automatically make abundant: physical resources, authoritative data, institutional trust, customer relationships, accountability, and the ability to change outcomes in the real world.
+The opportunity for a job applicant is to demonstrate an ability to work at the intersection of those categories, rather than simply demonstrate that they can build an application with an AI coding assistant.
+1. The scarcity map: where I would look for opportunity
+Here is how I would rank the areas for someone choosing what to learn, build, and showcase over the next several years. This is a reasoned forecast, not a claim that these markets are guaranteed to grow.
+1. High-quality, hard-to-reproduce data
+Very high potential
+Data that is expensive to collect, validate, maintain, or obtain permission to use. Think proprietary measurements, historical records, labeled imagery, ground truth, and carefully maintained spatial datasets.
+Why it matters: AI can write code to process data. It cannot conjure an accurate, current, authoritative dataset simply by writing more code.
+2. Verification, reliability, and accountability
+Very high potential
+Systems that prove results are correct, traceable, secure, and reproducible. Testing, formal methods, observability, data lineage, access controls, and independent evaluation all fit here.
+Why it matters: Generating a plausible answer is different from proving that an answer is safe to act on. Recent developer surveys show that AI-generated code verification remains a substantial concern.
+3. Infrastructure that makes AI useful at scale
+High potential
+Storage engines, query planners, distributed compute, orchestration, caching, evaluation systems, interoperability, and cost-aware execution.
+Why it matters: As it gets cheaper to build applications, the volume of applications and automated workloads can increase. The bottleneck shifts toward running them economically and reliably.
+4. Physical-world and industry-specific expertise
+Knowledge that connects software to geology, infrastructure, manufacturing, energy, logistics, agriculture, or healthcare.
+Why it matters: Real-world systems have messy data, expensive mistakes, regulatory constraints, physical limitations, and edge cases that aren’t captured by a simple application specification.
+5. Distribution, trust, and ownership of a workflow
+Customer access, established relationships, integration into business operations, domain-specific reputation, and responsibility for outcomes.
+Why it matters: A competitor can recreate a feature more easily than it can recreate years of customer trust, regulatory acceptance, accumulated feedback, and organizational integration.
+A recent paper on software engineering in the age of coding agents makes a related argument: engineering methodology, domain knowledge, design decisions, and process must be preserved as explicit artifacts if AI-generated software is to be dependable.
+One important caveat: these are not five equally independent markets. A strong opportunity often combines three or four. For example, specialized data plus a fast query engine plus reproducible results plus a real industry workflow is much more interesting than any one component alone.
+2. Are deeper frameworks and formats the answer?
+Potentially, yes. But I would distinguish three kinds of technical work that can look similar on GitHub while having very different long-term value.
+A. Rebuilding an existing application
+An AI coding agent can inspect a product, infer its behavior, and help reconstruct a competing implementation. REA is an example of tooling aimed at this capability.
+This puts pressure on software whose differentiation is primarily its interface, routine features, or relatively straightforward business logic.
+Career implication: a polished clone is weaker evidence of durable engineering ability than a system with measurable performance, reliability, or unique capabilities.
+B. Building the underlying primitives
+Examples include a storage format, query engine, spatial index, compiler, distributed execution engine, or data interchange standard.
+These are harder because the work involves semantics, algorithms, memory layouts, concurrency, compatibility, query planning, and performance trade-offs—not merely reproducing visible behavior.
+However, AI is also getting better at this work. A framework or format is not automatically defensible just because it is technically sophisticated.
+C. Building a primitive that solves a neglected, consequential problem
+This is where I see the strongest combination of technical depth and differentiation.
+Imagine a new spatial data engine that can query massive point clouds directly in object storage, use spatial metadata to skip irrelevant data, interoperate with established geospatial tools, and return correct results with reproducible benchmarks.
+That is not just a new format or framework. It is a capability that users can evaluate, adopt, and build on.
+What makes a framework or format valuable?
+I’d look for at least one of these characteristics:
+	•	A genuine performance advantage: substantially lower latency, memory use, storage cost, or compute requirements.
+	•	A missing abstraction: a capability that existing tools cannot express cleanly or efficiently.
+	•	Interoperability: the ability to connect otherwise disconnected ecosystems.
+	•	A correctness advantage: guarantees, validation, or semantics that prevent costly errors.
+	•	An adoption flywheel: a growing ecosystem of users, integrations, libraries, and compatible datasets.
+The last point is especially important. A technically excellent format can fail because nobody adopts it. Conversely, a format with broad adoption can remain valuable even if its implementation is not technically unique.
+My conclusion is that deeper infrastructure is a good bet for building durable technical skills, but solving an important unmet need is a better bet than inventing a new abstraction for its own sake.
+3. Where the less-saturated opportunities might be
+I would not search for fields where nobody is working. That can indicate either an overlooked opportunity or a problem nobody needs solved.
+Instead, look for fields where the problem is important, the tooling is immature relative to the need, and AI makes a previously uneconomical solution possible.
+Here are six areas I would investigate.
+1. AI-native geospatial data infrastructure
+My strongest recommendation for you
+Point clouds, satellite imagery, raster arrays, vector data, and other large spatial datasets are difficult to search and process efficiently across tools and storage systems.
+Opportunities:
+	•	Query engines for point clouds, similar in spirit to SQL engines for tabular data.
+	•	Better spatial indexing and predicate pushdown for cloud-hosted data.
+	•	Unified query execution across GeoParquet, Zarr, COPC, and cloud-optimized rasters.
+	•	Incremental processing and caching for repeated spatial analyses.
+	•	Storage and compute systems designed around AI workloads, not just traditional GIS.
+Why it is interesting: It combines Rust, Python, database internals, spatial algorithms, and cloud infrastructure. A good implementation can be evaluated objectively rather than judged on appearance.
+2. Ground truth, data provenance, and geospatial AI evaluation
+Models can generate predictions, but it remains difficult to establish whether they are correct across geography, time, sensors, and changing environmental conditions.
+Opportunities:
+	•	Spatially and temporally rigorous benchmark datasets.
+	•	Reproducible evaluation of building change, land cover, and infrastructure detection.
+	•	Tracking dataset lineage, licenses, uncertainty, and model performance by region.
+	•	Detecting geographic distribution shift and stale training data.
+	•	Tools for identifying where a model is unreliable, rather than reporting only one overall accuracy score.
+Why it is interesting: A model that performs well on a random test split can fail badly in a different city or year. An evaluation system that exposes those failures is useful to the people deploying the model.
+3. Verification infrastructure for AI-generated software
+If AI agents write more of the code, someone still needs to establish what that code actually does and whether it is safe to deploy.
+Opportunities:
+	•	Agents that generate tests from observed application behavior.
+	•	Sandboxed execution and least-privilege tool access.
+	•	Regression testing against recorded production behavior.
+	•	Automated checks for data corruption, security vulnerabilities, and performance regressions.
+	•	Systems that trace a result from source data through transformations to its final output.
+The 2026 Stack Overflow developer survey reports widespread use of coding agents, but also a strong preference for validating their work.
+The hiring signal: You don’t merely use AI to produce code; you build systems that let organizations safely depend on that code.
+4. Data infrastructure for agentic workloads
+Agents can create large numbers of tool calls, queries, intermediate artifacts, and background tasks. The challenge becomes managing those operations economically and reliably.
+Opportunities:
+	•	Cost-aware query planning and execution.
+	•	Durable workflow state, retries, and idempotency.
+	•	Data access policies for autonomous agents.
+	•	Caching and deduplication of repeated work.
+	•	Sandboxed execution of generated SQL or analytical code.
+The opportunity is not necessarily another general-purpose agent framework. It may be the unglamorous infrastructure that makes agents affordable and dependable at enterprise scale.
+5. AI for physical systems and regulated industries
+Think energy grids, environmental monitoring, construction, transportation, agriculture, and industrial inspection.
+Opportunities:
+	•	Connecting AI predictions to sensor measurements and physical assets.
+	•	Combining satellite observations, field measurements, and operational databases.
+	•	Quantifying uncertainty and deciding when human review is necessary.
+	•	Creating audit trails for consequential decisions.
+The advantage here is not that AI cannot write the software. It is that successful deployment requires understanding the domain, acquiring appropriate data, validating results, and fitting into an existing operation.
+6. Interoperability and semantic infrastructure
+AI can generate adapters and connectors, but that doesn’t eliminate disagreements about what data means.
+Opportunities:
+	•	Schema and API compatibility testing.
+	•	Canonical representations for complex domain data.
+	•	Units, coordinate reference systems, temporal semantics, and uncertainty propagation.
+	•	Reliable conversion between data formats without silently losing meaning.
+	•	Tools that discover and validate compatibility across libraries and platforms.
+Why it is interesting: The valuable work may be defining the semantics, constraints, and conformance tests that many different implementations must obey—not simply writing another parser.
+I would treat these as promising areas to investigate, not as proven unsaturated labor markets. The hard part is identifying a specific unmet need within each.
+4. What would I build to demonstrate that I’m skating to where the puck is going?
+Given your geospatial background and interest in Rust, Python, PostGIS, cloud-native formats, and query engines, I would concentrate on projects that demonstrate systems engineering applied to a real geospatial bottleneck.
+These are three different portfolio strategies, ranked by my preference.
+Project A: A query engine for point clouds
+Best fit
+Positioning: systems engineer · geospatial infrastructure · database internals
+Build a small Rust engine that queries large point-cloud datasets stored locally or in object storage. Expose a Python API.
+A first version might support:
+	•	Bounding-box filtering and attribute predicates.
+	•	Reading an established format rather than inventing a new one immediately.
+	•	Spatial partition pruning and basic query planning.
+	•	Streaming results without loading the entire dataset into memory.
+	•	A comparison against a baseline using existing point-cloud tools.
+What makes it stand out: Publish benchmarks across dataset sizes, query selectivity, memory usage, and cold versus warm storage. Explain the trade-offs and where your engine loses.
+Longer-term potential: Expand into vector and raster data, query interoperability, and distributed execution only after the basic engine demonstrates value.
+Project B: A geospatial AI reliability benchmark
+High impact
+Positioning: applied ML · evaluation infrastructure · responsible deployment
+Build a reproducible benchmark for a meaningful remote-sensing task, such as building-change detection.
+	•	Evaluate across different cities, years, and image conditions.
+	•	Compare random splits with spatial and temporal holdouts.
+	•	Track class imbalance, calibration, and geographic variation in performance.
+	•	Version the imagery, labels, configurations, and model outputs.
+	•	Produce a report identifying where the model should not be trusted.
+What makes it stand out: Demonstrate a concrete case where conventional evaluation gives an overly optimistic picture of model quality, and show how your evaluation design detects it.
+Project C: An agent that can prove its data work
+Emerging
+Positioning: AI infrastructure · data engineering · verification
+Create an agent that answers questions about a geospatial dataset by generating SQL or analytical code, executing it in a restricted environment, and producing a verifiable result.
+	•	Use PostGIS or DuckDB for queries.
+	•	Validate coordinate systems, schemas, and units.
+	•	Test generated queries against known answers and invariants.
+	•	Record query plans, source data versions, and execution parameters.
+	•	Reject unsupported claims or queries that violate resource limits.
+What makes it stand out: Evaluate correctness, cost, latency, and failure recovery—not just whether the agent produces a convincing answer.
+Notice what these projects have in common: none requires you to invent a foundation model. They build capabilities around models and data that other organizations can use.
+They also provide a coherent story for interviews: I identified a bottleneck, designed a system around it, measured the result, and documented its limitations.
+5. How to make the work compelling to employers
+A GitHub repository full of AI-generated code is likely to become a weak signal as code generation becomes commonplace. The more valuable signal is evidence that you understand the system and can defend its design.
+I would want each serious project to include these artifacts:
+Artifact
+What it demonstrates
+Problem statement
+You can identify a real bottleneck, not just a technology to try.
+Baseline
+You understand the existing ecosystem and aren’t reinventing something without justification.
+Architecture and design decisions
+You can reason about trade-offs, interfaces, and failure modes.
+Reproducible benchmark
+You can measure improvements rather than assert them.
+Correctness tests
+You understand the semantics of the problem.
+Failure analysis
+You know where your solution does not work.
+Working demonstration
+Someone else can reproduce and evaluate your result.
+Adoption evidence
+Actual users, external contributors, integrations, or feedback validate that the problem matters.
+Use AI coding agents aggressively if they help you move faster. But be able to explain the algorithms, review generated changes, investigate unexpected results, and justify why the architecture is appropriate.
+A small engine with rigorous benchmarks and an honest analysis of its limitations is often a stronger portfolio piece than a much larger application with an impressive interface and no evidence of correctness.
+6. What I would learn—and what I would not overinvest in
+For a candidate trying to differentiate themselves over the next two to five years, I would prioritize skills by how well they compound with AI rather than how difficult they are to memorize.
+Learn deeply
+	•	Algorithms, data structures, complexity, and profiling.
+	•	Database internals, query planning, indexes, and storage layouts.
+	•	Distributed systems fundamentals and failure handling.
+	•	Data modeling, correctness, testing, and observability.
+	•	Domain-specific semantics and quantitative evaluation.
+Use AI to accelerate
+	•	Routine application scaffolding and API endpoints.
+	•	Boilerplate integrations and data transformations.
+	•	Documentation drafts and test generation.
+	•	Exploring unfamiliar libraries and prototyping alternatives.
+	•	Implementing well-specified components after you define the requirements.
+Be cautious about treating these as a moat
+	•	Proficiency with one particular AI coding assistant.
+	•	A portfolio of generic chatbots and CRUD applications.
+	•	A thin wrapper around a foundation-model API.
+	•	A new file format with no demonstrated advantage or users.
+	•	A long list of frameworks without evidence that you can engineer a working system.
+This doesn’t mean frameworks or application development have no value. It means their value increasingly depends on what you can accomplish with them.
+7. My broader forecast: what becomes scarce as AI coding matures?
+There is an important distinction between something that is technically difficult and something that is economically scarce.
+AI may make a difficult task easier without eliminating its economic value. It may also make an entire category of previously expensive work so cheap that the category stops supporting many jobs.
+My working forecast is:
+	•	Code becomes cheaper; judgment becomes more important. More people can produce plausible implementations. Fewer can reliably decide which implementation is appropriate, what it must guarantee, and how to validate it.
+	•	General-purpose tools face pressure; differentiated capabilities matter more. A feature can be copied, but proprietary data, deep integrations, distribution, and exceptional execution are harder to reproduce.
+	•	Infrastructure demand may grow even as implementation costs fall. More software and automated workloads can create more demand for storage, compute, networking, testing, and operations. This is an opportunity, not a guarantee of rising employment in every infrastructure specialty.
+	•	Human attention becomes a bottleneck. AI can generate changes faster than people can safely review, integrate, and operationalize them. Anthropic’s October 2026 employment research describes a similar pattern inside its own organization.
+	•	Physical-world expertise and institutional trust remain consequential. The closer a system gets to expensive real-world decisions, the more valuable reliable measurements, domain understanding, validation, and accountability become.
+One caution: don’t interpret this as proof that software engineering jobs will be safe if you simply specialize in infrastructure. Labor demand depends on how much additional work AI enables, how much existing work it replaces, and how organizations reorganize around it. The San Francisco Fed’s 2026 research on coder employment is one reason to take the disruption seriously.
+My recommendation
+If I were optimizing your portfolio for the next stage of your career, I would pursue geospatial systems engineering at the intersection of Rust, database internals, and AI-ready data infrastructure.
+Your advantage is the combination of spatial-domain knowledge and an interest in systems-level software. You do not need to compete with every applicant building another general-purpose AI application.
+I would start with the point-cloud query-engine idea, but apply a strict test before investing months in it:
+	•	Identify a query that existing tools execute inefficiently, awkwardly, or with excessive memory use.
+	•	Build the smallest implementation that tests whether you can improve it.
+	•	Benchmark against credible existing alternatives.
+	•	Publish the results, including cases where your approach is slower or less capable.
+	•	Use the findings to decide whether to continue, change direction, or contribute the improvement upstream to an existing project.
+That last possibility matters: you don’t have to create a new company, framework, or format to demonstrate that you’re ahead of the curve. A substantial contribution to an established open-source project can be an even stronger signal.
+The question I would optimize for is not “What can AI not code?” It’s “What can I understand, measure, and make reliable that other people need badly enough to adopt?”
+That is a more durable career strategy than trying to outrun AI at producing code.

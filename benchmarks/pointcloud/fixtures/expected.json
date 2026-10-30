@@ -1,0 +1,12 @@
+{
+  "provenance": "Hand calculation from boundaries.csv; sums are exact decimal source values, not PDAL output.",
+  "all": {"count": 14, "sum_z": 37},
+  "empty": {"count": 0, "sum_z": 0},
+  "narrow": {"count": 6, "sum_z": 10},
+  "medium": {"count": 13, "sum_z": 27},
+  "whole_bbox": {"count": 14, "sum_z": 37},
+  "narrow_class6": {"count": 4, "sum_z": 5},
+  "medium_class6": {"count": 11, "sum_z": 22},
+  "all_class6": {"count": 11, "sum_z": 22},
+  "exact_point": {"count": 2, "sum_z": 0}
+}

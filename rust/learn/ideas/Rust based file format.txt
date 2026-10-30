@@ -1,0 +1,487 @@
+Designing a Custom Spatial File Format in Rust
+
+Motivation
+
+I am learning Rust as part of a course whose goals include:
+
+1. Learning fundamental computer science and systems concepts.
+2. Learning Rust.
+3. Applying Rust to spatial/geospatial problems.
+
+A project that potentially addresses all three goals is to design and implement a small, custom spatial file format in Rust, inspired by formats and storage systems such as GeoTIFF, Parquet/GeoParquet, and Zarr.
+
+The goal is not initially to create a production-quality replacement for an existing format. The goal is to use the problem of designing a file format as a practical way to learn about binary data, serialization, indexing, I/O, chunking, compression, memory management, and cloud-native storage.
+
+⸻
+
+What Does It Mean to Create a File Type?
+
+A file extension itself is mostly a convention. For example, I could create:
+
+my_data.spat
+
+and put arbitrary bytes inside it.
+
+The interesting part is defining a binary file specification that tells software how to interpret those bytes.
+
+A simple format might look conceptually like:
+
+┌─────────────────────────────┐
+│ Header                      │
+│  magic bytes                │
+│  version                    │
+│  data type                 │
+│  CRS                       │
+│  dimensions                │
+│  chunk size                │
+│  metadata offset           │
+├─────────────────────────────┤
+│ Index                       │
+│  chunk → byte offset        │
+│  chunk → bounding box       │
+├─────────────────────────────┤
+│ Chunk 0                     │
+├─────────────────────────────┤
+│ Chunk 1                     │
+├─────────────────────────────┤
+│ Chunk 2                     │
+├─────────────────────────────┤
+│ ...                         │
+├─────────────────────────────┤
+│ Metadata                    │
+└─────────────────────────────┘
+
+Creating a file format therefore involves at least:
+
+1. A specification — defining what each byte or field means.
+2. A writer — software that produces valid files.
+3. A reader — software that can interpret those files.
+4. Optionally, bindings/APIs for other languages and systems.
+
+Even this basic problem introduces many fundamental CS concepts.
+
+⸻
+
+Why This Is a Good Rust Project
+
+The project can naturally progress through increasingly sophisticated layers.
+
+1. Raw bytes and serialization
+
+Start with simple file I/O:
+
+file.write_all(&bytes)?;
+
+This introduces:
+
+* bytes and bits
+* integer representations
+* endianness
+* fixed- versus variable-length records
+* offsets
+* alignment
+* serialization and deserialization
+
+These are useful foundational systems concepts.
+
+2. Data structures and indexing
+
+Once the format contains multiple chunks, the reader needs to find a particular chunk without reading the entire file.
+
+For example:
+
+chunk_id | offset | compressed_size | minx | miny | maxx | maxy
+
+This introduces:
+
+* arrays
+* hash maps
+* indexes
+* trees
+* spatial indexes
+* B-trees
+* R-trees
+* Morton/Z-order curves
+* Hilbert curves
+
+The spatial problem therefore provides a practical reason to study these data structures.
+
+3. Chunking
+
+A large raster should generally not be stored as one enormous contiguous object.
+
+Instead, it can be divided into chunks:
+
+              0  1  2  3  4  5  6  7
+            ┌───┬───┬───┬───┐
+          0 │   │   │   │   │
+            ├───┼───┼───┼───┤
+          1 │   │   │   │   │
+            ├───┼───┼───┼───┤
+          2 │   │   │   │   │
+            ├───┼───┼───┼───┤
+          3 │   │   │   │   │
+            └───┴───┴───┴───┘
+
+This introduces an important systems tradeoff:
+
+* Very small chunks → lots of metadata and I/O requests.
+* Very large chunks → fewer requests, but more unnecessary data must be read.
+
+This is fundamentally about I/O locality and access patterns.
+
+⸻
+
+Cloud-Native Storage
+
+A particularly interesting goal is to make the format cloud-native.
+
+Traditional local files assume operations such as:
+
+open()
+seek()
+read()
+seek()
+read()
+
+Object storage such as S3 instead encourages access through HTTP requests, including byte-range requests.
+
+A file might therefore be organized conceptually as:
+
+mydata.spat
+0 KB       header
+4 KB       index
+128 KB     chunk 0
+512 KB     chunk 1
+900 KB     chunk 2
+...
+
+A cloud-aware reader could:
+
+1. Download the header.
+2. Download the index.
+3. Determine which chunks intersect the requested spatial area.
+4. Issue HTTP Range GETs for only those chunks.
+5. Decompress only those chunks.
+
+For example, a bounding-box query could avoid downloading the entire dataset:
+
+dataset.query_bbox(bbox)
+
+This introduces:
+
+* object storage
+* HTTP range requests
+* network I/O
+* caching
+* compression
+* concurrency
+* storage/CPU tradeoffs
+
+This is one of the strongest reasons to make cloud-native access a long-term project goal.
+
+⸻
+
+Raster and Vector: One Format or Two?
+
+Although it is technically possible to design a format supporting both raster and vector data, it is probably better not to start there.
+
+Raster and vector data have fundamentally different storage characteristics.
+
+A raster naturally resembles:
+
+array[row, col, band]
+
+while vector data resembles:
+
+feature
+    geometry
+    attributes
+
+Vector geometries are also variable length:
+
+Polygon A → 37 vertices
+Polygon B → 4 vertices
+Polygon C → 1,283 vertices
+
+Consequently, the optimal chunking, indexing, and serialization strategies are different.
+
+A better long-term design might be:
+
+.sraster
+.svector
+
+with a shared Rust library containing common infrastructure.
+
+For example:
+
+spatial-format/
+├── core/
+├── raster/
+└── vector/
+
+The core layer could provide common concepts such as:
+
+* file headers
+* metadata
+* chunk management
+* indexes
+* compression
+* storage backends
+
+while raster and vector implementations handle their respective data models.
+
+⸻
+
+A Good First Version
+
+The first version should be deliberately simple.
+
+For example, create a format called:
+
+.spat
+
+with a structure such as:
+
+┌──────────────────────────┐
+│ MAGIC: "SPAT"            │
+├──────────────────────────┤
+│ VERSION                  │
+├──────────────────────────┤
+│ DATA TYPE                │
+│   raster                 │
+├──────────────────────────┤
+│ WIDTH                    │
+│ HEIGHT                   │
+│ BANDS                    │
+├──────────────────────────┤
+│ DTYPE                    │
+│   float32                │
+├──────────────────────────┤
+│ CRS                      │
+├──────────────────────────┤
+│ CHUNK SIZE               │
+├──────────────────────────┤
+│ INDEX OFFSET              │
+├──────────────────────────┤
+│ ...                      │
+├──────────────────────────┤
+│ CHUNK INDEX              │
+├──────────────────────────┤
+│ DATA                     │
+└──────────────────────────┘
+
+The first implementation could simply support an uncompressed raster.
+
+The goal is to make the smallest useful system possible and then add capabilities incrementally.
+
+⸻
+
+Suggested Development Progression
+
+Version 0.1 — Basic binary raster
+
+Store:
+
+header
+data
+
+Learn:
+
+* file I/O
+* binary representation
+* Rust structs
+* serialization/deserialization
+
+⸻
+
+Version 0.2 — Chunking
+
+Change the format to:
+
+header
+index
+chunk
+chunk
+chunk
+...
+
+Learn:
+
+* byte offsets
+* random access
+* indexing
+* chunking
+
+⸻
+
+Version 0.3 — Compression
+
+Compress each chunk independently:
+
+chunk → compression → disk
+
+A compression algorithm such as Zstandard could be investigated.
+
+Learn:
+
+* compression
+* storage/CPU tradeoffs
+* independent chunk decompression
+
+⸻
+
+Version 0.4 — Spatial indexing
+
+Associate every chunk with its spatial extent:
+
+chunk → bounding box
+
+Then implement something conceptually like:
+
+dataset.read_bbox(bbox)
+
+The reader should identify which chunks intersect the requested bounding box and read only those chunks.
+
+This makes the project explicitly spatial rather than simply being a generic binary container.
+
+⸻
+
+Version 0.5 — Cloud access
+
+Allow the dataset to live in object storage:
+
+s3://bucket/foo.spat
+
+The reader should retrieve only:
+
+header
+index
+relevant chunks
+
+rather than downloading the entire dataset.
+
+At this point, the project becomes a genuinely cloud-oriented spatial storage system.
+
+⸻
+
+Benchmarking
+
+An especially valuable final component would be benchmarking the custom format against existing technologies such as GeoTIFF, Zarr, and GeoParquet where appropriate.
+
+For example:
+
+                    Spatial dataset
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+       GeoTIFF            Zarr          MyFormat
+          │                │                │
+        local              S3              S3
+          │                │                │
+      full read        bbox read        bbox read
+
+Potential measurements include:
+
+* file size
+* write speed
+* sequential read speed
+* random chunk read speed
+* bounding-box query speed
+* number of object-storage requests
+* bytes transferred
+* CPU utilization
+* memory utilization
+
+This would turn the project into more than an exercise in inventing a file extension. It becomes an experiment in systems and spatial data architecture.
+
+⸻
+
+Why Rust Fits the Problem
+
+Rust is particularly appropriate because the project naturally exercises many of its core concepts:
+
+struct
+enum
+trait
+Result<T, E>
+Option<T>
+Vec<T>
+HashMap<K, V>
+
+It also provides opportunities to learn about:
+
+* ownership
+* borrowing
+* lifetimes
+* memory safety
+* zero-copy parsing
+* efficient I/O
+* concurrency
+
+Eventually, a Rust reader could potentially expose slices or buffers without unnecessarily copying large amounts of data.
+
+That makes file parsing and storage a particularly useful domain for learning Rust’s strengths.
+
+⸻
+
+The Deeper Systems Question
+
+The most interesting lesson is that designing a spatial file format is not really about deciding:
+
+“How do I store a raster?”
+
+The deeper question is:
+
+“How do I organize bytes so that the operations users care about require the minimum amount of I/O?”
+
+That question explains many of the design decisions behind modern formats and storage systems.
+
+For spatial data, this becomes:
+
+“How do I organize spatial data so that a spatial query can retrieve the smallest possible amount of data, with the fewest possible I/O operations?”
+
+That connects geospatial concepts directly to systems concepts.
+
+⸻
+
+Relationship to Existing Formats
+
+This project would be a miniature exploration of ideas found in established systems such as:
+
+* GeoTIFF — geospatial raster storage.
+* Zarr — chunked multidimensional array storage.
+* Parquet — columnar storage.
+* GeoParquet — geospatial data represented using Parquet.
+* Object storage systems such as S3 — remote, byte-addressable-at-the-request-level storage.
+
+The objective is not to compete with these technologies. In fact, recreating a tiny subset of their design decisions is useful precisely because it exposes the problems they have already solved.
+
+⸻
+
+Project Philosophy
+
+The project should remain intentionally constrained.
+
+The danger is accidentally spending six months implementing a new Zarr or GeoParquet.
+
+The primary objectives are:
+
+1. Learn CS fundamentals through a concrete problem.
+2. Learn Rust by building something nontrivial.
+3. Explore geospatial data structures and storage.
+4. Understand how modern cloud-native spatial formats work internally.
+
+If the resulting format is useful, that’s a bonus.
+
+The real deliverable is the understanding gained by building it.
+
+⸻
+
+Initial Project Concept
+
+A good concise description of the project would therefore be:
+
+A small, Rust-native, chunked, spatially indexed binary raster format designed to explore efficient local and cloud-based spatial data access.
+
+The eventual architecture could evolve toward a family of spatial formats sharing a common Rust core, but the initial implementation should focus on one raster format, one reader, one writer, simple chunking, and explicit byte-level design.

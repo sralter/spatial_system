@@ -1,0 +1,3653 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "processor": "arm",
+  "python": "3.12.16 (main, Oct 26 2026, 11:31:43) [Clang 21.1.8 ]",
+  "pdal": "--------------------------------------------------------------------------------\npdal 2.10.2 (git-version: Release)\n--------------------------------------------------------------------------------",
+  "cpu": "Apple M2",
+  "memory_bytes": 25769803776,
+  "environment_lock_sha256": "3fb75de744ee5f1fc28ab9504ee8341ffdb6d17bcc2dfc970a4559ed5e241f04",
+  "runner_sha256": "fc7989da1c5f03798ae3da82321546fee6cf5333059eedd461be6a74a40280ec",
+  "cases_sha256": "cb16a24714d90579f41d175eb68da0bee61411e900c22e8b266f99c3ede1e00f",
+  "tolerance": {
+    "absolute": 1e-07,
+    "relative": 1e-09
+  },
+  "measurement": "PDAL child process; CLI startup, reading, filtering, statistics and null writer included; Python reference and fixture preparation excluded",
+  "cache": "Uncontrolled OS page cache; first_observed is not cold-cache evidence; full_scan runs before copc_bounds",
+  "concurrency": "OMP_NUM_THREADS=1; LAS threads=1; COPC requests=1 and keep_alive=1; stream capacity is PDAL default",
+  "unavailable": [
+    "source_bytes_read",
+    "chunks_decoded",
+    "chunks_pruned"
+  ],
+  "preparation": {
+    "seconds": 16.742905791848898,
+    "includes": "fixture conversion, checksums, independent scans, cases and pipeline generation; excludes download",
+    "datasets": [
+      {
+        "id": "boundaries",
+        "path": "data/boundaries.copc.laz",
+        "source": "fixtures/boundaries.csv",
+        "license": "Repository LICENSE; original synthetic coordinates created for this benchmark",
+        "attribution": "Spatial System benchmark fixture, 2026-10-30",
+        "preparation": "baseline.py prepare: laspy LAS 1.4 format 6, EPSG:32618, scale 0.125, offset [100,200,-5], then PDAL writers.copc forward=all",
+        "sha256": "59f5dca7a3bff51480c24791664aacaba2b494362313e9ab6bc82eb9dad75248",
+        "point_count": 14,
+        "bounds": [
+          [
+            99.875,
+            199.875,
+            -0.125
+          ],
+          [
+            110.0,
+            210.0,
+            10.0
+          ]
+        ],
+        "scale": [
+          0.125,
+          0.125,
+          0.125
+        ],
+        "offset": [
+          100.0,
+          200.0,
+          -5.0
+        ],
+        "crs_wkt": "PROJCRS[\"WGS 84 / UTM zone 18N\",BASEGEOGCRS[\"WGS 84\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",4326]],CONVERSION[\"UTM zone 18N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-75,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",32618]]",
+        "crs_authority": [
+          "EPSG",
+          "32618"
+        ],
+        "projected": true,
+        "axis_units": [
+          "metre",
+          "metre"
+        ],
+        "size_bytes": 1496
+      },
+      {
+        "id": "autzen",
+        "path": "data/autzen-classified.copc.laz",
+        "url": "https://data.pointcloud.org/autzen/autzen-classified.copc.laz",
+        "sha256": "db2d56cdfa058bffccdc5d6019dae2fc9c6a551df10a5523c06c76a3e25a27fa",
+        "license": "CC-BY-4.0",
+        "license_source": "https://pointcloud.org/datasets/autzen/",
+        "license_text": "https://github.com/PDAL/data/blob/main/LICENSE",
+        "attribution": "Autzen Stadium airborne LiDAR: Watershed Sciences, Inc. (2010); classified by Max Sampson, Hobu, Inc. (2021); distributed by pointcloud.org/PDAL. Source retained without modification.",
+        "acquisition": "2010-06-23",
+        "classification_source": "https://github.com/PDAL/data/blob/main/autzen/README.md",
+        "preparation": "Download unchanged; local queries only; inspect CRS/scale/offset and verify classification 6 during baseline.py prepare",
+        "point_count": 10653336,
+        "bounds": [
+          [
+            635577.79,
+            848882.15,
+            406.14
+          ],
+          [
+            639003.73,
+            853537.66,
+            615.26
+          ]
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "offset": [
+          637290.75,
+          851209.9,
+          510.7
+        ],
+        "crs_wkt": "COMPOUNDCRS[\"NAD83 / Oregon GIC Lambert (ft) + NAVD88 height (ftUS)\",PROJCRS[\"NAD83 / Oregon GIC Lambert (ft)\",BASEGEOGCRS[\"NAD83\",DATUM[\"North American Datum 1983\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",4269]],CONVERSION[\"unknown\",METHOD[\"Lambert Conic Conformal (2SP)\",ID[\"EPSG\",9802]],PARAMETER[\"Latitude of false origin\",41.75,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8821]],PARAMETER[\"Longitude of false origin\",-120.5,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8822]],PARAMETER[\"Latitude of 1st standard parallel\",43,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8823]],PARAMETER[\"Latitude of 2nd standard parallel\",45.5,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8824]],PARAMETER[\"Easting at false origin\",1312335.958,LENGTHUNIT[\"foot\",0.3048],ID[\"EPSG\",8826]],PARAMETER[\"Northing at false origin\",0,LENGTHUNIT[\"foot\",0.3048],ID[\"EPSG\",8827]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"foot\",0.3048]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"foot\",0.3048]],ID[\"EPSG\",2992]],VERTCRS[\"NAVD88 height (ftUS)\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"US survey foot\",0.304800609601219]],ID[\"EPSG\",6360]]]",
+        "crs_authority": null,
+        "projected": true,
+        "axis_units": [
+          "foot",
+          "foot",
+          "US survey foot"
+        ],
+        "size_bytes": 81123042
+      }
+    ]
+  },
+  "results": [
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "all",
+        "bounds": null,
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 14,
+        "mean_z": 2.642857142857143
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.12339758360758424,
+          "peak_rss_bytes": 43139072,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05292079225182533,
+          "peak_rss_bytes": 42565632,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.052132167387753725,
+          "peak_rss_bytes": 42811392,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05225279089063406,
+          "peak_rss_bytes": 43106304,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.052027583587914705,
+          "peak_rss_bytes": 42795008,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.052911666221916676,
+          "peak_rss_bytes": 43270144,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05302333319559693,
+          "peak_rss_bytes": 42532864,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 0.05225279089063406,
+      "max_peak_rss_bytes": 43270144
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "all",
+        "bounds": null,
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 14,
+        "mean_z": 2.642857142857143
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05304670939221978,
+          "peak_rss_bytes": 41910272,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.051084165927022696,
+          "peak_rss_bytes": 41893888,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05194591637700796,
+          "peak_rss_bytes": 42106880,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05154187511652708,
+          "peak_rss_bytes": 41615360,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05034283269196749,
+          "peak_rss_bytes": 41893888,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05134245799854398,
+          "peak_rss_bytes": 42237952,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05098974984139204,
+          "peak_rss_bytes": 41910272,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 0.05134245799854398,
+      "max_peak_rss_bytes": 42237952
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "empty",
+        "bounds": [
+          [
+            120.125,
+            220.125,
+            20.125
+          ],
+          [
+            130.25,
+            230.25,
+            30.25
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 0,
+        "mean_z": null
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05225316621363163,
+          "peak_rss_bytes": 43089920,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05107770813629031,
+          "peak_rss_bytes": 43139072,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05188687518239021,
+          "peak_rss_bytes": 43171840,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.051904999651014805,
+          "peak_rss_bytes": 43122688,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.09015241591259837,
+          "peak_rss_bytes": 43679744,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05390212498605251,
+          "peak_rss_bytes": 42663936,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05197558319196105,
+          "peak_rss_bytes": 42516480,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.0,
+      "median_wall_seconds": 0.05197558319196105,
+      "max_peak_rss_bytes": 43679744
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "empty",
+        "bounds": [
+          [
+            120.125,
+            220.125,
+            20.125
+          ],
+          [
+            130.25,
+            230.25,
+            30.25
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 0,
+        "mean_z": null
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.04998216684907675,
+          "peak_rss_bytes": 35586048,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05103404214605689,
+          "peak_rss_bytes": 35602432,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.054806833155453205,
+          "peak_rss_bytes": 35651584,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.05405720788985491,
+          "peak_rss_bytes": 35667968,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.050053125247359276,
+          "peak_rss_bytes": 35438592,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.04988520918413997,
+          "peak_rss_bytes": 35618816,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.0496915839612484,
+          "peak_rss_bytes": 35618816,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.0,
+      "median_wall_seconds": 0.050053125247359276,
+      "max_peak_rss_bytes": 35667968
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "narrow",
+        "bounds": [
+          [
+            100,
+            200,
+            0
+          ],
+          [
+            104,
+            204,
+            4
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 6,
+        "mean_z": 1.6666666666666667
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05298224976286292,
+          "peak_rss_bytes": 43515904,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.0521590830758214,
+          "peak_rss_bytes": 42532864,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.0507720410823822,
+          "peak_rss_bytes": 41975808,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05065887467935681,
+          "peak_rss_bytes": 42074112,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05231137527152896,
+          "peak_rss_bytes": 42663936,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.06018654117360711,
+          "peak_rss_bytes": 43581440,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.052600250113755465,
+          "peak_rss_bytes": 43057152,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.42857142857142855,
+      "median_wall_seconds": 0.05231137527152896,
+      "max_peak_rss_bytes": 43581440
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "narrow",
+        "bounds": [
+          [
+            100,
+            200,
+            0
+          ],
+          [
+            104,
+            204,
+            4
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 6,
+        "mean_z": 1.6666666666666667
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05137295788154006,
+          "peak_rss_bytes": 41943040,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05206575011834502,
+          "peak_rss_bytes": 42106880,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05117599992081523,
+          "peak_rss_bytes": 41926656,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05123095819726586,
+          "peak_rss_bytes": 41533440,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.0513126659207046,
+          "peak_rss_bytes": 41861120,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.05239533307030797,
+          "peak_rss_bytes": 41975808,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 6,
+          "mean_z": 1.666666667,
+          "wall_seconds": 0.051250457763671875,
+          "peak_rss_bytes": 41893888,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.42857142857142855,
+      "median_wall_seconds": 0.051250457763671875,
+      "max_peak_rss_bytes": 41975808
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "medium",
+        "bounds": [
+          [
+            99,
+            199,
+            -1
+          ],
+          [
+            106,
+            206,
+            6
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 13,
+        "mean_z": 2.076923076923077
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.051290332805365324,
+          "peak_rss_bytes": 42631168,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.057261624839156866,
+          "peak_rss_bytes": 42942464,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.055449292063713074,
+          "peak_rss_bytes": 42024960,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.05164029076695442,
+          "peak_rss_bytes": 42991616,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.05230379197746515,
+          "peak_rss_bytes": 42631168,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.05461091594770551,
+          "peak_rss_bytes": 43515904,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.06512754177674651,
+          "peak_rss_bytes": 43188224,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.9285714285714286,
+      "median_wall_seconds": 0.05461091594770551,
+      "max_peak_rss_bytes": 43515904
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "medium",
+        "bounds": [
+          [
+            99,
+            199,
+            -1
+          ],
+          [
+            106,
+            206,
+            6
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 13,
+        "mean_z": 2.076923076923077
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.10679620783776045,
+          "peak_rss_bytes": 42074112,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.0633425829000771,
+          "peak_rss_bytes": 42336256,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.05533129069954157,
+          "peak_rss_bytes": 41811968,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.055449584033340216,
+          "peak_rss_bytes": 42303488,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.09585158433765173,
+          "peak_rss_bytes": 42090496,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.054433916695415974,
+          "peak_rss_bytes": 42254336,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 13,
+          "mean_z": 2.076923077,
+          "wall_seconds": 0.055184457916766405,
+          "peak_rss_bytes": 42188800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.9285714285714286,
+      "median_wall_seconds": 0.05533129069954157,
+      "max_peak_rss_bytes": 42303488
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "whole_bbox",
+        "bounds": [
+          [
+            99.875,
+            199.875,
+            -0.125
+          ],
+          [
+            110.0,
+            210.0,
+            10.0
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 14,
+        "mean_z": 2.642857142857143
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05775012541562319,
+          "peak_rss_bytes": 43204608,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.0681839999742806,
+          "peak_rss_bytes": 43646976,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.056872082874178886,
+          "peak_rss_bytes": 42713088,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05238091666251421,
+          "peak_rss_bytes": 42893312,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05136512499302626,
+          "peak_rss_bytes": 42598400,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.053062791004776955,
+          "peak_rss_bytes": 43155456,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.0553981252014637,
+          "peak_rss_bytes": 43270144,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 0.053062791004776955,
+      "max_peak_rss_bytes": 43270144
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "whole_bbox",
+        "bounds": [
+          [
+            99.875,
+            199.875,
+            -0.125
+          ],
+          [
+            110.0,
+            210.0,
+            10.0
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 14,
+        "mean_z": 2.642857142857143
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.056458666920661926,
+          "peak_rss_bytes": 41746432,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05635733297094703,
+          "peak_rss_bytes": 41779200,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.054263084195554256,
+          "peak_rss_bytes": 41861120,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05344845773652196,
+          "peak_rss_bytes": 42188800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.056136209052056074,
+          "peak_rss_bytes": 42188800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.060022625140845776,
+          "peak_rss_bytes": 42385408,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 14,
+          "mean_z": 2.642857143,
+          "wall_seconds": 0.05338591709733009,
+          "peak_rss_bytes": 41959424,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 0.054263084195554256,
+      "max_peak_rss_bytes": 42385408
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "narrow_class6",
+        "bounds": [
+          [
+            100,
+            200,
+            0
+          ],
+          [
+            104,
+            204,
+            4
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 4,
+        "mean_z": 1.25
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05509599996730685,
+          "peak_rss_bytes": 43122688,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.0554327922873199,
+          "peak_rss_bytes": 42188800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.057499959133565426,
+          "peak_rss_bytes": 43384832,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05405433289706707,
+          "peak_rss_bytes": 43302912,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05459220893681049,
+          "peak_rss_bytes": 43253760,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05286350008100271,
+          "peak_rss_bytes": 42467328,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.054407082963734865,
+          "peak_rss_bytes": 42270720,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.2857142857142857,
+      "median_wall_seconds": 0.054407082963734865,
+      "max_peak_rss_bytes": 43384832
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "narrow_class6",
+        "bounds": [
+          [
+            100,
+            200,
+            0
+          ],
+          [
+            104,
+            204,
+            4
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 4,
+        "mean_z": 1.25
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05665304232388735,
+          "peak_rss_bytes": 41992192,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05439145816490054,
+          "peak_rss_bytes": 41992192,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.052379750180989504,
+          "peak_rss_bytes": 41861120,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05353870801627636,
+          "peak_rss_bytes": 41926656,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05498458258807659,
+          "peak_rss_bytes": 42287104,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05300854193046689,
+          "peak_rss_bytes": 41877504,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 4,
+          "mean_z": 1.25,
+          "wall_seconds": 0.05181945813819766,
+          "peak_rss_bytes": 42057728,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.2857142857142857,
+      "median_wall_seconds": 0.05300854193046689,
+      "max_peak_rss_bytes": 42287104
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "medium_class6",
+        "bounds": [
+          [
+            99,
+            199,
+            -1
+          ],
+          [
+            106,
+            206,
+            6
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 11,
+        "mean_z": 2.0
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05406945804134011,
+          "peak_rss_bytes": 42729472,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05549579206854105,
+          "peak_rss_bytes": 43270144,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05556908389553428,
+          "peak_rss_bytes": 43073536,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05524516571313143,
+          "peak_rss_bytes": 43089920,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054793041199445724,
+          "peak_rss_bytes": 42237952,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054616499692201614,
+          "peak_rss_bytes": 42729472,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054595583118498325,
+          "peak_rss_bytes": 42926080,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.7857142857142857,
+      "median_wall_seconds": 0.054793041199445724,
+      "max_peak_rss_bytes": 43089920
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "medium_class6",
+        "bounds": [
+          [
+            99,
+            199,
+            -1
+          ],
+          [
+            106,
+            206,
+            6
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 11,
+        "mean_z": 2.0
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05405275011435151,
+          "peak_rss_bytes": 41910272,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.051654040813446045,
+          "peak_rss_bytes": 41975808,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.0530483340844512,
+          "peak_rss_bytes": 42385408,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05487183388322592,
+          "peak_rss_bytes": 42434560,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05554004106670618,
+          "peak_rss_bytes": 42041344,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054711292032152414,
+          "peak_rss_bytes": 42319872,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.055010625161230564,
+          "peak_rss_bytes": 42139648,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.7857142857142857,
+      "median_wall_seconds": 0.05487183388322592,
+      "max_peak_rss_bytes": 42434560
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "all_class6",
+        "bounds": null,
+        "classification": 6
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 11,
+        "mean_z": 2.0
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05585608398541808,
+          "peak_rss_bytes": 43220992,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05570383416488767,
+          "peak_rss_bytes": 43237376,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054633999709039927,
+          "peak_rss_bytes": 42713088,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054875957779586315,
+          "peak_rss_bytes": 43319296,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.057915166951715946,
+          "peak_rss_bytes": 43401216,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.054836458060890436,
+          "peak_rss_bytes": 42745856,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.056573834270238876,
+          "peak_rss_bytes": 43319296,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.7857142857142857,
+      "median_wall_seconds": 0.054875957779586315,
+      "max_peak_rss_bytes": 43401216
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "all_class6",
+        "bounds": null,
+        "classification": 6
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 11,
+        "mean_z": 2.0
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05463837506249547,
+          "peak_rss_bytes": 42123264,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.05238350015133619,
+          "peak_rss_bytes": 42057728,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.0519918748177588,
+          "peak_rss_bytes": 41304064,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.051190041936933994,
+          "peak_rss_bytes": 41844736,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.051161708775907755,
+          "peak_rss_bytes": 42221568,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.051816041115671396,
+          "peak_rss_bytes": 42237952,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 11,
+          "mean_z": 2.0,
+          "wall_seconds": 0.0510134999640286,
+          "peak_rss_bytes": 42123264,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.7857142857142857,
+      "median_wall_seconds": 0.051190041936933994,
+      "max_peak_rss_bytes": 42237952
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "exact_point",
+        "bounds": [
+          [
+            100,
+            200,
+            0
+          ],
+          [
+            100,
+            200,
+            0
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 2,
+        "mean_z": 0.0
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05206345906481147,
+          "peak_rss_bytes": 42614784,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05202662479132414,
+          "peak_rss_bytes": 42942464,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05189812509343028,
+          "peak_rss_bytes": 43139072,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05105733312666416,
+          "peak_rss_bytes": 42074112,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05266920896247029,
+          "peak_rss_bytes": 43073536,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05158570874482393,
+          "peak_rss_bytes": 43089920,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.051102707628160715,
+          "peak_rss_bytes": 42958848,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.14285714285714285,
+      "median_wall_seconds": 0.05158570874482393,
+      "max_peak_rss_bytes": 43139072
+    },
+    {
+      "dataset": "boundaries",
+      "case": {
+        "id": "exact_point",
+        "bounds": [
+          [
+            100,
+            200,
+            0
+          ],
+          [
+            100,
+            200,
+            0
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 2,
+        "mean_z": 0.0
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05127479089424014,
+          "peak_rss_bytes": 41811968,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05140041606500745,
+          "peak_rss_bytes": 41943040,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05110462522134185,
+          "peak_rss_bytes": 42008576,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05229800008237362,
+          "peak_rss_bytes": 42303488,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05194995878264308,
+          "peak_rss_bytes": 42024960,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05285120802000165,
+          "peak_rss_bytes": 42221568,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 2,
+          "mean_z": 0.0,
+          "wall_seconds": 0.05400829203426838,
+          "peak_rss_bytes": 42336256,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.14285714285714285,
+      "median_wall_seconds": 0.05229800008237362,
+      "max_peak_rss_bytes": 42336256
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "all",
+        "bounds": null,
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 10653336,
+        "mean_z": 434.1025002158948
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.945110083092004,
+          "peak_rss_bytes": 104366080,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.8173552500084043,
+          "peak_rss_bytes": 105119744,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.7464332091622055,
+          "peak_rss_bytes": 93274112,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.789104832801968,
+          "peak_rss_bytes": 99385344,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.7944167498499155,
+          "peak_rss_bytes": 96927744,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.8330329582095146,
+          "peak_rss_bytes": 96288768,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.933946874924004,
+          "peak_rss_bytes": 106184704,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 3.7944167498499155,
+      "max_peak_rss_bytes": 106184704
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "all",
+        "bounds": null,
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 10653336,
+        "mean_z": 434.1025002158948
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.6920741251669824,
+          "peak_rss_bytes": 92389376,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.021083749830723,
+          "peak_rss_bytes": 100925440,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.177796458825469,
+          "peak_rss_bytes": 112410624,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.997234624810517,
+          "peak_rss_bytes": 97927168,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.790957209188491,
+          "peak_rss_bytes": 92061696,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.317026790697128,
+          "peak_rss_bytes": 94814208,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.100481666158885,
+          "peak_rss_bytes": 105627648,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 4.100481666158885,
+      "max_peak_rss_bytes": 112410624
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "empty",
+        "bounds": [
+          [
+            642429.6699999999,
+            858193.17,
+            824.38
+          ],
+          [
+            645855.6099999999,
+            862848.68,
+            1033.5
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 0,
+        "mean_z": null
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.173897957894951,
+          "peak_rss_bytes": 94453760,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.216531208716333,
+          "peak_rss_bytes": 111493120,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.176341457758099,
+          "peak_rss_bytes": 90161152,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.179550500120968,
+          "peak_rss_bytes": 105086976,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.2610879158601165,
+          "peak_rss_bytes": 97419264,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.252899041865021,
+          "peak_rss_bytes": 100237312,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.249358083121479,
+          "peak_rss_bytes": 96600064,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.0,
+      "median_wall_seconds": 4.249358083121479,
+      "max_peak_rss_bytes": 105086976
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "empty",
+        "bounds": [
+          [
+            642429.6699999999,
+            858193.17,
+            824.38
+          ],
+          [
+            645855.6099999999,
+            862848.68,
+            1033.5
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 0,
+        "mean_z": null
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.09813529066741467,
+          "peak_rss_bytes": 39010304,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.09384741587564349,
+          "peak_rss_bytes": 39026688,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.08825200004503131,
+          "peak_rss_bytes": 38109184,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.08973024971783161,
+          "peak_rss_bytes": 38305792,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.09042762499302626,
+          "peak_rss_bytes": 39075840,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.09035887522622943,
+          "peak_rss_bytes": 38879232,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.09414425026625395,
+          "peak_rss_bytes": 39698432,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.0,
+      "median_wall_seconds": 0.09035887522622943,
+      "max_peak_rss_bytes": 39698432
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "narrow",
+        "bounds": [
+          [
+            637205.1115,
+            851093.51725,
+            406.14
+          ],
+          [
+            637376.4085,
+            851326.29275,
+            615.26
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 23550,
+        "mean_z": 423.0516993630573
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 4.49611375015229,
+          "peak_rss_bytes": 102006784,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 4.184854582883418,
+          "peak_rss_bytes": 100548608,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 4.11015420826152,
+          "peak_rss_bytes": 94093312,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 4.118905958719552,
+          "peak_rss_bytes": 93061120,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 3.9906999999657273,
+          "peak_rss_bytes": 96731136,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 4.037709875032306,
+          "peak_rss_bytes": 95043584,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 4.093724416103214,
+          "peak_rss_bytes": 100630528,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.002210575166314101,
+      "median_wall_seconds": 4.093724416103214,
+      "max_peak_rss_bytes": 100630528
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "narrow",
+        "bounds": [
+          [
+            637205.1115,
+            851093.51725,
+            406.14
+          ],
+          [
+            637376.4085,
+            851326.29275,
+            615.26
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 23550,
+        "mean_z": 423.0516993630573
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.2707711672410369,
+          "peak_rss_bytes": 68468736,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.2524603749625385,
+          "peak_rss_bytes": 76316672,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.24602670781314373,
+          "peak_rss_bytes": 66879488,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.2511927499435842,
+          "peak_rss_bytes": 76316672,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.2921414589509368,
+          "peak_rss_bytes": 79396864,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.2538979589007795,
+          "peak_rss_bytes": 76529664,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 23550,
+          "mean_z": 423.0516994,
+          "wall_seconds": 0.2554213749244809,
+          "peak_rss_bytes": 76840960,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.002210575166314101,
+      "median_wall_seconds": 0.2538979589007795,
+      "max_peak_rss_bytes": 79396864
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "medium",
+        "bounds": [
+          [
+            636434.275,
+            850046.0275000001,
+            406.14
+          ],
+          [
+            638147.245,
+            852373.7825,
+            615.26
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 2873397,
+        "mean_z": 437.0742467539292
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.127092583104968,
+          "peak_rss_bytes": 99532800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.062954249791801,
+          "peak_rss_bytes": 97452032,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.0865704589523375,
+          "peak_rss_bytes": 96157696,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.048442333936691,
+          "peak_rss_bytes": 94257152,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.074691291898489,
+          "peak_rss_bytes": 89702400,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.050268999766558,
+          "peak_rss_bytes": 91963392,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 4.09312624996528,
+          "peak_rss_bytes": 98598912,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.2697180488815898,
+      "median_wall_seconds": 4.074691291898489,
+      "max_peak_rss_bytes": 98598912
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "medium",
+        "bounds": [
+          [
+            636434.275,
+            850046.0275000001,
+            406.14
+          ],
+          [
+            638147.245,
+            852373.7825,
+            615.26
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 2873397,
+        "mean_z": 437.0742467539292
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 1.885071957949549,
+          "peak_rss_bytes": 88899584,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 1.829715833067894,
+          "peak_rss_bytes": 89505792,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 1.8130870000459254,
+          "peak_rss_bytes": 92012544,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 2.009344750083983,
+          "peak_rss_bytes": 104398848,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 1.8350125001743436,
+          "peak_rss_bytes": 91504640,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 1.7966905422508717,
+          "peak_rss_bytes": 89980928,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 2873397,
+          "mean_z": 437.0742468,
+          "wall_seconds": 1.8237449578009546,
+          "peak_rss_bytes": 96026624,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.2697180488815898,
+      "median_wall_seconds": 1.8237449578009546,
+      "max_peak_rss_bytes": 104398848
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "whole_bbox",
+        "bounds": [
+          [
+            635577.79,
+            848882.15,
+            406.14
+          ],
+          [
+            639003.73,
+            853537.66,
+            615.26
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 10653336,
+        "mean_z": 434.1025002158948
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.049510250333697,
+          "peak_rss_bytes": 91471872,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.092175499536097,
+          "peak_rss_bytes": 106921984,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.107545624952763,
+          "peak_rss_bytes": 91701248,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.13856879202649,
+          "peak_rss_bytes": 102875136,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.134807500056922,
+          "peak_rss_bytes": 97353728,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.075401499867439,
+          "peak_rss_bytes": 90308608,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 4.155901707708836,
+          "peak_rss_bytes": 95649792,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 4.134807500056922,
+      "max_peak_rss_bytes": 102875136
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "whole_bbox",
+        "bounds": [
+          [
+            635577.79,
+            848882.15,
+            406.14
+          ],
+          [
+            639003.73,
+            853537.66,
+            615.26
+          ]
+        ],
+        "classification": null
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 10653336,
+        "mean_z": 434.1025002158948
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.9434052081778646,
+          "peak_rss_bytes": 104005632,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.8954538330435753,
+          "peak_rss_bytes": 94027776,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.915494999848306,
+          "peak_rss_bytes": 89276416,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.854745666962117,
+          "peak_rss_bytes": 92930048,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.8960511246696115,
+          "peak_rss_bytes": 96796672,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.9805389996618032,
+          "peak_rss_bytes": 97501184,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 10653336,
+          "mean_z": 434.1025002,
+          "wall_seconds": 3.8793134577572346,
+          "peak_rss_bytes": 92798976,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 1.0,
+      "median_wall_seconds": 3.8960511246696115,
+      "max_peak_rss_bytes": 97501184
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "narrow_class6",
+        "bounds": [
+          [
+            637205.1115,
+            851093.51725,
+            406.14
+          ],
+          [
+            637376.4085,
+            851326.29275,
+            615.26
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 0,
+        "mean_z": null
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.078536958899349,
+          "peak_rss_bytes": 90390528,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.204081125091761,
+          "peak_rss_bytes": 93732864,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.1942430841736495,
+          "peak_rss_bytes": 104644608,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.21831479202956,
+          "peak_rss_bytes": 104513536,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.157940082717687,
+          "peak_rss_bytes": 95584256,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.133749540895224,
+          "peak_rss_bytes": 95453184,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 4.161499416921288,
+          "peak_rss_bytes": 93274112,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.0,
+      "median_wall_seconds": 4.161499416921288,
+      "max_peak_rss_bytes": 104644608
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "narrow_class6",
+        "bounds": [
+          [
+            637205.1115,
+            851093.51725,
+            406.14
+          ],
+          [
+            637376.4085,
+            851326.29275,
+            615.26
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 0,
+        "mean_z": null
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.27281020814552903,
+          "peak_rss_bytes": 67862528,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.25236358400434256,
+          "peak_rss_bytes": 69173248,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.2535866666585207,
+          "peak_rss_bytes": 77152256,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.25063583394512534,
+          "peak_rss_bytes": 76447744,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.28189491713419557,
+          "peak_rss_bytes": 74072064,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.25210120901465416,
+          "peak_rss_bytes": 76906496,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 0,
+          "mean_z": null,
+          "wall_seconds": 0.2506732498295605,
+          "peak_rss_bytes": 67895296,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.0,
+      "median_wall_seconds": 0.25210120901465416,
+      "max_peak_rss_bytes": 77152256
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "medium_class6",
+        "bounds": [
+          [
+            636434.275,
+            850046.0275000001,
+            406.14
+          ],
+          [
+            638147.245,
+            852373.7825,
+            615.26
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 135262,
+        "mean_z": 466.32268161050405
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.126097292173654,
+          "peak_rss_bytes": 95649792,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.185832999646664,
+          "peak_rss_bytes": 97550336,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.132465540897101,
+          "peak_rss_bytes": 99532800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.084359874948859,
+          "peak_rss_bytes": 95617024,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.171001291833818,
+          "peak_rss_bytes": 97976320,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.226927916985005,
+          "peak_rss_bytes": 97157120,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 4.645227707922459,
+          "peak_rss_bytes": 95338496,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.012696680176050018,
+      "median_wall_seconds": 4.171001291833818,
+      "max_peak_rss_bytes": 99532800
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "medium_class6",
+        "bounds": [
+          [
+            636434.275,
+            850046.0275000001,
+            406.14
+          ],
+          [
+            638147.245,
+            852373.7825,
+            615.26
+          ]
+        ],
+        "classification": 6
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 135262,
+        "mean_z": 466.32268161050405
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 1.884087665937841,
+          "peak_rss_bytes": 92323840,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 1.8441510829143226,
+          "peak_rss_bytes": 93388800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 2.253931332845241,
+          "peak_rss_bytes": 89112576,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 1.8632008749991655,
+          "peak_rss_bytes": 94175232,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 1.9572028340771794,
+          "peak_rss_bytes": 94879744,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 1.9612316666170955,
+          "peak_rss_bytes": 89849856,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 135262,
+          "mean_z": 466.3226816,
+          "wall_seconds": 1.8675778331235051,
+          "peak_rss_bytes": 93388800,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.012696680176050018,
+      "median_wall_seconds": 1.9572028340771794,
+      "max_peak_rss_bytes": 94879744
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "all_class6",
+        "bounds": null,
+        "classification": 6
+      },
+      "mode": "full_scan",
+      "reference": {
+        "count": 343181,
+        "mean_z": 452.2053822035602
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 4.152108000125736,
+          "peak_rss_bytes": 118243328,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 4.013211083132774,
+          "peak_rss_bytes": 104480768,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.94240729091689,
+          "peak_rss_bytes": 96043008,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 4.017476667184383,
+          "peak_rss_bytes": 101744640,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.8086222913116217,
+          "peak_rss_bytes": 94257152,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.873442040756345,
+          "peak_rss_bytes": 96272384,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 4.043720292393118,
+          "peak_rss_bytes": 101859328,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.03221347754356006,
+      "median_wall_seconds": 3.94240729091689,
+      "max_peak_rss_bytes": 101859328
+    },
+    {
+      "dataset": "autzen",
+      "case": {
+        "id": "all_class6",
+        "bounds": null,
+        "classification": 6
+      },
+      "mode": "copc_bounds",
+      "reference": {
+        "count": 343181,
+        "mean_z": 452.2053822035602
+      },
+      "trials": [
+        {
+          "phase": "first_observed",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.7831949996761978,
+          "peak_rss_bytes": 90292224,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "warmup",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.8143919999711215,
+          "peak_rss_bytes": 92094464,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_1",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.7381099588237703,
+          "peak_rss_bytes": 92553216,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_2",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.7967863748781383,
+          "peak_rss_bytes": 90259456,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_3",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.85289454087615,
+          "peak_rss_bytes": 95633408,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_4",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.764698375016451,
+          "peak_rss_bytes": 91750400,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        },
+        {
+          "phase": "measured_5",
+          "count": 343181,
+          "mean_z": 452.2053822,
+          "wall_seconds": 3.949762749951333,
+          "peak_rss_bytes": 108429312,
+          "source_bytes_read": null,
+          "chunks_decoded": null,
+          "chunks_pruned": null
+        }
+      ],
+      "selectivity": 0.03221347754356006,
+      "median_wall_seconds": 3.7967863748781383,
+      "max_peak_rss_bytes": 108429312
+    }
+  ],
+  "duckdb_correctness_probe": {
+    "duckdb": "1.5.6",
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "unsigned_extensions": false,
+    "status": "passed",
+    "queries": [
+      {
+        "dataset": "boundaries",
+        "case": "all",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz')",
+        "count": 14,
+        "mean_z": 2.642857142857143,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "empty",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 120.125 AND 130.25 AND Y BETWEEN 220.125 AND 230.25 AND Z BETWEEN 20.125 AND 30.25",
+        "count": 0,
+        "mean_z": null,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "narrow",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 100 AND 104 AND Y BETWEEN 200 AND 204 AND Z BETWEEN 0 AND 4",
+        "count": 6,
+        "mean_z": 1.6666666666666667,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "medium",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 99 AND 106 AND Y BETWEEN 199 AND 206 AND Z BETWEEN -1 AND 6",
+        "count": 13,
+        "mean_z": 2.076923076923077,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "whole_bbox",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 99.875 AND 110 AND Y BETWEEN 199.875 AND 210 AND Z BETWEEN -0.125 AND 10",
+        "count": 14,
+        "mean_z": 2.642857142857143,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "narrow_class6",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 100 AND 104 AND Y BETWEEN 200 AND 204 AND Z BETWEEN 0 AND 4 AND Classification = 6",
+        "count": 4,
+        "mean_z": 1.25,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "medium_class6",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 99 AND 106 AND Y BETWEEN 199 AND 206 AND Z BETWEEN -1 AND 6 AND Classification = 6",
+        "count": 11,
+        "mean_z": 2.0,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "all_class6",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE Classification = 6",
+        "count": 11,
+        "mean_z": 2.0,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "boundaries",
+        "case": "exact_point",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/boundaries.copc.laz') WHERE X BETWEEN 100 AND 100 AND Y BETWEEN 200 AND 200 AND Z BETWEEN 0 AND 0",
+        "count": 2,
+        "mean_z": 0.0,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "all",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz')",
+        "count": 10653336,
+        "mean_z": 434.10250022339255,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "empty",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE X BETWEEN 642429.66999999993 AND 645855.60999999987 AND Y BETWEEN 858193.17000000004 AND 862848.68000000005 AND Z BETWEEN 824.38 AND 1033.5",
+        "count": 0,
+        "mean_z": null,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "narrow",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE X BETWEEN 637205.1115 AND 637376.40850000002 AND Y BETWEEN 851093.51725000003 AND 851326.29275000002 AND Z BETWEEN 406.13999999999999 AND 615.25999999999999",
+        "count": 23550,
+        "mean_z": 423.0516993630668,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "medium",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE X BETWEEN 636434.27500000002 AND 638147.245 AND Y BETWEEN 850046.02750000008 AND 852373.78249999997 AND Z BETWEEN 406.13999999999999 AND 615.25999999999999",
+        "count": 2873397,
+        "mean_z": 437.07424675445293,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "whole_bbox",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE X BETWEEN 635577.79000000004 AND 639003.72999999998 AND Y BETWEEN 848882.15000000002 AND 853537.66000000003 AND Z BETWEEN 406.13999999999999 AND 615.25999999999999",
+        "count": 10653336,
+        "mean_z": 434.10250022339255,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "narrow_class6",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE X BETWEEN 637205.1115 AND 637376.40850000002 AND Y BETWEEN 851093.51725000003 AND 851326.29275000002 AND Z BETWEEN 406.13999999999999 AND 615.25999999999999 AND Classification = 6",
+        "count": 0,
+        "mean_z": null,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "medium_class6",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE X BETWEEN 636434.27500000002 AND 638147.245 AND Y BETWEEN 850046.02750000008 AND 852373.78249999997 AND Z BETWEEN 406.13999999999999 AND 615.25999999999999 AND Classification = 6",
+        "count": 135262,
+        "mean_z": 466.3226816104309,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      },
+      {
+        "dataset": "autzen",
+        "case": "all_class6",
+        "sql": "SELECT COUNT(*), AVG(Z) FROM PDAL_Read('<benchmark-root>/data/autzen-classified.copc.laz') WHERE Classification = 6",
+        "count": 343181,
+        "mean_z": 452.2053822035403,
+        "plan": [
+          [
+            "physical_plan",
+            "\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502    UNGROUPED_AGGREGATE    \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502        Aggregates:        \u2502\n\u2502        count_star()       \u2502\n\u2502          avg(#0)          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PROJECTION        \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502             Z             \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         PDAL_READ         \u2502\n\u2502    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500   \u2502\n\u2502    Function: PDAL_READ    \u2502\n\u2502       Projections: Z      \u2502\n\u2502                           \u2502\n\u2502           ~1 row          \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n"
+          ]
+        ]
+      }
+    ],
+    "extension": [
+      [
+        "pdal",
+        "482655f",
+        "community"
+      ]
+    ],
+    "extension_files": [
+      {
+        "path": "v1.5.6/osx_arm64/pdal.duckdb_extension",
+        "sha256": "c3d3282c33ed5650e581e6f537d67c86ec14e1157dbe904e49cb127e048db65a"
+      }
+    ],
+    "setup_and_probe_seconds": 21.208800999913365
+  },
+  "duckdb_2_0_attempt": {
+    "duckdb": "2.0.0",
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "unsigned_extensions": false,
+    "status": "failed",
+    "queries": [],
+    "error": "HTTP Error: Failed to download extension \"pdal\" at URL \"http://community-extensions.duckdb.org/v2.0.0/osx_arm64/pdal.duckdb_extension.gz\" (HTTP 404)\n\nCandidate extensions: \"delta\", \"ducklake\", \"parquet\", \"spatial\", \"md\"\nFor more info, visit https://duckdb.org/docs/current/extensions/troubleshooting?version=v2.0.0&platform=osx_arm64&extension=pdal",
+    "setup_and_probe_seconds": 0.4793619168922305
+  },
+  "export_note": "PDAL final run, no concurrent SQL probe; DuckDB path strings normalized for sharing. Different tools were not timed competitively."
+}

@@ -1,0 +1,234 @@
+{
+  "boundaries": [
+    {
+      "id": "all",
+      "bounds": null,
+      "classification": null
+    },
+    {
+      "id": "empty",
+      "bounds": [
+        [
+          120.125,
+          220.125,
+          20.125
+        ],
+        [
+          130.25,
+          230.25,
+          30.25
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "narrow",
+      "bounds": [
+        [
+          100,
+          200,
+          0
+        ],
+        [
+          104,
+          204,
+          4
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "medium",
+      "bounds": [
+        [
+          99,
+          199,
+          -1
+        ],
+        [
+          106,
+          206,
+          6
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "whole_bbox",
+      "bounds": [
+        [
+          99.875,
+          199.875,
+          -0.125
+        ],
+        [
+          110.0,
+          210.0,
+          10.0
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "narrow_class6",
+      "bounds": [
+        [
+          100,
+          200,
+          0
+        ],
+        [
+          104,
+          204,
+          4
+        ]
+      ],
+      "classification": 6
+    },
+    {
+      "id": "medium_class6",
+      "bounds": [
+        [
+          99,
+          199,
+          -1
+        ],
+        [
+          106,
+          206,
+          6
+        ]
+      ],
+      "classification": 6
+    },
+    {
+      "id": "all_class6",
+      "bounds": null,
+      "classification": 6
+    },
+    {
+      "id": "exact_point",
+      "bounds": [
+        [
+          100,
+          200,
+          0
+        ],
+        [
+          100,
+          200,
+          0
+        ]
+      ],
+      "classification": null
+    }
+  ],
+  "autzen": [
+    {
+      "id": "all",
+      "bounds": null,
+      "classification": null
+    },
+    {
+      "id": "empty",
+      "bounds": [
+        [
+          642429.6699999999,
+          858193.17,
+          824.38
+        ],
+        [
+          645855.6099999999,
+          862848.68,
+          1033.5
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "narrow",
+      "bounds": [
+        [
+          637205.1115,
+          851093.51725,
+          406.14
+        ],
+        [
+          637376.4085,
+          851326.29275,
+          615.26
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "medium",
+      "bounds": [
+        [
+          636434.275,
+          850046.0275000001,
+          406.14
+        ],
+        [
+          638147.245,
+          852373.7825,
+          615.26
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "whole_bbox",
+      "bounds": [
+        [
+          635577.79,
+          848882.15,
+          406.14
+        ],
+        [
+          639003.73,
+          853537.66,
+          615.26
+        ]
+      ],
+      "classification": null
+    },
+    {
+      "id": "narrow_class6",
+      "bounds": [
+        [
+          637205.1115,
+          851093.51725,
+          406.14
+        ],
+        [
+          637376.4085,
+          851326.29275,
+          615.26
+        ]
+      ],
+      "classification": 6
+    },
+    {
+      "id": "medium_class6",
+      "bounds": [
+        [
+          636434.275,
+          850046.0275000001,
+          406.14
+        ],
+        [
+          638147.245,
+          852373.7825,
+          615.26
+        ]
+      ],
+      "classification": 6
+    },
+    {
+      "id": "all_class6",
+      "bounds": null,
+      "classification": 6
+    }
+  ]
+}

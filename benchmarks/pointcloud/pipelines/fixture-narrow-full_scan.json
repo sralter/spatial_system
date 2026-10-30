@@ -1,0 +1,20 @@
+{
+  "pipeline": [
+    {
+      "type": "readers.las",
+      "filename": "data/boundaries.copc.laz",
+      "threads": 1
+    },
+    {
+      "type": "filters.expression",
+      "expression": "X >= 100 && X <= 104 && Y >= 200 && Y <= 204 && Z >= 0 && Z <= 4"
+    },
+    {
+      "type": "filters.stats",
+      "dimensions": "Z"
+    },
+    {
+      "type": "writers.null"
+    }
+  ]
+}

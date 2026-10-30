@@ -1,0 +1,22 @@
+{
+  "pipeline": [
+    {
+      "type": "readers.copc",
+      "filename": "data/boundaries.copc.laz",
+      "requests": 1,
+      "keep_alive": 1,
+      "bounds": "([100,104],[200,204],[0,4])"
+    },
+    {
+      "type": "filters.expression",
+      "expression": "X >= 100 && X <= 104 && Y >= 200 && Y <= 204 && Z >= 0 && Z <= 4"
+    },
+    {
+      "type": "filters.stats",
+      "dimensions": "Z"
+    },
+    {
+      "type": "writers.null"
+    }
+  ]
+}

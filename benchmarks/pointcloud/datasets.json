@@ -1,0 +1,43 @@
+{
+  "download_budget_bytes": 1000000000,
+  "datasets": [
+    {
+      "id": "boundaries",
+      "path": "data/boundaries.copc.laz",
+      "source": "fixtures/boundaries.csv",
+      "license": "Repository LICENSE; original synthetic coordinates created for this benchmark",
+      "attribution": "Spatial System benchmark fixture, 2026-10-30",
+      "preparation": "baseline.py prepare: laspy LAS 1.4 format 6, EPSG:32618, scale 0.125, offset [100,200,-5], then PDAL writers.copc forward=all",
+      "sha256": null
+    },
+    {
+      "id": "autzen",
+      "path": "data/autzen-classified.copc.laz",
+      "url": "https://data.pointcloud.org/autzen/autzen-classified.copc.laz",
+      "sha256": "db2d56cdfa058bffccdc5d6019dae2fc9c6a551df10a5523c06c76a3e25a27fa",
+      "license": "CC-BY-4.0",
+      "license_source": "https://pointcloud.org/datasets/autzen/",
+      "license_text": "https://github.com/PDAL/data/blob/main/LICENSE",
+      "attribution": "Autzen Stadium airborne LiDAR: Watershed Sciences, Inc. (2010); classified by Max Sampson, Hobu, Inc. (2021); distributed by pointcloud.org/PDAL. Source retained without modification.",
+      "acquisition": "2010-06-23",
+      "classification_source": "https://github.com/PDAL/data/blob/main/autzen/README.md",
+      "preparation": "Download unchanged; local queries only; inspect CRS/scale/offset and verify classification 6 during baseline.py prepare"
+    }
+  ],
+  "catalog_only": [
+    {
+      "id": "millsite",
+      "source": "https://copc.io/copc-specification-1.0.pdf",
+      "url": "https://s3.amazonaws.com/hobu-lidar/millsite.copc.laz",
+      "description": "USGS 3DEP Millsite Reservoir example from the COPC specification; larger-scale follow-up candidate, HEAD only, not downloaded",
+      "size_bytes_from_head": 1445463233,
+      "head_observed": "2026-10-30",
+      "last_modified": "2021-11-29T22:31:37Z",
+      "accept_ranges": "bytes",
+      "etag": "c8b063cda9ce7f6535539be2c6a95799-173",
+      "etag_is_sha256": false,
+      "license_status": "Verify exact asset provenance and redistribution terms before selecting or downloading",
+      "downloaded": false
+    }
+  ]
+}

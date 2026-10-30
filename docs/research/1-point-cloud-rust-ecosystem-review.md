@@ -125,3 +125,104 @@ For each relevant project, record:
   1. Probably the closest example of a large component of what we want to do. 
      1. We could adapt individual operations for an edge computing demonstration?
      2. Build on the work?
+
+---
+
+## Second pass — 2026-10-30: query-engine focus and RustGIS reuse
+
+The observations above are preserved as the original research journal. This
+addendum records the implementation review, rather than silently rewriting those
+observations. The first overall deliverable is now selective COPC querying through
+Rust/DataFusion; Sprint 1 is research and a reproducible local baseline. The Rust
+point-summary implementation is paused.
+
+### RustGIS: reuse the right layer
+
+Reviewed revision: `8294f56a0f8d8dd982795d03eb8e46826e372631` (2026-10-30).
+[Source revision and file hashes](../../benchmarks/pointcloud/sources.json).
+
+1. **Problem:** a layered desktop/web GIS and scriptable command system, including
+   data access, analysis and external tools. It is not evidence that every advertised
+   operation is implemented directly in one reusable RustGIS library.
+2. **Maintenance:** the inspected revision is dated October 30; this is activity
+   evidence, not an independent stability or correctness assessment.
+3. **Abstractions:** geometry/extents, owned feature datasets and typed attributes,
+   data providers, analysis tools, commands, sessions, and separate frontends.
+4. **Representation:** the geometry core has 2D coordinates and geographic/Web
+   Mercator conventions. LiDAR Z is an attribute in its feature-oriented import
+   path; this differs from native-CRS XYZ Arrow batches.
+5. **Data movement:** the LiDAR reader allocates a sampled point collection. The
+   data crate has substantial format/database dependencies; lower layers are
+   UI-independent, but that alone does not make them minimal engine dependencies.
+6. **Formats:** LAS/LAZ/COPC import is documented, with sampling/caps. The reviewed
+   importer does not use the COPC hierarchy for map views; remote files download
+   whole. Reading a COPC container is different from exact indexed SQL execution.
+7. **Fit:** useful architecture, source and test references; possible future engine
+   consumer. The GeoLibre/Whitebox suite is a separate optional runner, so assess
+   that implementation and process boundary separately.
+8. **Decision:** prefer the public APIs of underlying libraries for needed
+   operations. Evaluate individual RustGIS crates only when their semantics and
+   dependency cost fit. No code was copied and no RustGIS dependency was added.
+
+Sources at the pinned revision:
+[architecture](https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/docs/architecture.md),
+[LiDAR implementation](https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/data/src/lidar.rs),
+[analysis dependencies](https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/analysis/Cargo.toml),
+[geometry](https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/geom/src/lib.rs),
+[GeoLibre runner](https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/geolibre/src/lib.rs),
+[attribution and independently generated reference tests](https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/ATTRIBUTION.md).
+RustGIS is Apache-2.0; underlying crates, runners, assets and test data have their
+own notices. Follow the applicable notices if reuse is selected.
+
+### Corrections and additions across the ecosystem
+
+- **las-rs:** public decoded `Point` uses f64; raw records use integer coordinates
+  with scale/offset. The inspected clone also has owned packed point storage with
+  borrowed accessors and owned point materialization. LAZ support is feature-gated.
+- **COPC:** owned fetched/decompressed buffers coexist with borrowed column views.
+  Seeing `&` does not establish zero-copy ingestion. Its temporal index is an
+  additional capability, not a property every COPC file supplies. The inspected
+  byte-source futures are non-Send: a concrete DataFusion integration question.
+- **pasture:** ownership traits and interleaved/columnar layouts directly address
+  earlier uncertainty about data representation. Study the public buffer API;
+  direct COPC pruning support has not been established here.
+- **PCL:** an established reference for point algorithms and semantics. It does not
+  justify bringing C++ bindings into this small Rust path.
+- **pgPointcloud:** SQL over point clouds already exists. Its schema/patch storage,
+  dimensional filters and PostGIS integration are a capability baseline, with
+  ingestion/setup costs distinct from direct-file access. Its documented
+  `PC_FilterBetween` endpoints are exclusive: normalize semantics in comparisons.
+- **DuckDB–PDAL:** an additional mandatory competitor. The reviewed source describes
+  SQL filter translation into PDAL expression filters. That does not by itself
+  prove COPC hierarchy pushdown. Signed-extension availability varies by release
+  and platform; the benchmark records the executable probe separately.
+- **SpatialRust:** useful schema/column-buffer ideas; breadth alone does not prove
+  an appropriate dependency. **joeysapp/spatial-core** is positioning mathematics,
+  not a point-cloud format/query library. **hvisor** is hardware virtualization,
+  not a prerequisite for simulated edge workers. The advertised octree repository's
+  inspected entry point prints status rather than implementing an octree filter.
+- **autonomousim:** retain as a future sensor-data reference. Infinite ranges can
+  represent missing returns, so a later ingestion layer must establish valid XYZ.
+- **Arrow/DataFusion:** reuse columnar execution and SQL planning when implementing
+  the next vertical. **Serde**, **numr**, **KubeEdge**, ML and Swift remain deferred
+  until a concrete boundary or workload requires them.
+
+Published references: [pasture buffers](https://docs.rs/pasture-core/0.5.0/pasture_core/containers/index.html),
+[PCL](https://github.com/PointCloudLibrary/pcl),
+[pgPointcloud patches](https://pgpointcloud.github.io/pointcloud/functions/patchs.html),
+[DuckDB–PDAL](https://github.com/ahuarte47/duckdb-pdal/tree/29a535197d05fb69f42da40962fa6ed5948d99ba).
+The [query landscape](point-cloud-query-landscape.md) contains the operation-level
+reuse matrix, source evidence, numerical conformance findings, and baseline report.
+
+### Decisions
+
+| Question | Decision | Confidence | Revisit when |
+|---|---|---|---|
+| First overall subsystem | Rust/DataFusion selective COPC queries | High on direction; utility unproven | Baseline and existing adapters reviewed |
+| Sprint 1 implementation | Research tooling and local baseline only | High | Next bounded vertical approved |
+| Adopt RustGIS wholesale | No; assess lower layers and underlying libraries | High | A needed operation fits a specific public API |
+| Write GIS algorithms/parsers now | No | High | A documented gap remains after reuse evaluation |
+| Point3D slice API | Park the prior learning proposal | High | A learning exercise or actual consumer needs it |
+| Real-data reader | Evaluate mature COPC/LAS readers; no production choice yet | Medium | Version, Send and conformance spike |
+| Claims of novelty or speed | None for a new engine | High | Equivalent-workload measurements exist |
+| Next work | Bounded DataFusion interoperability/measurement spike or upstream contribution | Medium | Review the benchmark and feasibility gate |

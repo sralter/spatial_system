@@ -1,0 +1,128 @@
+[
+  {
+    "project": "rustgis",
+    "repository": "https://github.com/opengeos/RustGIS",
+    "revision": "8294f56a0f8d8dd982795d03eb8e46826e372631",
+    "commit_date": "2026-10-30T19:10:43Z",
+    "observed": "2026-10-30",
+    "evidence": "source inspected; not executed",
+    "files": [
+      {
+        "path": "crates/data/src/lidar.rs",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/data/src/lidar.rs",
+        "sha256": "00429d517f684cbce2269c0d55c38961339b3d5036b6b423b83dde1686e48617"
+      },
+      {
+        "path": "crates/data/Cargo.toml",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/data/Cargo.toml",
+        "sha256": "235a2bc6618d87ee61b550d8d17eca0715a09be03eebdc0f8a42fc9c5e1935f8"
+      },
+      {
+        "path": "docs/user-guide/data-formats.md",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/docs/user-guide/data-formats.md",
+        "sha256": "f0b1b9561d051d589273df4ddaa5e12835abf42872259d7b15c56a5c526a44f7"
+      },
+      {
+        "path": "Cargo.toml",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/Cargo.toml",
+        "sha256": "7692285e8be51d3870c3706564017bc77d336c2beabd311549c72b0b7396ec15"
+      },
+      {
+        "path": "crates/analysis/Cargo.toml",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/analysis/Cargo.toml",
+        "sha256": "26620cfcbcf6784cdfc8c7f6333f818876a32e6589eb95efd06eb56b0231ee57"
+      },
+      {
+        "path": "crates/analysis/src/lib.rs",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/analysis/src/lib.rs",
+        "sha256": "db033e5b85d1f590729b140cd677c0e59be87420e63eab892fe67fb9241edf01"
+      },
+      {
+        "path": "crates/geom/src/lib.rs",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/geom/src/lib.rs",
+        "sha256": "afd0d2759e399bbbf9bccf5791f7fdb7f10a45e285e412537c1a12502dfcce87"
+      },
+      {
+        "path": "crates/geolibre/src/lib.rs",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/crates/geolibre/src/lib.rs",
+        "sha256": "941b65a6bf5713bea243539a1e8870eaf386184eeab3fcaf3ce78d1a2d4826af"
+      },
+      {
+        "path": "ATTRIBUTION.md",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/ATTRIBUTION.md",
+        "sha256": "0d5bdcb1a4c0fa8caa2e2b39baeadb34cefc0358b2aa4893e9b469aee83e1628"
+      },
+      {
+        "path": "docs/architecture.md",
+        "url": "https://github.com/opengeos/RustGIS/blob/8294f56a0f8d8dd982795d03eb8e46826e372631/docs/architecture.md",
+        "sha256": "8d11bfa6547030a56d1e4e348b93f3853d96306e1648faa4538456124571be7e"
+      }
+    ]
+  },
+  {
+    "project": "duckdb-pdal",
+    "repository": "https://github.com/ahuarte47/duckdb-pdal",
+    "revision": "29a535197d05fb69f42da40962fa6ed5948d99ba",
+    "commit_date": "2026-10-30T17:11:28Z",
+    "observed": "2026-10-30",
+    "evidence": "source inspected; signed extension tested separately",
+    "files": [
+      {
+        "path": "README.md",
+        "url": "https://github.com/ahuarte47/duckdb-pdal/blob/29a535197d05fb69f42da40962fa6ed5948d99ba/README.md",
+        "sha256": "c843208a9e6dc9c66a71103d36930bc40ca3c846febe46b66f92eaedcd8b4af6"
+      }
+    ]
+  },
+  {
+    "project": "lidar-pointcloud-octree-spatial-filter-rust-lidar-octree-filter-v2026-b70",
+    "revision": "b8c1480fc26e4cfbd6b3d1aaef6edfe3d2fc0c0b",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "las-rs",
+    "revision": "a77e629eb7962d01fe62930375d51a350dd1c6ce",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "spatial-core",
+    "revision": "9d033644e5556d35f447a6d43211ad5ead319095",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "hvisor",
+    "revision": "debe3b67c670c441265bd64cc48218695e9622b7",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "autonomousim",
+    "revision": "3fd2165615d40947644c2fdd95080162e11dd4bc",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "copc",
+    "revision": "43d135e3f7e64d0b8099532474e83c5e4a9949a2",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "SpatialRust",
+    "revision": "7e9678fa4ba877fa1491a1bebf0d5e34bbd89139",
+    "evidence": "local clone inspected; freshness not inferred from commit frequency"
+  },
+  {
+    "project": "duckdb-pdal-tested-binary-source",
+    "repository": "https://github.com/ahuarte47/duckdb-pdal",
+    "revision": "482655fa67a6722fe6577b604c6a436cc6983548",
+    "reported_extension_revision": "482655f",
+    "commit_date": "2026-09-28T23:06:48Z",
+    "observed": "2026-10-30",
+    "evidence": "signed binary reports this short revision; README inspected; SQL correctness executed",
+    "files": [
+      {
+        "path": "README.md",
+        "url": "https://github.com/ahuarte47/duckdb-pdal/blob/482655fa67a6722fe6577b604c6a436cc6983548/README.md",
+        "sha256": "c843208a9e6dc9c66a71103d36930bc40ca3c846febe46b66f92eaedcd8b4af6"
+      }
+    ]
+  }
+]
