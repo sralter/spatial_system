@@ -1,0 +1,31 @@
+---
+description: Documentation hub — Future Reader Test, tiers, artifact stack
+alwaysApply: true
+---
+
+# Documentation (hub)
+
+Full standards: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md). Themed rules below implement each section (~50 lines each).
+
+## Core principle
+
+Code captures **what** was built. Commits, `DECISIONS.md`, comments, docstrings, and observability notes capture **why**. Memory is not the standard — externalized reasoning is. Depth should match decision permanence, operational risk, and future ambiguity.
+
+## Future Reader Test
+
+Write for someone who did not attend the discussion, did not write the code, and lacks your context. Before merging: would they understand what this does, **why it exists**, what it assumes, and what would break it? If not, externalize reasoning first (see `documentation_debrief.mdc`, `documentation_review.mdc`).
+
+## Tiered documentation
+
+| Level | Artifacts |
+|-------|-----------|
+| **System** | `DECISIONS.md` entry; optional ADR under `docs/decisions/` |
+| **Component** | Docstring “Why this exists” + `DECISIONS.md` when non-obvious |
+| **Implementation** | Intent comment (WHY) + substantive commit (`documentation_commits.mdc`) |
+
+## Artifact stack
+
+- **`CHANGELOG.md`** / **`DECISIONS.md`** — living docs: policy and template at top; **newest entries first**, oldest at bottom (`changelog.mdc`, `documentation_decisions.mdc`).
+- **Commits** — substantive template (`documentation_commits.mdc`).
+- **Code** — intent comments and docstrings (`coding_conventions.mdc`).
+- **Logs/metrics** — observability rationale (`logging_and_errors.mdc`).

@@ -1,0 +1,26 @@
+---
+description: Self-review before merge — seven questions without agent context
+alwaysApply: true
+---
+
+# Self-review before merging
+
+Applies to human-, agent-, or pair-authored work. Merging code you cannot explain defers confusion with compounding interest.
+
+Full standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §8.
+
+## Checklist
+
+The author must answer **without** referring to the agent session:
+
+1. What problem does this solve?
+2. Why this approach and not the most obvious alternative?
+3. What assumptions does it rely on?
+4. What operational invariants does it depend on?
+5. What breaks (silently or loudly) if assumptions or invariants change?
+6. How was correct behavior verified?
+7. How would you explain this in two minutes to someone who did not write it?
+
+If any answer is missing, capture rationale first (commit body, `DECISIONS.md`, intent comments, docstrings) per `documentation_core.mdc`. Code is not done until reasoning is externalized.
+
+Use with the agent debrief (`documentation_debrief.mdc`) before merge; debrief supplies raw material, self-review confirms the human owns it.

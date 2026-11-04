@@ -1,0 +1,43 @@
+---
+description: Substantive commit message format — WHAT/WHY/HOW and invariants
+alwaysApply: true
+---
+
+# Substantive commit messages
+
+Use for commits where a coding agent did meaningful work or a **non-obvious** decision was made. **Trivial-only** edits (comment typos, format-only, no behavior change) may use a short 1–2 sentence message.
+
+Full example: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §1. User-rule draft to paste into Cursor: [`docs/notes/cursor_user_rules/committing-changes-with-git.md`](../../docs/notes/cursor_user_rules/committing-changes-with-git.md).
+
+## Subject line
+
+`[scope] Short imperative description` — under 72 characters.
+
+Scope examples: `[scraper]`, `[pipeline]`, `[model]`, `[feature]`, `[infra]`, `[eval]`.
+
+## Body (required fields)
+
+```
+WHAT: Plain summary of what changed.
+WHY: Problem solved or goal advanced.
+HOW: Approach and why over alternatives.
+ASSUMPTIONS: What must remain true. (mandatory)
+OPERATIONAL INVARIANTS: Ordering, timing, idempotency, schema, rate limits, etc. (mandatory)
+RISKS: What could break or fail silently.
+TEST: How behavior was verified.
+```
+
+If **WHY**, **ASSUMPTIONS**, or **OPERATIONAL INVARIANTS** cannot be filled in, the change is not ready to merge.
+
+Before drafting the body, run the agent debrief (`documentation_debrief.mdc`) while session context is still available.
+
+Optional after required fields when co-authoring applied (`coauthoring_protocol.mdc`):
+
+    CO-AUTHORING NOTE:
+    ASSIGNMENT: ...
+    HUMAN ATTEMPT: ...
+    AGENT REVIEW: ...
+
+(Legacy: `BRIEF` / `PLAN`, same as `ASSIGNMENT`.)
+
+(Legacy labels `PLAN` / `HUMAN PASS` / `AGENT PASS` are equivalent.) See [`coauthoring-standards-v2.md`](docs/notes/coauthoring-standards-v2.md).

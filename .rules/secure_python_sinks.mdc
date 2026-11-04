@@ -1,0 +1,47 @@
+---
+description: Safe Python sinks — shell, eval, pickle, paths, XML
+alwaysApply: true
+---
+
+# Secure Python sinks
+
+**Mental model:** Untrusted input must never reach code execution, shell parsing, unsafe deserializers, or unconstrained filesystem paths.
+
+## Shell & subprocess
+
+- Prefer stdlib (`pathlib`, `shutil`, `socket`) over shelling out.
+- If you must run a binary: `subprocess.run([...], shell=False, check=True)` with an **argv list** — never `os.system` or `shell=True` with interpolated strings.
+
+## Code execution & dynamic parsing
+
+- No `eval` / `exec` on external or configurable strings.
+- Structured data → `json.loads`; Python literals only → `ast.literal_eval`.
+
+## Deserialization
+
+- Do **not** `pickle.loads` / `shelve` / `marshal` untrusted bytes (pipeline tabular data is **Parquet/JSON**, not pickle — see `pipeline_io.mdc`).
+- YAML: `yaml.safe_load` only if YAML is required; prefer JSON.
+
+## Path traversal
+
+Resolve then confine to an approved base (e.g. `settings.state_scrape_data_dir(...)`, download dir):
+
+```python
+base = BASE_DIR.resolve()
+target = (base / user_supplied_name).resolve()
+if not target.is_relative_to(base):
+    raise PermissionError("path escapes base directory")
+```
+
+Never open paths built only by concatenating untrusted filenames onto a root.
+
+## XML
+
+Untrusted XML → `defusedxml` (or avoid XML). Do not use default `xml.etree` / unrestricted `lxml` on portal/attacker-controlled markup.
+
+## VIP notes
+
+- Browser download filenames and debug artifact stems are untrusted relative to `data/<state>/` — keep writes under resolved scrape/download bases.
+- Fail closed on path/exec violations; log context without dumping file contents that may contain secrets.
+
+Related: `secure_sql.mdc`, `security.mdc`, `secure_input_and_crypto.mdc`.

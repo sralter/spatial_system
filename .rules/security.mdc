@@ -1,0 +1,25 @@
+---
+description: Secrets, environment variables, and configuration access
+alwaysApply: true
+---
+
+# Security & configuration
+
+- Never commit secrets or log credential material. Do not embed API keys or tokens in code.
+- Do not hardcode environment-specific values (hosts, paths, feature flags) in application logic; read through **settings/config**. If a variable exists at the **`.env` / `Settings`** layer, do **not** copy its default or override as a second literal in application code — extend **`Settings`** (and `.env.example`) so there is one definition.
+- Do not read `os.environ` (or similar) outside the centralized config module — add a typed setting there if something new is needed.
+- **`.env` / dotenv:** Do **not** call `load_dotenv()` from scraping pipelines, `src/`, or ad hoc modules. Rely on the **central `config` / `settings`** layer to define how environment variables and `.env` are loaded so behavior stays consistent and testable.
+- **PII vs scraped data:** Scraped fields often reflect **publicly posted** project data; **do not** apply blanket “redact everything that looks like PII” to **stored pipeline output** in ways that would corrupt legitimate scraped results. Still be deliberate about **operational logs** (avoid unnecessary dumps of person-level fields at `info` when an ID or contract key suffices). Treat PII in logging as a **design choice**, not a mandate to hide real scraped dataset fields.
+
+## Secure coding (injection & sinks)
+
+For SQL/DuckDB, shell/`eval`/pickle/paths, and input/network/crypto defaults, follow the always-applied rules:
+
+| Topic | Rule |
+|-------|------|
+| Parameterized SQL + identifier allowlists | `secure_sql.mdc` |
+| Subprocess, eval, pickle, path traversal, XML | `secure_python_sinks.mdc` |
+| Validation, SSRF-shaped fetches, crypto/timing, ReDoS, log hygiene | `secure_input_and_crypto.mdc` |
+
+**Core principle:** Untrusted input must never directly control sensitive operations or structural parameters (queries, shell, files, authz, deserialization, outbound URLs).
+

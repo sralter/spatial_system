@@ -1,0 +1,54 @@
+---
+description: Project index — stack, entry points, reference scraper, pointers to themed rules
+alwaysApply: true
+---
+
+# VIP project rules (index)
+
+## Stack & entry points
+
+- **Stack:** Python, Dagster, DuckDB, Selenium, Pandas — see themed rules for detail.
+- **CLI:** Prefer **Typer** for new command-line interfaces (when/where CLIs are added).
+- **Main locations:** `src/vip_scraping_pipeline/` (durable library — **prefer for new work**), `src/config/`, `src/tests/`, `src/tools/`. **`poc/` is legacy** (Dagster wiring today); migrate to `src/` over time — see **`architecture.mdc`** (`poc/` must not be imported from `src/`).
+- **Run / tooling:** `uv run`, `pytest`, `dagster dev`, **`black`** (formatting), Typer-based CLIs when present.
+
+## Scraping architecture (all jurisdictions)
+
+- **North star:** Scraping should be **as state-agnostic as practical** — shared orchestration and helpers under `src/vip_scraping_pipeline/`, jurisdiction-specific adapters under `assets/<jurisdiction>/`, thin Dagster POC wiring. Swapping state means config + adapter, not a forked pipeline copy. Pipelines should be **functional at the boundary**: explicit inputs/outputs and a converging **`run_pipeline(state, run_scope)`**-style entry (`latest` / `latest N` / lookback intervals). Details: **`architecture.mdc`**.
+- **Reference adapter (Delaware):** **`scraping_pipelines/de_scraping_pipeline.py`** and **`delaware_dot/`** show the **thin POC + delegated `src/` package** pattern. Match separation and modularity for new states; do not duplicate the whole Delaware tree per state when shared steps can be parameterized.
+
+## Languages & scripts
+
+- **Primary:** Python — most themed rules target `**/*.py` and are **always applied** in Cursor so every session honors them.
+- **Shell / other:** If `*.sh` or other non-Python automation is added, **`security.mdc`** and **`dependencies.mdc`** still apply; Python-only rules (imports, pytest, etc.) do not. Add a dedicated shell rule file if/when shell scripts become common.
+
+## Themed rules (details in separate `.mdc` files)
+
+| Topic | File |
+|--------|------|
+| Documentation hub (Future Reader, tiers, artifacts) | `documentation_core.mdc` |
+| Substantive commit messages | `documentation_commits.mdc` |
+| Decision log (`DECISIONS.md`) | `documentation_decisions.mdc` |
+| Daily changelog (`CHANGELOG.md`) | `changelog.mdc` |
+| Intent comments and docstrings | `coding_conventions.mdc` |
+| Agent debrief before commit/merge | `documentation_debrief.mdc` |
+| Self-review before merge | `documentation_review.mdc` |
+| Layout, boundaries, Delaware as template | `architecture.mdc` |
+| Logging, observability rationale, errors | `logging_and_errors.mdc` |
+| Tests | `testing.mdc` |
+| Secrets, config, env | `security.mdc` |
+| Safe SQL / DuckDB (params + allowlists) | `secure_sql.mdc` |
+| Safe Python sinks (shell, eval, pickle, paths) | `secure_python_sinks.mdc` |
+| Input validation, SSRF-shaped fetches, crypto | `secure_input_and_crypto.mdc` |
+| Dependencies | `dependencies.mdc` |
+| Parquet-first I/O, scrape `data/` layout | `pipeline_io.mdc` |
+| Calendar dates in persisted / asset data | `dates_and_times.mdc` |
+| Pedagogical co-authoring (you implement → agent review) | `coauthoring_protocol.mdc` |
+| Sprint-local lesson IDs (restart at 1; lettered workstream packages) | `lesson_numbering.mdc` |
+
+Canonical prose: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md). Co-authoring: [`docs/notes/coauthoring-standards-v2.md`](docs/notes/coauthoring-standards-v2.md). Sprint records: [`docs/notes/sprint-record-template.md`](docs/notes/sprint-record-template.md).
+
+## Changelog & collaboration
+
+- Update **`CHANGELOG.md`** per **`changelog.mdc`** in the same session as substantive work unless the user opts out.
+- Externalize reasoning per documentation rules before merge; ask before large refactors. Align new scrapers with **`de_scraping_pipeline.py`** and `src/` layout.

@@ -1,0 +1,35 @@
+---
+description: CHANGELOG.md — daily what/when/verify; no rationale (see DECISIONS)
+alwaysApply: true
+---
+
+# Changelog (`CHANGELOG.md`)
+
+Daily ledger of **what** changed, **when**, and **what was verified**. Does **not** record rationale, alternatives, or assumptions — those belong in `DECISIONS.md` and substantive commits. Full standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §3.
+
+## Different readers
+
+- Reconstructing **why** → `DECISIONS.md` (`documentation_decisions.mdc`).
+- Asking what changed on a given day → `CHANGELOG.md`.
+
+## When to update
+
+- Same session as substantive work: code under `src/` or `poc/`, `pyproject.toml` / lockfile, config, tests, Dagster defs, tooling, `.cursor/rules/`, behavior-affecting docs.
+- Non-obvious architectural/operational choices: also add `DECISIONS.md` in that session.
+- Trivial-only (comment typos, format-only, no behavior change) may omit a line; when in doubt, add a brief bullet.
+
+## File layout (living doc)
+
+1. `# Changelog` + one-line purpose.
+2. `## Changelog Policy` immediately under the title (always visible when editing).
+3. Dated history below policy: `## YYYY-MM-DD`, **newest date first**, oldest last. New day → insert section **directly under policy**; same day → append bullets under that date’s subsections.
+
+## Subsections (per date, in order)
+
+`### Added`, `### Changed`, `### Deprecated`, `### Dependencies`, `### Verification` — omit empty. Use **Verification** when behavior or infrastructure changed (command + outcome).
+
+## Style
+
+- Factual, concise bullets; paths and modules in backticks.
+- **No WHY**, no alternatives, no assumptions in changelog text.
+- Present or past tense consistently within a day’s list.

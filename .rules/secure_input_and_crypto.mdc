@@ -1,0 +1,46 @@
+---
+description: Input validation, SSRF, crypto/timing, ReDoS — secure defaults
+alwaysApply: true
+---
+
+# Secure input, network & crypto
+
+**Mental model:** Validate with **allowlists / schemas / bounds**; authenticate ≠ authorize; crypto and comparisons must be constant-time where secrets are involved.
+
+## Input & object binding
+
+- Prefer explicit typed models (e.g. Pydantic Settings/leaf configs) over `setattr` loops over arbitrary dict keys (mass assignment).
+- Env/config: only via central **`Settings`** (`security.mdc`) — no scattered `os.environ` in adapters.
+
+## Network (SSRF-shaped risks)
+
+When code fetches a URL influenced by config, portal HTML, or operator input:
+
+- Allowlist schemes (`https` preferred) and hosts where practical.
+- Set timeouts; do not follow redirects to arbitrary internal IPs without checks.
+- Scrape target URLs should live in adapter URL modules / Settings — not free-form strings from untrusted rows without validation.
+
+## AuthZ (when APIs/UI exist)
+
+Checking “logged in” is not enough — scope queries to the caller’s resources (IDOR). Batch scrapers without end-user tenancy still must not expose admin DuckDB paths or MFT credentials via debug endpoints.
+
+## Crypto & secrets
+
+- Tokens/secrets: `secrets` module — not `random`.
+- Compare secrets with `hmac.compare_digest`, not `==`.
+- Passwords (if ever stored): memory-hard hash (Argon2id/bcrypt) — never bare MD5/SHA for passwords.
+- No hardcoded API keys; load via Settings / secret store (`security.mdc`).
+
+## ReDoS
+
+Avoid nested quantifiers on untrusted strings; bound input length before heavy regex. Prefer simple patterns for parsing portal text.
+
+## Logging
+
+Do not log secrets, tokens, or full request/SQL payloads. Be deliberate with person-level scrape fields at `info` (`security.mdc` PII note; `logging_and_errors.mdc`). Sanitize newlines if logging attacker-controlled strings.
+
+## Checklist (before merge)
+
+Input validated/allowlisted · SQL/paths/shell safe · timeouts on network · fail closed · no pickle/eval · secrets not in repo/logs.
+
+Related: `secure_sql.mdc`, `secure_python_sinks.mdc`, `security.mdc`. Reference: `sam/safe-python-and-sql-practices.md` (personal, not shipped).

@@ -1,0 +1,70 @@
+---
+description: Python style, docstrings, imports, types, and anti-patterns
+alwaysApply: true
+---
+
+# Coding conventions
+
+## Docstrings & comments
+
+- Every function and module gets a docstring, except where a docstring would only narrate what the code already makes obvious (e.g. do **not** write `def normalize_parcel_id(): """Normalize parcel ID"""`). **Style:** Prefer **Google-style** sections (`Args`, `Returns`, `Raises`) on **functions and methods** where they clarify behavior; a single clear paragraph is fine for tiny helpers.
+- **Module docstrings** (non-trivial modules under `src/vip_scraping_pipeline/`): lead with **purpose**; include **Why this exists** when the name alone is insufficient. Include a module-level **`Usage`** section (reST-style underline form is fine):
+
+  ```text
+  Usage
+  -----
+  - When to open this module
+  - Typical import / call pattern (tiny)
+  - What not to put here / which sibling to use instead
+  ```
+
+  High-traffic shared or adapter hubs should prefer slightly richer `Usage` (failure modes, siblings). **Exceptions (purpose-only is enough):** empty/`__init__` package markers, pure re-export shims, deprecated compatibility stubs, and other one-liner modules with no real call surface. Optional: the same `Usage` shape on large public classes when the class is the primary entry readers open.
+- **Split (do not conflate):** `Usage` is for **modules** (and optionally large public classes). Function/method docstrings keep Google-style `Args` / `Returns` / `Raises` — do **not** require a `Usage` section on every tiny helper.
+- **Why this exists:** Every major function, class, or Dagster asset includes at least one sentence the name alone cannot convey. Tiering: `documentation_core.mdc`.
+- **Intent comments** explain **why**, not what — the code already shows what. Document: why this approach over the obvious alternative; silent assumptions; failure modes without immediate errors; constraints that look optimizable but are not; operational invariants (rate limits, ordering, idempotency). Full standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §4 (module `Usage` is summarized there; this rule is the always-applied contract).
+- Use brief inline comments only where control flow is non-obvious and the docstring would be noisy.
+- Prefer readability over micro-optimization unless the code path is clearly hot (e.g. large DataFrame work).
+- Follow this table, and don't make docstrings that narrate where reading the code would explain it (see above)
+
+| Level | Documentation should answer |
+|--|--|
+| `package/__init__.py` | Why does this package/subsystem exist? (purpose-only OK if empty/re-export) |
+| `module.py` | What responsibility does this module own? When should a maintainer open it? (`Usage`) |
+| `class Foo` | What abstraction/state/lifecycle does this represent? |
+| `def foo()` | What contract does this operation expose? (`Args` / `Returns` / `Raises` as needed) |
+| `# Inline comment` | Why is this particular implementation necessary? |
+
+## Formatting
+
+- **`black`** is authoritative for layout and wrapping; use its defaults (typically 88-character lines). Prefer running the formatter rather than debating style in review.
+
+## Naming
+
+- **`_` prefix:** Module-internal helpers (not intended for import by other modules)—including many scraper primitives—should use a **leading underscore** (`_fetch_…`, `_build_…`).
+
+## Structure
+
+- Prefer small, focused definitions; avoid monolithic functions (**rough guide: > ~50 lines** suggests a split).
+- Do not duplicate utilities; extend shared helpers.
+- Avoid global mutable state. Do not mix sync and async unless required.
+
+## Static sequences (lists, column names, allowlists)
+
+- **Lift non-trivial literal sequences** out of function bodies into a **named module-level binding**—especially **ordered column / header lists**, allowlists, selector tag sets, and similar **schema-like** inputs that operators or future edits are likely to touch.
+- Use **UPPER_CASE** when the binding is intended as an immutable contract for the module (common for headers); use a clear **lower_snake** name for internal ordered data if it is not a global contract. Prefer **tuples** when order matters and the sequence must not be mutated at runtime.
+- **Functions should reference the name** (e.g. pass ``HEADER_DE`` into builders) instead of embedding a long ``[...]`` literal inline—easier to diff, reuse, test against the same definition, and edit in one place.
+- **Judgment:** A tiny literal used once (e.g. two tags) may stay inline; anything **long**, **shared**, or **edited often** belongs at module scope or next to related constants in a small dedicated block at the top of the file.
+
+## Imports
+
+- Prefer absolute imports from `src` where the package layout allows.
+- Avoid circular imports.
+- Order: stdlib → third party → local.
+
+## Types
+
+- Use type hints on public functions and non-trivial locals/attributes.
+
+## `src/` quality bar
+
+- Modules under `src/` (including early or placeholder-heavy areas) should still meet docstring, typing, and test expectations; avoid “we’ll add tests when it’s real.”

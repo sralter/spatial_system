@@ -1,0 +1,30 @@
+---
+description: pytest layout, mocks, Selenium, and completion criteria
+alwaysApply: true
+---
+
+# Testing
+
+- Framework: **pytest**.
+- **Layout:** Pipeline and integration tests live under **`src/tests/`**, grouped by concern:
+
+  | Subdirectory | Scope |
+  |--------------|--------|
+  | `src/tests/core/` | Shared `vip_scraping_pipeline.assets.core` helpers |
+  | `src/tests/de_dot/` | Delaware adapter |
+  | `src/tests/ny_dot/` | New York adapter |
+  | `src/tests/config/` | `Settings`, logging |
+  | `src/tests/tools/` | `src/tools/` CLIs |
+
+  Add new scrape tests next to the jurisdiction or core module they exercise. Keep `pythonpath` in `pyproject.toml` aligned with imports (`config`, `scraping_pipelines`, `tests.de_dot`, etc.).
+- Test **behavior**, not implementation details.
+- Cover edge cases and failure modes (transforms, progress, config parsing, logging filters, etc.).
+- **Selenium / browsers / live HTTP (layered):**
+  - **Structure scrapers as testable steps** (URLs, waits, DOM reads, parsing). Cover **each step** with **unit tests** using **mocks/fakes** or **fixtures** (saved HTML / recorded responses) so default **`pytest`** and CI stay **fast** and **deterministic**.
+  - **Integration / smoke** tests that hit a **real browser** or **live HTTP** prove the site still matches selectors and flows. Mark them **`@pytest.mark.integration`**; use **several focused tests** (e.g. listing loads, detail opens) rather than only one monolithic end-to-end case when that isolates failures faster.
+  - Integration tests are **skipped by default** unless **`RUN_LIVE_WEB_TESTS=1`** is set **before starting pytest** (shell export, `.env`, or CI env). **`get_settings()`** is **`lru_cache`**’d and **`src/tests/conftest.py`** reads **`run_live_web_tests`** during **collection**, so changing env **mid-run** (e.g. `monkeypatch` inside a test) does **not** reliably enable integration tests. For an isolated settings instance in tests, construct **`Settings(_env_file=None)`** with explicit env rather than expecting **`RUN_LIVE_WEB_TESTS`** to flip after import.
+  - Run integration locally or in a **scheduled / manual** CI job. To mirror “CI-only” offline runs: **`pytest -m "not integration"`** (when using that marker).
+  - Prefer a **small, stable** integration set; avoid making every PR depend on external sites (flakiness, rate limits, bot checks).
+- **Coverage:** Aim for **meaningful** tests on **transforms**, **edge cases**, and **failure paths**. Do **not** enforce a numeric coverage target until CI adds coverage tooling (for example `pytest-cov` with a threshold).
+- New or changed behavior should include tests that run with the usual **`pytest`** (and lint/format) workflow.
+- Type hints should stay consistent between implementation and tests.

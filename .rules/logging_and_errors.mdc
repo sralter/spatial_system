@@ -1,0 +1,82 @@
+---
+description: Logging model — stdlib loggers, Dagster capture, setup_logging, errors
+alwaysApply: true
+---
+
+# Logging & errors
+
+## Logging model
+
+Application code uses Python’s standard **`logging`** module. Dagster is configured to **capture** selected project loggers into the run event log. **`context.log`** is reserved for orchestration-specific messages inside assets/ops.
+
+```
+src/ → logging.getLogger(__name__)
+     → setup_logging at process entry (UUID, redaction, optional files)
+     → dagster.yaml managed_python_loggers → Dagster UI / event log
+```
+
+**Curriculum:** [`docs/notes/sprints/sprint-166/logging-unification/README.md`](docs/notes/sprints/sprint-166/logging-unification/README.md)
+
+## Logging
+
+- **No `print`:** Do not use `print()` in scraping pipelines (`poc/dagster/.../scraping_pipelines/`), other Dagster integration modules, or `src/vip_scraping_pipeline/` — logs are the only operational channel.
+
+### Application code (`src/vip_scraping_pipeline/`, `src/config/`)
+
+- Bind **`logger = logging.getLogger(__name__)`** in each module.
+- Do **not** use **`get_dagster_logger()`** in library or application modules under `src/`.
+- Do **not** call **`setup_logging`** at import in shared modules — configure logging once at **process entry** (see below).
+- Do **not** import **`dagster`** in `src/` solely for logging.
+
+### Process entry (`setup_logging`)
+
+- Call **`setup_logging(configure_root=True)`** once per process at a documented entry point: Dagster POC scraper facade (e.g. `scraping_pipelines/de_scraping_pipeline.py`), CLI `main`, or a Dagster resource/hook — not inside `core/` or state adapter algorithms.
+- **`setup_logging`** (project `config`) provides UUID tagging (`vip=`), Dagster run correlation on disk (`dagster_run=`, `dagster_run8=`), secret redaction, noisy third-party logger suppression, and **optional rotating files** when file logging is enabled (`LOG_TO_FILE` / `settings.log_to_file`).
+- Application modules rely on logger **propagation** to root handlers configured at entry; they do not attach their own handlers.
+- When **`DAGSTER_HOME`** is set (Dagster dev / materialize subprocess), root **console** handlers are **not** attached — `managed_python_loggers` owns stderr/UI formatting; avoids duplicate lines. **`LOG_TO_FILE=1`** still writes VIP-formatted rotating logs under `logs/` with `vip=` and `dagster_run8=`.
+
+### Dagster orchestration (`vip_dagster_pipeline.py`, assets/ops, sensors)
+
+- Use **`context.log`** (or the logger passed on the execution context) for **orchestration-specific** messages: partition selected, materialization boundaries, sensor skip/run decisions, job-level summaries.
+- Do **not** push orchestration concerns into delegated `src/` functions — keep lifecycle narration at the Dagster boundary.
+- Module-level **`logging.getLogger(__name__)`** is fine in Dagster wiring modules for non-orchestration diagnostics.
+
+### Dagster UI capture (`dagster.yaml`)
+
+- Instance config lives at **`$DAGSTER_HOME/dagster.yaml`** (default home via `settings.dagster_home` / `tools/run_dagster.py`).
+- List project namespaces under **`python_logs.managed_python_loggers`** so stdlib log records appear in the Dagster UI the same way as `context.log`:
+
+```yaml
+python_logs:
+  managed_python_loggers:
+    - vip_scraping_pipeline
+  python_log_level: INFO
+```
+
+- Logger names are **hierarchical** — `vip_scraping_pipeline` captures all child loggers under that prefix.
+- Align **`python_log_level`** with **`settings.log_level`** unless there is a documented reason to diverge.
+- Committed template: `poc/dagster/dagster_integration/templates/dagster.yaml` (bootstrap into `$DAGSTER_HOME` when missing — see lesson 18b).
+
+### Standalone CLIs and tools (`src/tools/`, offline scripts)
+
+- Use **`logging.getLogger(__name__)`**; call **`setup_logging`** from the CLI entry only.
+- Tools are **not** listed in `managed_python_loggers` unless there is an explicit ops requirement.
+
+### Levels & content
+
+- **debug** — diagnostics; **info** — normal lifecycle (start/finish, milestones); **warning** / **error** — recoverable or fatal problems.
+- Include context: IDs, paths, URLs, chunk indices, contract keys, attempt counts, etc.
+- **Retries (Selenium, HTTP, sessions):** Log a **warning** on **each** retry with attempt number and enough context to debug flakiness.
+
+## Observability rationale
+
+For new metrics, alerts, health checks, or log lines that gate operations, document **why** that signal exists, what anomaly it catches, threshold rationale, and **known blind spots**. Standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §6.
+
+- Distinguish **catastrophic failure**, **graceful degradation** (partial scrape, retries exhausted), and **silent corruption** (pipeline “healthy” but wrong data — common in scrapers).
+- Prefer intent comments on non-obvious logging choices (e.g. domain-level vs request-level latency).
+- Alerting thresholds and pipeline health semantics that affect ops → also `DECISIONS.md` (`documentation_decisions.mdc`).
+
+## Errors
+
+- Fail loudly unless there is a deliberate, documented recovery path.
+- Do not use bare `except:`; catch specific exceptions and log or re-raise with context.

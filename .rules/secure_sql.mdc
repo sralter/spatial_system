@@ -1,0 +1,46 @@
+---
+description: Safe SQL/DuckDB — parameterized values, allowlisted identifiers
+alwaysApply: true
+---
+
+# Secure SQL & DuckDB
+
+**Mental model:** Untrusted or external input must never control SQL **structure**. Values use bind parameters; table/column/schema names use **strict allowlists** (or vetted identifiers), never string concat / f-strings.
+
+## Values (always bind)
+
+```python
+# ❌ BAD
+con.execute(f"SELECT * FROM t WHERE id = '{row_id}'")
+
+# ✅ GOOD — DuckDB / DB-API style placeholders for your driver
+con.execute("SELECT * FROM t WHERE id = ?", [row_id])
+```
+
+Treat data read back from the warehouse as **untrusted for the next query** (second-order injection): bind again; do not interpolate.
+
+## Identifiers (never “parameterize” — allowlist)
+
+Dynamic table/column/ORDER BY names cannot be bound as values. Compare to a module-level frozenset/tuple of allowed names; reject otherwise.
+
+```python
+ALLOWED_TABLES = frozenset({"DE_DOT", "NY_DOT"})
+
+if table_name not in ALLOWED_TABLES:
+    raise ValueError(f"table not allowlisted: {table_name!r}")
+# then use only the allowlisted string in the SQL text
+```
+
+Prefer shared helpers (`warehouse_io`, schema builders) that already take validated names over ad hoc SQL in adapters.
+
+## LIKE / pattern queries
+
+If user or portal text feeds a `LIKE` pattern, escape `%` and `_` (and the escape char) or document why wildcards are intentional. Prefer equality/`IN` when possible.
+
+## VIP notes
+
+- Scrapers often build DDL/upsert SQL from **schema modules** — keep column lists as named module constants (see coding conventions), not free-form strings from env/UI.
+- Do not log full SQL with secrets or raw PII payloads; bind params stay out of log lines unless redacted.
+- Fail closed: invalid identifier → raise; do not “sanitize” with regex strip and proceed.
+
+Full pattern catalog (personal reference): `sam/safe-python-and-sql-practices.md` (not shipped). Related: `security.mdc`, `secure_python_sinks.mdc`.

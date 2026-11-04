@@ -1,0 +1,32 @@
+---
+description: Adding packages, versions, lockfile, dev vs runtime, CLI stack
+alwaysApply: true
+---
+
+# Dependencies
+
+## When to add
+
+- Do not add a package unless there is a clear need and no reasonable alternative in the **stdlib** or **existing** stack.
+- Prefer extending project utilities over pulling in new libraries.
+
+## Declaring versions
+
+- Prefer **minimum versions** (`package>=x.y`) for new runtime dependencies, consistent with `pyproject.toml` today.
+- Use **exact pins** (`==`) only when upstream is known to be fragile or non-semver (for example pinned extractor stacks).
+
+## Lockfile
+
+- When you add or upgrade a **runtime** dependency in `[project].dependencies`, run **`uv lock`** (or the project’s documented lock workflow) and **commit `uv.lock`** together with the `pyproject.toml` change.
+
+## Dev vs runtime
+
+- Put **dev-only** tools (extra test helpers, optional analyzers, etc.) in **`[dependency-groups]` → `dev`**, not in `[project].dependencies`, unless they are required at runtime.
+
+## CLI
+
+- Prefer **Typer** for new command-line entry points (already listed in `pyproject.toml`).
+
+## Manifest
+
+- Record every new dependency in **`pyproject.toml`** (and keep **`uv.lock`** in sync as above).

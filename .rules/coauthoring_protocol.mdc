@@ -1,0 +1,114 @@
+---
+description: Experience-first co-authoring — you implement, agent reviews and improves
+alwaysApply: true
+---
+
+# Co-authoring protocol
+
+**Default:** This protocol applies to every agent request unless the user **explicitly opts out** in that request (e.g. "skip co-authoring", "agent implement directly", "trivial edit only").
+
+**Goal:** Bookended pedagogy — **assignment** (plan + sketches) at the start, **solo execution**, then **agent review** with explain-why at the end. Optional “Lesson N” = one component task, not a classroom module.
+
+**Lesson IDs (Sprint 168+):** Restart at **1** each sprint; workstream folders use lettered packages (**1a**, **1b**, …). See [`lesson_numbering.mdc`](lesson_numbering.mdc). Pre-168 historical numbers stay as shipped.
+
+Full standard: [`docs/notes/coauthoring-standards-v2.md`](docs/notes/coauthoring-standards-v2.md). Artifacts: `documentation_debrief.mdc`, `documentation_review.mdc`, [`sprint-record-template.md`](docs/notes/sprint-record-template.md).
+
+## Sprint kickoff (ask if the human did not)
+
+**When:** At the **first substantive Tier A or B request of a new sprint**, the user
+expects sprint-related questions. Ask clarifying questions **anytime** scope shifts or
+tasks evolve mid-sprint — the backlog is living, not frozen at kickoff.
+
+If the human has not provided a **Jira sprint number** (e.g. 163, 164) or pointed at
+their sprint record, the agent **must ask**:
+
+1. **Which sprint?** — Jira-style number (required); start/end dates (~two weeks) if unknown
+2. **What is in scope** for this sprint vs explicitly deferred?
+3. **Which tasks are the human's responsibility** for Phase 2 first-pass implementation
+   (vs colleague, deferred, or agent-only doc/review)?
+4. **Sprint record path** — one **local** file per sprint **per engineer** (see below).
+   If none exists, offer to create from [`sprint-record-template.md`](docs/notes/sprint-record-template.md).
+
+On later sessions in the same sprint, do not repeat the full kickoff unless the human
+starts a new sprint or switches workstreams without naming their sprint doc.
+
+## Sprint record (living north star, local)
+
+**One file per sprint per engineer.** Path under `docs/notes/sprints/sprint-{NNN}/` (gitignored — stays
+local; the engineer distributes copies if needed):
+
+ docs/notes/sprints/sprint-{NNN}/sprint-{NNN}-{author-slug}-{short-slug}.md
+
+**Sprint backlog (single file, all sprints):** `docs/notes/sprints/backlog.md`
+
+- `{NNN}` — Jira sprint number (163, 164, …); ask if not provided
+- `{author-slug}` — engineer identifier (initials or short handle) when disambiguating
+- `{short-slug}` — workstream topic (e.g. `de-scraping`)
+
+Example: `docs/notes/sprints/sprint-164/sprint-164-sra-de-scraping.md` (legacy: `plan-sprint-163-…`, `docs/notes/sprint-165/`)
+
+Maintain the record as north star for the sprint:
+
+- **Table of contents** and **markdown links** to sections and related repo docs
+- **Canonical lesson plan** — link (or paste path) to the active Cursor plan file at kickoff; update link if the plan is superseded mid-sprint
+- **Ownership table** — human vs others; drives Phase 2 accountability
+- **Task tracker** and **phase checklists** — update as work lands
+- **Component assignments** — Phase 1 plans (sketches, not solutions); summary OK if full assignment lives in Cursor plan
+- **Lesson review log** — per lesson/checkpoint: human attempt (answers or code pointers) + agent Phase 3 review (pass/fix table, teaching notes, code state)
+- **Your attempts** — Phase 2 notes in session log when a lesson review entry is not yet written
+- **Verification log** and **session log** — grow through the sprint
+- **Sprint close** — summary, Jira paste block, self-review
+
+The agent helps maintain the sprint record (assignments, lesson reviews, verification).
+You own scope and sign-off.
+
+## Lesson review log (required for Tier A/B lessons)
+
+After each **Lesson N ready** (or equivalent checkpoint handoff):
+
+1. **Human** — In the sprint record (or paste for agent to append): your attempt summary, exercise answers, or **pointers to files/lines** for the code you wrote.
+2. **Agent** — Append a **Lesson review log** subsection: validation against rubric, pass/fix table, teaching notes, canonical **code state** (paths + commit hash when merged), and **next lesson** link.
+
+This preserves who tried what, what shipped, and where the canonical code lives — alongside the Cursor plan (assignment) and git history (merged truth).
+
+## Three phases (bookended pedagogy)
+
+1. **Phase 1 — Assignment** — Co-craft a well-explained plan with **sketches only** (first pedagogical moment). No copy-pasteable production code.
+2. **Phase 2 — You execute (solo)** — Implement the assignment yourself. Agent does not pair-program unless you opt out. **No pedagogy in the middle.**
+3. **Phase 3 — Agent review** — Check your work, improve, document, **explain why** (second pedagogical moment).
+
+## Task tier (choose at start of substantive work)
+
+| Tier | When | Phase 1 | Phase 2 |
+|------|------|---------|---------|
+| **A** | New modules, trade-offs, high risk, new territory | Full assignment | Solo execution |
+| **B** | Scoped fix/refactor/test/config | Narrower assignment | Solo execution |
+| **C** | Trivial only | Skip | N/A |
+
+When uncertain between A and B, choose **A**.
+
+## Phase 1 — assignment contents
+
+- Objective, context walkthrough, approach and alternatives
+- Assumptions, invariants, verification, acceptance criteria
+- **Sketches only** — signatures, tiny examples, data-flow; not fleshed-out modules
+
+## Merge gate (all substantive tiers)
+
+- Active sprint record updated (task status, **lesson review log** entry for the checkpoint, verification, or session log as applicable)
+- Agent debrief (`documentation_debrief.mdc`) while session context exists
+- Human passes self-review without the session (`documentation_review.mdc`)
+- Substantive commit per `documentation_commits.mdc`; optional `CO-AUTHORING NOTE` block when useful
+- `CHANGELOG.md` for substantive code changes; `DECISIONS.md` when architectural
+
+## Checkpoint review feedback
+
+After handoff (`Lesson N ready` = assignment executed, ready for review), give full
+prioritized feedback; **append the review to the sprint record Lesson review log**
+(human attempt + agent validation); document changes from the human's attempt and **why**.
+
+## Present-author test
+
+You must explain, maintain, and defend what **merges** — including agent changes from
+your attempt — not merely retrieve agent text. Your first pass is evidence of experience;
+it need not match the final diff line-for-line.

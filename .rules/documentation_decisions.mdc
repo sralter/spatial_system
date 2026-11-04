@@ -1,0 +1,41 @@
+---
+description: DECISIONS.md — append-only rationale log linked to commits
+alwaysApply: true
+---
+
+# Decision log (`DECISIONS.md`)
+
+Root file **`DECISIONS.md`** records **why** — not daily what changed (that is `CHANGELOG.md`).
+
+Full template: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §2.
+
+## Rules
+
+- **Append-only** — never delete or rewrite old entries.
+- **Living doc layout** — keep policy and entry template at the **top**; add each new entry **at the top of the history block** (below the `---` separator): **newest first**, oldest at the bottom.
+- **Informal** — full sentences; polish optional.
+- **Commit-linked** — each entry ends with `Commit: <hash>`.
+
+## When to add an entry
+
+Log when rationale would be non-obvious later, or reversal would affect architecture, correctness, operations, or model outcomes. Examples: framework choice, scraper concurrency/session model, retry/backoff, validation placement, alert thresholds, genuine trade-offs.
+
+Skip for trivial fixes with no durable decision.
+
+## Entry skeleton
+
+```
+--- [YYYY-MM-DD] Short title ---
+
+Context:
+Decision:
+Alternatives considered:
+Rationale:
+Assumptions and risks:
+Operational invariants:
+Known unknowns: [optional]
+Supersedes: [optional — prior entry title/date]
+Commit: <hash>
+```
+
+Add in the **same session** as the implementing commit when the change is architectural or operational. Pair with a substantive commit body (`documentation_commits.mdc`) and a factual `CHANGELOG.md` bullet (`changelog.mdc`).

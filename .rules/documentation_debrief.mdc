@@ -1,0 +1,25 @@
+---
+description: Pre-commit agent debrief — capture reasoning before session ends
+alwaysApply: true
+---
+
+# Pre-commit agent debrief
+
+Before ending a session that produced production-bound code, and **before merging**, run these questions while the agent (or author) still holds full context. Paste answers — lightly edited — into the **substantive commit body** (`documentation_commits.mdc`) and/or a new **`DECISIONS.md`** entry (`documentation_decisions.mdc`).
+
+Full prose: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §5.
+
+## Questions
+
+1. What changed and why, in terms a non-coder could follow?
+2. What alternatives were considered or discarded, and why?
+3. What assumptions does this make about environment, data, or the target system?
+4. What **operational invariants** does it depend on (ordering, timing, idempotency, schema, rate limits, infrastructure)?
+5. What would cause this to **fail silently** rather than with an obvious error?
+6. If this breaks in production in six months, what is the most likely cause?
+
+## Accountability
+
+The engineer who merges must understand and defend the reasoning — not merely retrieve it from the agent. The debrief exists because agent reasoning evaporates when the session ends.
+
+After debrief, confirm the author can pass self-review (`documentation_review.mdc`).

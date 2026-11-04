@@ -1,0 +1,41 @@
+---
+description: Parquet-first file interchange, repo data/ tree, scrape layout
+alwaysApply: true
+---
+
+# Pipeline I/O & scrape data layout
+
+## Parquet-first (tabular file artifacts)
+
+- **Default on-disk format** for serialized **tabular** pipeline data (snapshots, transfers, exports, intermediate materializations outside DuckDB) is **Apache Parquet** — not CSV, not pickle, and not ad hoc binary blobs unless there is a documented exception.
+- **Delaware** (`poc/dagster/dagster_integration/scraping_pipelines/de_scraping_pipeline.py` and **`src/vip_scraping_pipeline/assets/delaware_dot/`** helpers) and **other state pipelines** should follow this pattern: read/write Parquet under the appropriate `data/<state>/` (or env-driven warehouse-adjacent paths when the design explicitly uses Parquet there).
+- **DuckDB** remains the primary **warehouse** for queryable tables (`.duckdb`); Parquet complements it for **portable files**, Dagster-friendly blobs, and interchange — align with existing `transfer_exports/*.parquet` usage in Dagster integration code.
+- **Exceptions (use sparingly):** CSV when an **external system or human** requires it (downloads from a DOT site, one-off spreadsheets). **Pickle** is not for durable pipeline datasets (operational risk, version coupling); Dagster’s own partition storage under **`DAGSTER_HOME`** is out of scope for this rule.
+
+## Repository `data/` tree
+
+- **Root:** All scrape-generated durable files that are **not** the main DuckDB warehouse belong under **`<repo_root>/data/`**, not under `src/`, `poc/dagster/dagster_integration/`, or next to individual scraper modules unless a deliberate exception is documented.
+- **Per state:** Use **`<repo_root>/data/<state>/`** where `<state>` is the lowercase two-letter code (e.g. `de`, `ny`).
+- **API:** Prefer ``settings.state_scrape_data_dir("<state>")`` from `src/config` so path rules stay centralized and testable.
+
+## Conventions (current)
+
+- **Delaware:** Progress and status JSON live in `data/de/` (`de_progress.txt`, `de_progress_status.json`). DuckDB paths remain env-driven (`DB_PATH` + `DE_*` export settings); do not conflate warehouse paths with scrape scratch under `data/`.
+- **NY:** State downloads and archives resolve under `data/ny/` (see `ny_scraping_pipeline.py`).
+- **Dagster transfer parquet:** `vip_dagster_pipeline.py` writes `data/<state>/transfer_exports/*.parquet` for NY/DE raw snapshots used in asset metadata.
+
+## Not under `data/de/` (by design — avoid “stray” confusion)
+
+- **DuckDB warehouse:** ``vip_scraping_pipeline.assets.delaware_dot.de_duckdb_paths.resolve_de_duckdb_target()`` returns the `.duckdb` path and configured table name from **`DB_PATH`** / ``DE_*`` settings. The scraper and ``transform_and_load_de`` both use this helper. That store is separate from scrape scratch under ``data/de/``; point ``DB_PATH`` where you keep warehouse files.
+- **Application logs:** `<repo>/logs/` when `LOG_TO_FILE` (see `LOG_DIR` / `setup_logging`).
+- **Dagster run / IO-manager artifacts:** pickled partitions and Dagster’s own logs live under **`DAGSTER_HOME`** (not `data/de/`).
+- **Ephemeral browser / OS temp:** Selenium/Chrome may use system temp directories; nothing in-repo unless you explicitly download to a path under `data/de/`.
+
+## Git
+
+- The **`data/`** directory is listed in `.gitignore` so generated trees stay out of version control.
+- **`*.parquet`** is ignored at repo scope for generated parquet outside committed fixtures; if you intentionally version small parquet test fixtures, narrow the ignore or use an exception path.
+
+## When adding scrapers
+
+- New pipelines should call ``settings.state_scrape_data_dir("xx")`` (with `mkdir` as needed) for checkpoints, **Parquet** (or other agreed) materializations, browser downloads, and similar artifacts—avoid `Path(__file__).parent` for anything that must survive refactors or relocation of the POC module. Prefer **Parquet** for any tabular checkpoint the code writes itself (see **Parquet-first** above).
