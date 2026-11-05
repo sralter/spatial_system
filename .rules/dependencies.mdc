@@ -1,32 +1,111 @@
 ---
-description: Adding packages, versions, lockfile, dev vs runtime, CLI stack
+description: Introducing, managing, and explaining project dependencies
 alwaysApply: true
 ---
 
 # Dependencies
 
-## When to add
+## Purpose and applicability
 
-- Do not add a package unless there is a clear need and no reasonable alternative in the **stdlib** or **existing** stack.
-- Prefer extending project utilities over pulling in new libraries.
+Govern when dependencies are introduced and how they are managed.
+The dependency set is expected to evolve with the project.
 
-## Declaring versions
+Keep actual package declarations and versions in the appropriate manifests
+and tool configuration, rather than maintaining a duplicate inventory here.
 
-- Prefer **minimum versions** (`package>=x.y`) for new runtime dependencies, consistent with `pyproject.toml` today.
-- Use **exact pins** (`==`) only when upstream is known to be fragile or non-semver (for example pinned extractor stacks).
+This rule covers project libraries, development tools, native prerequisites,
+database extensions, and environments. Coursework follows its applicable
+course instructions.
 
-## Lockfile
+## When to introduce a dependency
 
-- When you add or upgrade a **runtime** dependency in `[project].dependencies`, run **`uv lock`** (or the project’s documented lock workflow) and **commit `uv.lock`** together with the `pyproject.toml` change.
+Introduce a dependency to satisfy an identified requirement in an agreed task.
+First consider the standard library, existing project capabilities, and suitable
+existing tools.
 
-## Dev vs runtime
+Prefer a maintained dependency when it avoids unnecessary custom implementation.
+Neither avoiding dependencies at all costs nor adopting a broad framework for
+one small capability is a project goal.
 
-- Put **dev-only** tools (extra test helpers, optional analyzers, etc.) in **`[dependency-groups]` → `dev`**, not in `[project].dependencies`, unless they are required at runtime.
+Explain the dependency's utility and relevant trade-offs before adoption.
+Keep the explanation proportional to the decision:
+- Routine choices need a brief rationale in the existing task record.
+- Consequential architectural or maintenance choices belong in a decision record.
 
-## CLI
+Do not require a separate document for every package or every transitive dependency.
 
-- Prefer **Typer** for new command-line entry points (already listed in `pyproject.toml`).
+## Tool responsibilities
 
-## Manifest
+- Use root-level `mise.toml` for shared development-tool versions and configuration.
+- Use uv for Python dependency and environment management.
+- Use Cargo for Rust package dependencies.
+- Use Swift Package Manager for Swift package dependencies where applicable.
+- Manage SQL-related dependencies through the selected engine, extension mechanism,
+  or host-language package manager.
 
-- Record every new dependency in **`pyproject.toml`** (and keep **`uv.lock`** in sync as above).
+Mise complements language package managers; it does not replace their manifests
+and dependency resolution.
+
+Use the relevant component's configuration. A monorepo does not automatically
+require one shared environment or workspace for every component.
+
+Introduce another package manager or environment system only for a demonstrated
+need, with its purpose and costs explained first.
+
+## Selection and installation
+
+Selecting a dependency and installing it are separate decisions.
+They may be authorized together within an agreed task.
+
+Before installation, establish:
+- What is needed and why.
+- Where tools, packages, environments, and caches will be installed.
+- Expected download, disk, and build costs, including significant transitive
+  dependencies and uncertainty.
+- Any changes to shared tools, system configuration, or existing environments.
+
+Use available metadata or a bounded inspection to clarify unknown costs.
+Do not present estimates as guarantees.
+
+Do not create another environment, install a broad optional package collection,
+or change system tools merely to complete an otherwise small task.
+Explain the need and agree on that scope first.
+
+Existing authorization remains sufficient when it already covers the proposed
+installation and its effects. Do not request the same authorization twice.
+
+If the resolved dependency set or installation costs materially exceed the agreed
+scope, pause the affected work and discuss options before continuing.
+
+## Versions and reproducibility
+
+Follow normal ecosystem conventions for version constraints and lockfiles.
+Do not require exact pins everywhere.
+
+Use the package manager to maintain resolved dependency records where applicable.
+Keep manifests and relevant lockfiles consistent within the same change.
+
+Document exceptional constraints, overrides, or source revisions when their
+reason would otherwise be unclear.
+
+Scope updates to the agreed task. Avoid unrelated upgrades, lockfile churn,
+and changes to shared tool versions as incidental cleanup.
+
+## Dependency scope and verification
+
+Declare dependencies in the component that needs them.
+Distinguish runtime, development, build, and optional dependencies using the
+ecosystem's normal mechanisms.
+
+Consider relevant compatibility, licensing, maintenance, and native prerequisites
+before adoption. Discuss significant concerns rather than adding a universal
+review checklist for every package.
+
+Use appropriate checks to verify the capability needed by the task.
+Report what was verified and any remaining limitations.
+
+An installed package is not evidence that its integration works.
+An experimental dependency is not automatically a production dependency.
+
+Follow [coauthoring_protocol.mdc](coauthoring_protocol.mdc) for implementation
+ownership, bounded delegation, and scope changes.
