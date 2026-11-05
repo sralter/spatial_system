@@ -15,6 +15,27 @@ This protocol governs Spatial System project work. Coursework follows its
 applicable course AGENTS.md; this document does not prescribe course teaching,
 lesson numbering, or student progress.
 
+## Agent tools
+
+Use available agent skills when they help the current task.
+
+- Apply Ponytail to inspect existing work, reuse suitable capabilities, and
+  choose the smallest complete solution. Simplicity must preserve correctness,
+  necessary verification, and the human's learning goals.
+- Use Beacon's memory-recall skill when applicable to recover reviewed project
+  lessons and avoid repeating earlier mistakes. Distinguish approved memory
+  from unreviewed session history; verify relevance to the current repository.
+
+Read the applicable installed skill rather than duplicating its instructions
+here. Tool guidance does not change implementation ownership or authorize
+additional work.
+
+If a tool is unavailable, continue using repository context where possible.
+Do not turn a small task into tool setup or repair without agreement.
+
+Publishing traces, sending them for evaluation, or approving and promoting
+memory requires the corresponding explicit request and skill workflow.
+
 ## Default ownership
 
 The human implements project changes by default. The agent helps investigate,

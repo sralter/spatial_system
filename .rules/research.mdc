@@ -1,0 +1,72 @@
+---
+description: Professional, proportionate research that supports project decisions and learning
+alwaysApply: true
+---
+
+# Research
+
+## Purpose and applicability
+
+Research supports informed choices and human understanding in Spatial System.
+The project develops professional engineering experience through a portfolio
+piece: correctness, maintainability, clear reasoning, and honest reporting matter.
+
+Use professional judgment and effort proportional to the question, uncertainty,
+and consequences of getting it wrong. Routine, reversible choices can use a brief
+rationale and focused verification; costly or difficult-to-reverse choices deserve
+closer investigation. Thoroughness should serve the decision rather than become
+ceremony. A routine change does not require a research report, competitive
+analysis, or benchmark.
+
+Coursework follows its applicable course instructions.
+
+## Start with a useful question
+
+Identify what needs to be learned and which project decision it informs.
+Choose the smallest useful approach: existing project knowledge, documentation,
+source inspection, a small example, or an experiment.
+
+Agree on the investigation's scope and stopping point through
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc).
+Do not build reusable research infrastructure unless the task calls for it.
+
+## Reuse knowledge and existing capabilities
+
+Apply Ponytail's inspection and reuse guidance to avoid unnecessary work.
+Consult relevant reviewed Beacon memory when applicable, then check it against
+current code, documentation, and requirements.
+
+Use suitable existing tools and libraries. Reconsider a choice when evidence
+shows a better fit, accounting for the cost of switching.
+
+Learning value can justify implementing something that already exists.
+State that purpose rather than claiming an unmet technical need.
+
+## Match evidence to the claim
+
+Explain the basis of consequential findings in plain language:
+documentation read, source inspected, behavior executed, or a result
+independently reproduced. Use labels or tables only when they improve clarity.
+
+Distinguish observation from inference and say when something remains unknown.
+Do not imply that reading documentation proves behavior was tested.
+
+Benchmark when performance is relevant to the question or claim.
+Ordinary changes do not require benchmarking. For measurements, retain enough
+workload, environment, and method information to interpret the result fairly.
+
+## Keep the useful result
+
+Record conclusions, important sources, assumptions, and limitations in the
+existing task record or an appropriate research document.
+
+Keep enough evidence to explain the decision without creating a documentation
+framework for every investigation. Record versions or revisions when findings
+depend on them.
+
+An existing solution, a negative result, or unresolved uncertainty can all be
+useful outcomes. Explain what the result means for the current decision and
+recommend further work only when it would be useful.
+
+Follow [dependencies.mdc](dependencies.mdc) for dependency selection,
+installations, and resource costs.
