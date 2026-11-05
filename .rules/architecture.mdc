@@ -1,78 +1,127 @@
 ---
-description: Repository layout, module boundaries, state-agnostic scraping, Delaware reference
+description: Spatial System architecture, repository boundaries, and expected evolution
 alwaysApply: true
 ---
 
-# Architecture & boundaries
+# Architecture and boundaries
 
-## State-agnostic scraping (north star)
+## Project direction
 
-**Goal:** Orchestration and shared mechanics should run for **any jurisdiction** (US state or equivalent) when operators swap **configuration and adapters** — not by copying a whole pipeline per state.
+Spatial System develops geospatial systems using Rust, Python, Swift, and SQL,
+with longer-term goals in edge and distributed computing.
 
-- **Shared core (grow under `src/vip_scraping_pipeline/`):** Run lifecycle patterns that repeat everywhere — progress/checkpoint files, chunking, retries, logging, Parquet/DuckDB I/O shape, generic browser/session helpers, table-row padding, debug manifest hooks. Prefer **parameters and small protocols** (callables, typed config objects) over hard-coded state codes inside these modules.
-- **Jurisdiction adapter (per state package):** Site-specific URLs, feeds, DOM selectors, column/header contracts, listing vs detail strategy, warehouse table names, and date quirks. Keep these in **`src/vip_scraping_pipeline/assets/<jurisdiction>/`** (Delaware: `delaware_dot`) or thin **`{state}_schema.py`** siblings under Dagster — **not** sprinkled through shared code.
-- **Thin orchestration:** Dagster POC modules (`scraping_pipelines/{state}_scraping_pipeline.py`) and package entrypoints (`scrape_raw_{state}.py`) should **wire** settings → adapter → shared steps. Avoid new business logic there beyond I/O and Dagster definitions.
+The first major project objective is a Rust-based point-cloud query engine
+built on Apache DataFusion. This is the main architectural direction today.
+It is an objective, not a claim that the engine is already implemented.
 
-**Swapping states** should mean: choose state code / profile → load the right adapter + `settings.state_scrape_data_dir("<state>")` → same pipeline stages execute. Do **not** fork the full scrape loop for each new state.
+Distinguish:
+- Implemented capability, supported by inspected code and verification.
+- Accepted architectural direction, recorded in project decisions.
+- Proposed work that still requires evaluation and agreement.
 
-**Modularity (required for the above):**
+A roadmap, syllabus, or architectural proposal does not authorize implementation.
 
-- **Single responsibility per module** — e.g. listing discovery, queue filter, Selenium detail, transform/load, path resolution, debug artifacts each get their own module; do not mix Dagster defs, heavy transforms, and raw Selenium in one file when adding **new** code.
-- **Small, focused functions** — align with **`coding_conventions.mdc`** (~50 lines is a signal to split). Orchestrators compose named steps; they should not embed long site-specific parsing inline.
-- **Extract on second use** — when a second jurisdiction needs the same step, move it from the first adapter into shared core with explicit extension points; do not duplicate Delaware modules under a new prefix.
+## Architecture evolves
 
-**Functional pipeline shape (clear inputs and outputs):**
+These rules are expected to change as the project develops.
 
-Scrape logic should be **callable and testable**: explicit arguments in, typed results out. Side effects (files, DuckDB, browsers) live at the **edges**; core steps return data and metadata rather than relying on import-time globals or implicit module state.
+When an agreed decision changes the architecture, update the affected rules
+and architectural records as part of that scoped change. Explain what changed
+and why; do not silently treat an earlier rule as obsolete.
 
-- **Top-level entry (target shape):** converge toward a single orchestrator such as **`run_pipeline(state_code, run_scope, …)`** (exact name/module TBD) where:
-  - **`state_code`** selects the jurisdiction adapter and `settings.state_scrape_data_dir(...)`.
-  - **`run_scope`** describes *how much* to run — e.g. **latest** (incremental / since last checkpoint), **latest N** (last N contracts, chunks, or listing rows), or **lookback** (**N intervals ago** by calendar period or configured window). Model this as a **small typed value** (enum, dataclass, or discriminated union), not ad hoc boolean flags scattered across callers.
-- **Stage functions** follow the same rule: e.g. `discover_listing(...) -> ListingResult`, `filter_queue(...) -> Queue`, `scrape_chunk(...) -> ChunkResult`, `transform_and_load(...) -> LoadResult` — each with documented inputs/outputs (see **`coding_conventions.mdc`** docstrings).
-- **Callers are thin:** Dagster ops, CLIs, and notebooks **resolve** settings once, build `run_scope`, call `run_pipeline` (or the state’s delegated `scrape_raw_*` until the shared entry exists), then persist artifacts. Avoid reading `settings` deep inside pure transform helpers; pass paths, limits, and knobs as parameters.
-- **Tests** supply explicit inputs (fixtures, fakes) and assert on return values without requiring a full `data/<state>/` tree unless the test is integration-scoped.
+Inspect relevant code, decisions, and current task context before proposing
+changes. Surface discrepancies between them for resolution.
 
-**Anti-patterns:** Import-time `setup_logging` / `get_settings()` inside algorithms; functions that only mutate globals or files with no return value; duplicate entrypoints per state that differ only by hard-coded `"de"`; untyped “mode” strings for run scope. Copy-pasting `de_scraping_pipeline.py` for another state; `de_*` / `"de"` literals in shared modules; jurisdiction-specific selectors or URLs outside the adapter package; monolithic “god” scraper files; **`src/` importing from `poc/`**; new non-trivial code added under `poc/` instead of `src/`.
+## Repository map
 
-**Reality today:** Delaware is the **first full adapter** and reference implementation. Legacy DE-centric names are acceptable in `delaware_dot/` until refactors extract shared pieces — new work should **not** deepen DE-only coupling in cross-state code.
+Current project and supporting locations:
 
-## `poc/` (legacy — migrate to `src/`)
+- `rust/spatial-core/`: existing Rust package. Inspect its implementation before
+  describing its capabilities or deciding where new engine components belong.
+- `docs/research/`: investigations, findings, limitations, and retrospectives.
+- `docs/decisions/`: architectural decisions and their rationale.
+- `sprints/`: scoped project plans and progress.
+- `rust/learn/`: separately governed coursework and supporting learning material.
 
-- **`poc/`** (especially **`poc/dagster/dagster_integration/`**) is **legacy proof-of-concept** code. **Durable implementation belongs in `src/`**; we shift focus to `src/` over time and **deprecate `poc/`** modules as logic moves out.
-- **Default for new work:** add or extend **`src/vip_scraping_pipeline/`**, **`src/config/`**, **`src/tests/`**, **`src/tools/`** — not new business logic under `poc/`.
-- **When touching `poc/`:** extract behavior into `src/` when practical; leave **thin Dagster wiring** (defs, ops, asset registration, re-exports) in `poc/dagster/dagster_integration/` until a later orchestration move.
-- **Import boundary:** **`src/` must not import `poc/`** (no `scraping_pipelines`, `vip_dagster_pipeline`, or other `poc/` modules from library code). Dependency flows **`poc/` → `src/`** only. Tests under `src/tests/` follow the same rule.
-- **Anti-pattern:** new transforms, scrapers, or shared helpers added only under `poc/`; circular or upward imports from `src/` into `poc/`.
+Expected growth:
 
-## Layout
+- Rust engine components organized around agreed responsibilities.
+- Python components for agreed analysis, tooling, or integration needs.
+- Swift components for agreed client or device capabilities.
+- SQL interfaces and queries associated with the engine.
 
-- **`src/vip_scraping_pipeline/`:** Durable implementation — transforms, reusable scraping helpers, assets. **All new business logic and data shaping land here** unless the change is Dagster-only wiring still living in `poc/`.
-- **`poc/dagster/dagster_integration/`:** **Legacy** Dagster app — job/op/asset wiring and thin `scraping_pipelines/` facades that delegate into `src/`. Do not grow heavy logic here.
-- **`src/config/`:** Central settings and logging (`pydantic-settings`, path resolution). Imported as ``from config import …`` with repo ``src/`` on ``sys.path`` / ``PYTHONPATH``.
-- **`src/tests/`:** Pytest suite for integration, config, and pipeline behavior.
-- **`src/tools/`:** Offline operator utilities (e.g. timing report CLI) that are **not** Dagster assets; keep state-specific defaults in **profiles** under `tools/timing_report/profiles/` so new states extend the same entrypoints.
-- **`data/`** (repo root): Scrape-generated artifacts and transfer outputs per state — **Parquet-first** for tabular files where the project controls the format; see **`pipeline_io.mdc`**. Not the DuckDB warehouse root (`DB_PATH`).
+Decide concrete directories and package boundaries when the relevant work is
+scoped. Record agreed future locations here as proposed until implemented.
+Do not create placeholder packages or directories merely to represent the roadmap.
 
-## State scrapers (`scraping_pipelines/`)
+## Noncanonical and potentially legacy material
 
-- **Naming (new work):** Use **`{state}_scraping_pipeline.py`** (lowercase state code). Legacy filenames (for example `*_dot_api_access.py`) should converge toward this when those files are next substantially refactored.
-- **Schemas:** Prefer a sibling **`{state}_schema.py`** for Dagster/schema definitions that are **jurisdiction-specific** (mirror **`de_schema.py`**). Shared column contracts belong in reusable `src/` modules, not duplicated per state file.
-- **`src/` package per jurisdiction:** Non-trivial transform, parsing, or load logic lives in **`src/vip_scraping_pipeline/assets/<jurisdiction>/`** (Delaware: `delaware_dot`). The POC scraper **delegates** into that package — avoid large transforms only under `poc/dagster/...`. Persisted calendar dates for DE use ISO `YYYY-MM-DD` via `delaware_dot/de_dates.py` (see **`dates_and_times.mdc`**); other states should reuse or extend shared date helpers when adding transforms, not invent parallel formats.
+`benchmarks/` contains earlier experimental work created before this ruleset.
+It is potentially legacy material and is not part of the canonical project
+architecture.
 
-## Separation of duties
+Its structure, dependencies, environments, and workflows are not defaults for
+new project work. Do not extend it merely because related tooling already exists.
 
-- **Layers:** config/settings → jurisdiction adapter → shared scrape/transform helpers → Dagster wiring. Each layer imports only downward (adapter may use shared; shared must not import adapter).
-- One main responsibility per module: I/O vs transformation vs orchestration vs browser primitives.
-- Avoid mixing Dagster definitions, raw scraping/Selenium, and heavy transforms in the same file when adding **new** code; existing large files may stay until refactored deliberately toward the state-agnostic split above.
-- **Config:** use the central `config` / `settings` module only (no scattered `os.environ`). **Single source of truth:** limit or eliminate **hard-coded literals** for anything already represented in **`.env` / `.env.example`** and loaded on **`Settings`** — read **`settings.<field>`** (or `get_settings()` where appropriate) instead of duplicating the same default or knob in scrapers or `src/` modules. That prevents **drift** between code and configuration. **Script-local** values (pure algorithm constants, DOM selectors, one-off formatting) are fine when they are **not** part of the env surface; if a knob belongs in ops config, add it to `Settings` and document it in `.env.example` rather than hard-coding it.
+Existing material may be inspected as historical evidence. Retaining, adopting,
+relocating, replacing, or removing it requires a separately agreed task.
+Noncanonical status does not authorize cleanup or invalidate recorded evidence.
 
-## Delaware `de_scraping_pipeline.py` (reference adapter + stability-first)
+## Coursework boundary
 
-- Treat this module and **`delaware_dot/`** as the **reference adapter** for layout: thin POC + fat `src/` package, transform delegation, progress under `data/de/`. **Do not** treat it as a license to copy-paste the full file for each new state — copy the **separation pattern**, then implement the adapter package and shared hooks.
-- Prefer **small, surgical changes** to existing Delaware files; do not expand scope without a clear need. When adding cross-state behavior, prefer **shared `src/`** modules with jurisdiction injected at the edge.
-- **Extraction / delegation:** `transform_and_load_de` → `vip_scraping_pipeline.assets.delaware_dot.transform_and_load_de`; DuckDB paths → `de_duckdb_paths`. New states get their own `transform_and_load_*` / path helpers in their package unless logic is genuinely identical (then generalize with parameters).
-- Preserve documented behaviors at the top of the module (JSON listing vs Selenium detail, DuckDB/progress semantics) unless explicitly changing product behavior.
+Coursework is colocated for convenience and follows its applicable AGENTS.md
+and syllabus guidance.
 
-## `src/` modules (including placeholders)
+Project work must not modify exercises, progress, or curriculum unless explicitly
+included in the request. Coursework completion does not establish project capability.
 
-- Treat new and evolving modules under `src/` with the **same expectations as production code** (types, tests, docstrings) as soon as they exist in-tree, not “later when complete.”
+Promotion of an exercise into reusable project code requires explicit agreement.
+Do not move historical exercises as routine architectural cleanup.
+
+## Component boundaries
+
+Keep responsibilities clear and proportionate to the agreed task.
+
+- Separate core computation from filesystem, network, process, and interface
+  concerns where this improves understanding and verification.
+- Expose explicit inputs, outputs, errors, and relevant data contracts.
+- Keep executable entry points focused on composing operations.
+- Avoid hidden initialization and implicit mutable state across components.
+- Introduce abstractions for demonstrated needs rather than hypothetical reuse.
+
+These principles do not require a new framework, package, configuration system,
+or architectural layer for a small task.
+
+Reusable project code must not depend on coursework or noncanonical experimental
+runners. Adoption of experimental code requires agreement on its responsibility,
+interface, dependencies, correctness requirements, and maintenance expectations.
+
+## Point-cloud engine direction
+
+Use Apache DataFusion as the intended foundation for SQL planning, expression
+evaluation, and aggregation. Evaluate suitable existing readers for point-cloud
+decoding and access rather than assuming custom implementations are necessary.
+
+Consult the relevant architectural decisions for detailed engine contracts.
+Identify any proposed departure and discuss it before implementation.
+
+Preserve coordinate meaning across component boundaries, including CRS, axis
+units, scale/offset, and the distinction between sampled visualization and
+full-resolution analytical data.
+
+The engine direction does not automatically authorize bindings, services,
+clients, distributed execution, or supporting infrastructure.
+
+## Language and integration boundaries
+
+Introduce Rust, Python, Swift, and SQL components when an agreed task justifies
+them. Language support in the roadmap does not require tooling installation now.
+
+Before introducing a boundary between languages or processes, explain:
+- Its purpose and the data crossing it.
+- Data types, ownership or copying, and relevant coordinate metadata.
+- Error behavior and resource lifecycle.
+- How the boundary will be verified.
+
+Apply the bounded-assignment and delegation rules in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc).

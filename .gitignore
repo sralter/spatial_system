@@ -14,6 +14,7 @@ rust/learn_rust
 # I will start tracking swift and python folders once I'm ready for them
 swift/
 python/
+rust/learn/ideas
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
