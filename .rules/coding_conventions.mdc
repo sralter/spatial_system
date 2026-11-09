@@ -1,70 +1,123 @@
 ---
-description: Python style, docstrings, imports, types, and anti-patterns
+description: Shared coding principles and language-specific conventions
 alwaysApply: true
 ---
 
 # Coding conventions
 
-## Docstrings & comments
+## Purpose and applicability
 
-- Every function and module gets a docstring, except where a docstring would only narrate what the code already makes obvious (e.g. do **not** write `def normalize_parcel_id(): """Normalize parcel ID"""`). **Style:** Prefer **Google-style** sections (`Args`, `Returns`, `Raises`) on **functions and methods** where they clarify behavior; a single clear paragraph is fine for tiny helpers.
-- **Module docstrings** (non-trivial modules under `src/vip_scraping_pipeline/`): lead with **purpose**; include **Why this exists** when the name alone is insufficient. Include a module-level **`Usage`** section (reST-style underline form is fine):
+Write professional, maintainable code that the human can understand, explain,
+and defend. Prefer clear, idiomatic solutions with complexity proportional
+to the task.
 
-  ```text
-  Usage
-  -----
-  - When to open this module
-  - Typical import / call pattern (tiny)
-  - What not to put here / which sibling to use instead
-  ```
+These conventions govern project implementation. Coursework follows its
+applicable course instructions.
 
-  High-traffic shared or adapter hubs should prefer slightly richer `Usage` (failure modes, siblings). **Exceptions (purpose-only is enough):** empty/`__init__` package markers, pure re-export shims, deprecated compatibility stubs, and other one-liner modules with no real call surface. Optional: the same `Usage` shape on large public classes when the class is the primary entry readers open.
-- **Split (do not conflate):** `Usage` is for **modules** (and optionally large public classes). Function/method docstrings keep Google-style `Args` / `Returns` / `Raises` — do **not** require a `Usage` section on every tiny helper.
-- **Why this exists:** Every major function, class, or Dagster asset includes at least one sentence the name alone cannot convey. Tiering: `documentation_core.mdc`.
-- **Intent comments** explain **why**, not what — the code already shows what. Document: why this approach over the obvious alternative; silent assumptions; failure modes without immediate errors; constraints that look optimizable but are not; operational invariants (rate limits, ordering, idempotency). Full standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §4 (module `Usage` is summarized there; this rule is the always-applied contract).
-- Use brief inline comments only where control flow is non-obvious and the docstring would be noisy.
-- Prefer readability over micro-optimization unless the code path is clearly hot (e.g. large DataFrame work).
-- Follow this table, and don't make docstrings that narrate where reading the code would explain it (see above)
+## Readability and understanding
 
-| Level | Documentation should answer |
-|--|--|
-| `package/__init__.py` | Why does this package/subsystem exist? (purpose-only OK if empty/re-export) |
-| `module.py` | What responsibility does this module own? When should a maintainer open it? (`Usage`) |
-| `class Foo` | What abstraction/state/lifecycle does this represent? |
-| `def foo()` | What contract does this operation expose? (`Args` / `Returns` / `Raises` as needed) |
-| `# Inline comment` | Why is this particular implementation necessary? |
+Use descriptive names and explicit data flow. Prefer straightforward control
+flow over clever shorthand or unnecessary verbosity.
 
-## Formatting
+Explain unfamiliar constructs and consequential implementation choices during
+assignments and reviews. Do not assume that compiling code demonstrates human
+understanding.
 
-- **`black`** is authoritative for layout and wrapping; use its defaults (typically 88-character lines). Prefer running the formatter rather than debating style in review.
+Follow established project patterns where they remain appropriate. Discuss
+material departures rather than introducing competing conventions silently.
 
-## Naming
+## Responsibilities and reuse
 
-- **`_` prefix:** Module-internal helpers (not intended for import by other modules)—including many scraper primitives—should use a **leading underscore** (`_fetch_…`, `_build_…`).
+Give functions and modules a single coherent responsibility.
+Split them when distinct concerns or difficult-to-follow behavior justify it,
+rather than enforcing a fixed line-count limit.
 
-## Structure
+Follow DRY: avoid duplicating knowledge, business rules, and behavior that should
+have one authoritative implementation. Reuse suitable existing functions and
+components.
 
-- Prefer small, focused definitions; avoid monolithic functions (**rough guide: > ~50 lines** suggests a split).
-- Do not duplicate utilities; extend shared helpers.
-- Avoid global mutable state. Do not mix sync and async unless required.
+Extract shared code when the common responsibility is clear. Similar-looking
+code alone does not justify an abstraction that couples unrelated behavior.
 
-## Static sequences (lists, column names, allowlists)
+Use named constants for meaningful contracts, shared values, and non-obvious
+quantities. Keep straightforward local values close to their use.
 
-- **Lift non-trivial literal sequences** out of function bodies into a **named module-level binding**—especially **ordered column / header lists**, allowlists, selector tag sets, and similar **schema-like** inputs that operators or future edits are likely to touch.
-- Use **UPPER_CASE** when the binding is intended as an immutable contract for the module (common for headers); use a clear **lower_snake** name for internal ordered data if it is not a global contract. Prefer **tuples** when order matters and the sequence must not be mutated at runtime.
-- **Functions should reference the name** (e.g. pass ``HEADER_DE`` into builders) instead of embedding a long ``[...]`` literal inline—easier to diff, reuse, test against the same definition, and edit in one place.
-- **Judgment:** A tiny literal used once (e.g. two tags) may stay inline; anything **long**, **shared**, or **edited often** belongs at module scope or next to related constants in a small dedicated block at the top of the file.
+Prefer explicit inputs and outputs. Avoid hidden mutable state and unnecessary
+coupling between components.
 
-## Imports
+## Documentation and comments
 
-- Prefer absolute imports from `src` where the package layout allows.
-- Avoid circular imports.
-- Order: stdlib → third party → local.
+Document public API contracts and non-obvious module responsibilities.
+Include relevant assumptions, units, coordinate meaning, ownership, side effects,
+and failure behavior where callers or maintainers need them.
 
-## Types
+Use the language's normal documentation conventions. Add examples when they
+clarify correct use.
 
-- Use type hints on public functions and non-trivial locals/attributes.
+Comments explain reasoning, constraints, or non-obvious behavior that the code
+cannot express clearly. Keep them accurate as the implementation changes.
 
-## `src/` quality bar
+Do not require a docstring on every obvious helper or impose a fixed set of
+documentation headings on every definition.
 
-- Modules under `src/` (including early or placeholder-heavy areas) should still meet docstring, typing, and test expectations; avoid “we’ll add tests when it’s real.”
+## Formatting and tooling
+
+Follow existing component formatter and linter configuration.
+Use ecosystem conventions where the project has not established a preference.
+
+Keep formatting changes focused on the agreed work. Avoid unrelated repository
+reformatting.
+
+Agree on new tooling when a component needs it, following
+[dependencies.mdc](dependencies.mdc). This rule does not authorize installations.
+
+## Rust
+
+- Follow idiomatic Rust naming, visibility, and module conventions.
+- Keep implementation details private unless callers need them.
+- Make ownership and borrowing understandable; introduce cloning or shared
+  ownership for a reason rather than to bypass an unexplained design problem.
+- Use explicit error handling for expected failures. Do not use panic or
+  unchecked assumptions as a substitute for handling fallible external inputs.
+- Document public contracts with Rust documentation comments where needed.
+
+## Python
+
+- Follow idiomatic Python naming and package imports; avoid ad hoc import-path
+  manipulation as a substitute for a coherent package layout.
+- Use type hints for public interfaces and non-trivial data contracts.
+  Let obvious local types remain inferred.
+- Keep imports organized and avoid circular dependencies.
+- Use docstrings where they clarify contracts and intent. Google-style sections
+  are appropriate when useful, but are not mandatory boilerplate.
+
+## Swift
+
+- Follow Swift naming and API conventions.
+- Use access control to keep implementation details internal to their component.
+- Model optional values and fallible operations explicitly; avoid force unwrapping
+  as a substitute for handling missing or invalid external data.
+- Make ownership and concurrency behavior clear when those concerns arise.
+- Use Swift documentation comments for public contracts where needed.
+
+## SQL
+
+- Use the selected engine's dialect and consistent query formatting.
+- Prefer descriptive aliases and qualified columns where they prevent ambiguity.
+- Make result columns and their meaning clear; avoid relying on incidental row
+  order or unexplained implicit conversions.
+- Use explicit projections for stable interfaces; `SELECT *` remains appropriate
+  for exploration or when all columns are intentionally required.
+- Keep query values separate from SQL structure using the relevant secure SQL
+  mechanisms.
+
+## Evolution
+
+Keep language-specific guidance short and grounded in actual project needs.
+Expand it when an agreed pattern or recurring issue warrants a convention.
+
+Do not introduce packages, tools, or abstractions merely to satisfy anticipated
+future language support.
+
+Follow [coauthoring_protocol.mdc](coauthoring_protocol.mdc) for implementation
+ownership, assistance, review, and scope boundaries.

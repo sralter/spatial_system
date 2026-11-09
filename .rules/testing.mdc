@@ -1,30 +1,134 @@
 ---
-description: pytest layout, mocks, Selenium, and completion criteria
+description: Proportionate verification across languages and project components
 alwaysApply: true
 ---
 
 # Testing
 
-- Framework: **pytest**.
-- **Layout:** Pipeline and integration tests live under **`src/tests/`**, grouped by concern:
+## Purpose and applicability
 
-  | Subdirectory | Scope |
-  |--------------|--------|
-  | `src/tests/core/` | Shared `vip_scraping_pipeline.assets.core` helpers |
-  | `src/tests/de_dot/` | Delaware adapter |
-  | `src/tests/ny_dot/` | New York adapter |
-  | `src/tests/config/` | `Settings`, logging |
-  | `src/tests/tools/` | `src/tools/` CLIs |
+Use tests to establish confidence in behavior and catch meaningful regressions.
+Keep verification understandable, maintainable, and proportional to the change.
 
-  Add new scrape tests next to the jurisdiction or core module they exercise. Keep `pythonpath` in `pyproject.toml` aligned with imports (`config`, `scraping_pipelines`, `tests.de_dot`, etc.).
-- Test **behavior**, not implementation details.
-- Cover edge cases and failure modes (transforms, progress, config parsing, logging filters, etc.).
-- **Selenium / browsers / live HTTP (layered):**
-  - **Structure scrapers as testable steps** (URLs, waits, DOM reads, parsing). Cover **each step** with **unit tests** using **mocks/fakes** or **fixtures** (saved HTML / recorded responses) so default **`pytest`** and CI stay **fast** and **deterministic**.
-  - **Integration / smoke** tests that hit a **real browser** or **live HTTP** prove the site still matches selectors and flows. Mark them **`@pytest.mark.integration`**; use **several focused tests** (e.g. listing loads, detail opens) rather than only one monolithic end-to-end case when that isolates failures faster.
-  - Integration tests are **skipped by default** unless **`RUN_LIVE_WEB_TESTS=1`** is set **before starting pytest** (shell export, `.env`, or CI env). **`get_settings()`** is **`lru_cache`**’d and **`src/tests/conftest.py`** reads **`run_live_web_tests`** during **collection**, so changing env **mid-run** (e.g. `monkeypatch` inside a test) does **not** reliably enable integration tests. For an isolated settings instance in tests, construct **`Settings(_env_file=None)`** with explicit env rather than expecting **`RUN_LIVE_WEB_TESTS`** to flip after import.
-  - Run integration locally or in a **scheduled / manual** CI job. To mirror “CI-only” offline runs: **`pytest -m "not integration"`** (when using that marker).
-  - Prefer a **small, stable** integration set; avoid making every PR depend on external sites (flakiness, rate limits, bot checks).
-- **Coverage:** Aim for **meaningful** tests on **transforms**, **edge cases**, and **failure paths**. Do **not** enforce a numeric coverage target until CI adds coverage tooling (for example `pytest-cov` with a threshold).
-- New or changed behavior should include tests that run with the usual **`pytest`** (and lint/format) workflow.
-- Type hints should stay consistent between implementation and tests.
+These rules govern project implementation. Coursework follows its applicable
+course instructions.
+
+## When to add tests
+
+Add focused tests for new non-trivial behavior, important failure paths,
+and bug regressions. Extend existing tests when they already cover the relevant
+responsibility.
+
+Test observable behavior and contracts rather than internal implementation details.
+Avoid tests that merely repeat the implementation without independently checking
+its result.
+
+Documentation, formatting, and obvious low-impact changes can use appropriate
+inspection instead of new automated tests.
+
+Choose meaningful cases rather than pursuing an arbitrary coverage percentage.
+
+## Test scope and cost
+
+Use the smallest test scope that establishes the behavior in question:
+
+- Unit or component tests check focused behavior.
+- Integration tests check cooperation across real component boundaries.
+- System or end-to-end tests check broader application workflows.
+- Smoke tests briefly check that essential functionality works.
+
+Test scope and resource cost are separate concerns. A small integration test
+can belong in routine verification.
+
+Keep routine tests fast and deterministic. Clearly identify checks requiring
+network access, substantial datasets, special hardware, credentials, or expensive
+execution. Include them deliberately within the agreed task.
+
+Use small fixtures, temporary resources, and fakes where appropriate.
+Do not substitute mocked behavior for verification of a real integration
+when that integration is what changed.
+
+## How much verification
+
+Run relevant existing and new checks for the affected behavior.
+Broaden verification when shared interfaces, integration changes, failures,
+or unresolved concerns justify it.
+
+Do not rerun unrelated suites or expensive checks without a reason.
+Benchmark when performance is relevant to the task or claim; ordinary changes
+do not require benchmarking.
+
+Use existing component tooling. New tools, environments, or material resource
+costs follow [dependencies.mdc](dependencies.mdc).
+
+## Expected results and domain correctness
+
+Give expected results a clear basis: a documented contract, hand-calculated
+example, independently reasoned invariant, or suitable reference implementation.
+
+Do not generate expected results from the implementation under test and treat
+agreement as independent confirmation.
+
+Select edge cases relevant to the behavior. For geospatial work, these may include:
+- Empty inputs, duplicates, and points on or outside selection boundaries.
+- CRS, axis order, coordinate units, and scale/offset.
+- Invalid or unsupported inputs.
+- Numerical precision, tolerances, and aggregate semantics.
+
+Explain numerical tolerances where needed. Distinguish exact assertions from
+approximate comparisons.
+
+Use small, inspectable fixtures where possible. Preserve relevant provenance
+and licensing for external test data.
+
+## Rust
+
+Use Cargo's established test workflow for the affected package or workspace.
+Place focused unit tests with the relevant module and integration tests at the
+appropriate public boundary.
+
+Test expected errors as well as successful results where relevant.
+Compilation alone does not establish algorithmic or geospatial correctness.
+
+## Python
+
+Use the component's established test framework and environment.
+Keep tests independent of execution order and avoid requiring a global Python
+installation or incidental local files.
+
+Introduce a framework only when the component needs one; do not impose a
+repository-wide choice in advance.
+
+## Swift
+
+Use the component's established Swift or Xcode test workflow.
+Keep core behavior testable without requiring a user interface or device
+when those are not part of the behavior being checked.
+
+Identify simulator, device, platform, or hardware requirements for checks
+that genuinely depend on them.
+
+## SQL
+
+Test against the intended engine and dialect using small, known datasets.
+Assert result values, schema, and error behavior where relevant.
+
+Include null, empty-result, duplicate, filtering, and aggregation cases
+as the query contract requires. Assert row order only when it is defined.
+
+## Reporting and ownership
+
+Report the checks actually run, their outcomes, and relevant limitations.
+Distinguish passed, failed, skipped, and not run checks.
+
+Investigate failures rather than weakening assertions or changing expected
+results merely to obtain a pass.
+
+Tests, fixtures, and acceptance criteria remain subject to the human-first
+implementation and review process in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc).
+
+## Evolution
+
+Expand testing conventions as implemented capabilities and recurring needs
+justify them. Do not build a testing framework for hypothetical future features.
