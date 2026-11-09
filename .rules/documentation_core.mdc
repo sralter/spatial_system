@@ -1,31 +1,83 @@
 ---
-description: Documentation hub — Future Reader Test, tiers, artifact stack
+description: Documentation audience, authoritative locations, accuracy, and freshness
 alwaysApply: true
 ---
 
-# Documentation (hub)
+# Documentation
 
-Full standards: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md). Themed rules below implement each section (~50 lines each).
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-09T23:24:33Z
 
-## Core principle
+## Purpose and applicability
 
-Code captures **what** was built. Commits, `DECISIONS.md`, comments, docstrings, and observability notes capture **why**. Memory is not the standard — externalized reasoning is. Depth should match decision permanence, operational risk, and future ambiguity.
+Write for someone who did not attend the discussion: a future maintainer,
+the human returning to the project, or a portfolio reviewer.
 
-## Future Reader Test
+Explain purpose, important reasoning, assumptions, limitations, and relevant
+verification. Scale detail to the significance and ambiguity of the change.
 
-Write for someone who did not attend the discussion, did not write the code, and lacks your context. Before merging: would they understand what this does, **why it exists**, what it assumes, and what would break it? If not, externalize reasoning first (see `documentation_debrief.mdc`, `documentation_review.mdc`).
+These rules govern project documentation. Coursework follows its applicable
+course instructions.
 
-## Tiered documentation
+## One authoritative home
 
-| Level | Artifacts |
-|-------|-----------|
-| **System** | `DECISIONS.md` entry; optional ADR under `docs/decisions/` |
-| **Component** | Docstring “Why this exists” + `DECISIONS.md` when non-obvious |
-| **Implementation** | Intent comment (WHY) + substantive commit (`documentation_commits.mdc`) |
+Put information where its reader would expect to find it:
 
-## Artifact stack
+- READMEs: project or component orientation and practical entry points.
+- `docs/decisions/`: durable architectural decisions and their rationale.
+- `docs/research/`: investigations, evidence, conclusions, and limitations.
+- Existing task or sprint records: agreed scope, progress, and next actions.
+- Code documentation: local contracts and implementation reasoning, governed by
+  [coding_conventions.mdc](coding_conventions.mdc).
 
-- **`CHANGELOG.md`** / **`DECISIONS.md`** — living docs: policy and template at top; **newest entries first**, oldest at bottom (`changelog.mdc`, `documentation_decisions.mdc`).
-- **Commits** — substantive template (`documentation_commits.mdc`).
-- **Code** — intent comments and docstrings (`coding_conventions.mdc`).
-- **Logs/metrics** — observability rationale (`logging_and_errors.mdc`).
+Link to the authoritative explanation rather than maintaining duplicate copies.
+Use brief summaries where they help navigation.
+
+Do not automatically create several records for a small change or introduce
+a new tracking system when an existing location serves the purpose.
+
+## Accuracy and upkeep
+
+Update affected documentation as part of an agreed change.
+
+Distinguish implemented behavior, accepted direction, proposals, and unverified
+claims. Follow [research.mdc](research.mdc) for describing evidence.
+
+Keep current guidance clear while preserving historical context. Identify
+superseded material and link to its replacement where one exists.
+
+Documentation must not imply that an experiment, implementation, verification,
+or human review occurred when it did not.
+
+## Vintage and freshness
+
+Include visible `Created` and `Last updated` timestamps in maintained project
+documents. `Created` records the document's original vintage and remains unchanged;
+`Last updated` records its most recent substantive content change.
+
+Use UTC timestamps under [dates_and_times.mdc](dates_and_times.mdc).
+Place them near the title or in existing document metadata; do not add a second
+metadata system solely for this purpose.
+
+Typo corrections and formatting-only edits do not advance `Last updated`.
+
+A last-updated timestamp records an edit, not comprehensive revalidation.
+State the scope or date of verification separately when that distinction matters.
+
+Do not invent historical timestamps. If an existing document's creation time
+cannot be established from reliable history, explicitly mark it as unknown
+pending clarification rather than presenting a guessed timestamp.
+
+Add this metadata when creating or substantively maintaining documents.
+A repository-wide backfill is a separately scoped task.
+
+## Related rules and final reconciliation
+
+Follow [coauthoring_protocol.mdc](coauthoring_protocol.mdc) for task records,
+review, and ownership.
+
+Detailed decision, debrief, review, commit, and changelog practices belong in their
+respective documentation rules. Link to those practices instead of repeating them.
+
+During the final rules review, reconcile cross-links, document responsibilities,
+and any remaining assumptions about files or workflows.
