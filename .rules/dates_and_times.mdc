@@ -1,21 +1,52 @@
 ---
-description: ISO 8601 calendar and datetime conventions for pipeline outputs
+description: UTC timestamps, calendar dates, source time semantics, and durations
 alwaysApply: true
 ---
 
-# Dates and times (VIP)
+# Dates and times
 
-## ISO 8601
+These conventions apply across project languages. Coursework follows its
+applicable course instructions.
 
-- Follow **strict ISO 8601** for values we own in durable outputs: **date-only** strings use `YYYY-MM-DD` (calendar dates). When a **full timestamp** is required (rare for warehouse VARCHARs), use ISO 8601 combined date and time with a `T` separator and a `Z` suffix as in `2026-05-06T14:30:00Z` (per ISO 8601). Do not persist US-style `MM/DD/YYYY` or other ad hoc local formats for semantic columns.
-- **Scrape inputs** may remain in site-native formats (for example US `MM/DD/YYYY`); normalize at the **transform / load** boundary before persistence.
+## Dates and event timestamps
 
-## Persisted and downstream date strings
+Use `YYYY-MM-DD` for calendar dates. Do not invent a time or timezone for a
+date-only value.
 
-- Use **ISO 8601 calendar dates** (`YYYY-MM-DD`) for **date-only** values written to warehouses, parquet used by assets, and other durable pipeline outputs unless a column is intentionally a free-text range (for example `YYYY-MM-DD to YYYY-MM-DD`).
-- **Delaware:** shared helpers live in `src/vip_scraping_pipeline/assets/delaware_dot/de_dates.py` (`DE_DATE_ISO_FMT`, `varchar_series_to_iso_date_strings`, `parse_de_flexible_datetime`, `utc_calendar_date_iso_today` for run-day date-only stamps). Prefer extending that module over ad hoc `strftime`/`strptime` in DE code. Do not apply regional civil-time offsets to persisted date-only fields.
-- **Other states:** converge toward the same ISO 8601 conventions when touching transform or `data_appended_*` logic; avoid introducing new `MM/DD/YYYY` persistence without an explicit exception in review.
+Standardize application-generated event timestamps on UTC. Use timezone-aware
+types where supported. When serialized as text, use an ISO 8601 timestamp with
+a `T` separator and `Z` suffix, such as `2026-11-09T14:30:00Z`.
 
-## Timestamps and filenames
+Use native temporal types where appropriate; these text conventions do not
+require storing every date or timestamp as a string.
 
-- Run metadata, log lines, and **filename timestamps** may use compact forms (for example `YYYYMMDD_HHMMSS`) where a full ISO timestamp string is not appropriate; keep those separate from **semantic calendar columns** in tabular data.
+## Source time semantics
+
+Preserve original source values in the raw stage under
+[pipeline_io.mdc](pipeline_io.mdc).
+
+Interpret source times using their documented timezone, time system, epoch,
+units, and precision. Do not assume acquisition times or numeric time fields
+are UTC timestamps.
+
+Convert instants to UTC in working or final stages when the source semantics
+support a valid conversion. Retain metadata needed to explain the interpretation.
+
+Do not guess missing timezone information, silently resolve ambiguous local
+times, or invent precision. Surface uncertainty and agree on its handling.
+
+## Display and filenames
+
+Local-time display is appropriate when useful to the user. Identify the timezone
+and preserve the underlying UTC instant.
+
+Compact UTC timestamps may be used in filenames. Make their UTC meaning clear
+and do not rely on timestamps alone to guarantee unique output paths.
+
+## Durations and measurements
+
+Keep elapsed durations distinct from calendar dates and event timestamps.
+State duration units explicitly in interfaces, metadata, and reported measurements.
+
+Use a monotonic clock for elapsed runtime measurements. Do not calculate elapsed
+runtime from civil-clock timestamps that can change during execution.
