@@ -1,25 +1,63 @@
 ---
-description: Pre-commit agent debrief — capture reasoning before session ends
+description: Preserve consequential reasoning while task context is fresh
 alwaysApply: true
 ---
 
-# Pre-commit agent debrief
+# Reasoning debrief
 
-Before ending a session that produced production-bound code, and **before merging**, run these questions while the agent (or author) still holds full context. Paste answers — lightly edited — into the **substantive commit body** (`documentation_commits.mdc`) and/or a new **`DECISIONS.md`** entry (`documentation_decisions.mdc`).
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-09T23:33:06Z
 
-Full prose: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §5.
+## Purpose and applicability
 
-## Questions
+Preserve consequential reasoning that would otherwise disappear when a session
+ends or work changes hands.
 
-1. What changed and why, in terms a non-coder could follow?
-2. What alternatives were considered or discarded, and why?
-3. What assumptions does this make about environment, data, or the target system?
-4. What **operational invariants** does it depend on (ordering, timing, idempotency, schema, rate limits, infrastructure)?
-5. What would cause this to **fail silently** rather than with an obvious error?
-6. If this breaks in production in six months, what is the most likely cause?
+This rule supplements the checkpoint process in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc); it does not duplicate
+the handoff report. Coursework follows its applicable course instructions.
 
-## Accountability
+## When to debrief
 
-The engineer who merges must understand and defend the reasoning — not merely retrieve it from the agent. The debrief exists because agent reasoning evaporates when the session ends.
+At a substantive checkpoint or handoff, identify important reasoning that remains
+undocumented and capture it while context is fresh.
 
-After debrief, confirm the author can pass self-review (`documentation_review.mdc`).
+A small, obvious change can use a brief handoff. Do not require a separate
+questionnaire or document for every edit.
+
+## What to preserve
+
+Capture relevant gaps in the existing explanation, such as:
+- Why the chosen approach fit better than meaningful alternatives.
+- Assumptions and invariants the result depends on.
+- Failure modes, especially those that could produce plausible but wrong results.
+- Known uncertainty, limitations, and conditions for revisiting the approach.
+
+Link to reasoning already recorded rather than answering the same questions again.
+Distinguish decisions actually made from later interpretations or suggestions.
+
+## Where to record it
+
+Use the authoritative location defined by
+[documentation_core.mdc](documentation_core.mdc), and link it from the checkpoint.
+
+Use [documentation_decisions.mdc](documentation_decisions.mdc) when the reasoning
+warrants an ADR. Otherwise, an existing task record or relevant code documentation
+may suffice.
+
+Do not create duplicate debrief, decision, and commit narratives.
+Commit-message requirements belong in
+[documentation_commits.mdc](documentation_commits.mdc).
+
+## Ownership and limits
+
+The agent may help articulate reasoning but must not invent rationale or claim
+that the human understands or accepts it.
+
+If an explanation cannot be reconstructed confidently, record the uncertainty
+and identify what needs clarification.
+
+Human self-review is governed by
+[documentation_review.mdc](documentation_review.mdc).
+
+A debrief does not authorize additional implementation, commits, or merges.

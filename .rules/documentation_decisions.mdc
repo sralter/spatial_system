@@ -1,41 +1,99 @@
 ---
-description: DECISIONS.md — append-only rationale log linked to commits
+description: Architectural decision records, historical context, and supersession
 alwaysApply: true
 ---
 
-# Decision log (`DECISIONS.md`)
+# Decision documentation
 
-Root file **`DECISIONS.md`** records **why** — not daily what changed (that is `CHANGELOG.md`).
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-09T23:30:12Z
 
-Full template: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §2.
+## When to write an ADR
 
-## Rules
+Record consequential decisions affecting architecture, public contracts,
+data correctness, security, or ongoing maintenance when their reasoning would
+otherwise be difficult to reconstruct.
 
-- **Append-only** — never delete or rewrite old entries.
-- **Living doc layout** — keep policy and entry template at the **top**; add each new entry **at the top of the history block** (below the `---` separator): **newest first**, oldest at the bottom.
-- **Informal** — full sentences; polish optional.
-- **Commit-linked** — each entry ends with `Commit: <hash>`.
+Routine implementation choices belong in the existing task record or relevant
+code documentation. An ADR is not required for every code change.
 
-## When to add an entry
+## Location and numbering
 
-Log when rationale would be non-obvious later, or reversal would affect architecture, correctness, operations, or model outcomes. Examples: framework choice, scraper concurrency/session model, retry/backoff, validation placement, alert thresholds, genuine trade-offs.
+Use one Markdown file per decision under `docs/decisions/`.
 
-Skip for trivial fixes with no durable decision.
+Continue the existing sequence using filenames such as
+`0002-short-decision-title.md`. Use at least four digits, expanding naturally
+when needed. Do not renumber existing records.
 
-## Entry skeleton
+Link to research, task records, code, and related decisions rather than copying
+their contents. Follow [documentation_core.mdc](documentation_core.mdc) for
+audience, freshness metadata, and authoritative locations.
 
-```
---- [YYYY-MM-DD] Short title ---
+## Content
 
-Context:
-Decision:
-Alternatives considered:
-Rationale:
-Assumptions and risks:
-Operational invariants:
-Known unknowns: [optional]
-Supersedes: [optional — prior entry title/date]
-Commit: <hash>
-```
+Keep each record proportional to the decision and include:
 
-Add in the **same session** as the implementing commit when the change is architectural or operational. Pair with a substantive commit body (`documentation_commits.mdc`) and a factual `CHANGELOG.md` bullet (`changelog.mdc`).
+- Status.
+- Context and the problem being addressed.
+- Decision and rationale.
+- Meaningful alternatives considered.
+- Assumptions: what is believed or relied upon at the time.
+- Invariants: conditions the implementation must preserve.
+- Consequences, risks, and known uncertainties.
+- Conditions that would justify revisiting the decision.
+- Relevant repository commit references.
+
+Distinguish observed facts from assumptions and unresolved questions.
+Make assumptions and invariants specific enough to assess later.
+If none are relevant, say so briefly rather than inventing content.
+
+Record what was known when the decision was made. Link later findings without
+rewriting earlier uncertainty as though it had already been resolved.
+
+## Commit references
+
+Include a full commit hash identifying the repository revision inspected when
+forming the decision. Label it as the context revision.
+
+If relevant work is uncommitted, identify that limitation; the context hash
+does not describe uncommitted changes.
+
+Add implementation commit references when available, identifying their role.
+Until then, explicitly mark implementation references as pending or not applicable.
+
+Do not invent hashes or imply that the context revision contains a later
+implementation. An ADR cannot embed the hash of the commit that first adds
+that same version of the document.
+
+Recording commit references does not authorize creating commits.
+
+## Status and acceptance
+
+Use explicit states: Proposed, Accepted, Rejected, or Superseded.
+
+Human agreement establishes acceptance. An accepted direction does not establish
+that implementation, verification, or human review is complete.
+
+Preserve rejected proposals when their reasoning remains useful.
+
+## Changes and supersession
+
+When an accepted decision materially changes, create a new ADR that explains
+the new context and supersedes the earlier decision. Link both records and
+mark the earlier record Superseded.
+
+Permit factual corrections and clearly identified clarifications without
+silently replacing the original decision or rationale.
+
+Record substantive amendments so readers can distinguish the original context
+from later information. Apply freshness rules from
+[documentation_core.mdc](documentation_core.mdc).
+
+## Related rules
+
+Follow [research.mdc](research.mdc) for evidence and uncertainty, and
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc) for ownership and scope.
+
+Commit-message and changelog practices belong in
+[documentation_commits.mdc](documentation_commits.mdc) and
+[changelog.mdc](changelog.mdc).
