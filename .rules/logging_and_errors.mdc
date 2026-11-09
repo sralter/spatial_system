@@ -1,82 +1,162 @@
 ---
-description: Logging model — stdlib loggers, Dagster capture, setup_logging, errors
+description: Clear results, actionable diagnostics, explicit failures, and private logs
 alwaysApply: true
 ---
 
-# Logging & errors
+# Logging and errors
 
-## Logging model
+## Purpose and applicability
 
-Application code uses Python’s standard **`logging`** module. Dagster is configured to **capture** selected project loggers into the run event log. **`context.log`** is reserved for orchestration-specific messages inside assets/ops.
+Make application behavior understandable without excessive output.
+Distinguish successful results, empty results, partial completion, and failure.
 
-```
-src/ → logging.getLogger(__name__)
-     → setup_logging at process entry (UUID, redaction, optional files)
-     → dagster.yaml managed_python_loggers → Dagster UI / event log
-```
+These rules govern project implementation. Coursework follows its applicable
+course instructions.
 
-**Curriculum:** [`docs/notes/sprints/sprint-166/logging-unification/README.md`](docs/notes/sprints/sprint-166/logging-unification/README.md)
+## Results and diagnostics
 
-## Logging
+Keep result data separate from diagnostics.
 
-- **No `print`:** Do not use `print()` in scraping pipelines (`poc/dagster/.../scraping_pipelines/`), other Dagster integration modules, or `src/vip_scraping_pipeline/` — logs are the only operational channel.
+Normal output is appropriate for CLI results and small scripts. Use logging
+for diagnostic messages where levels, context, or configurable verbosity help.
 
-### Application code (`src/vip_scraping_pipeline/`, `src/config/`)
+Do not mix progress messages or logs into machine-readable result streams.
+Use a separate diagnostic channel or defined response metadata.
 
-- Bind **`logger = logging.getLogger(__name__)`** in each module.
-- Do **not** use **`get_dagster_logger()`** in library or application modules under `src/`.
-- Do **not** call **`setup_logging`** at import in shared modules — configure logging once at **process entry** (see below).
-- Do **not** import **`dagster`** in `src/` solely for logging.
+Libraries return results and errors through their interfaces. They may emit
+appropriate diagnostic events, but must not configure application-wide logging
+or print unsolicited status messages.
 
-### Process entry (`setup_logging`)
+Configure logging at the application entry point or equivalent lifecycle boundary.
 
-- Call **`setup_logging(configure_root=True)`** once per process at a documented entry point: Dagster POC scraper facade (e.g. `scraping_pipelines/de_scraping_pipeline.py`), CLI `main`, or a Dagster resource/hook — not inside `core/` or state adapter algorithms.
-- **`setup_logging`** (project `config`) provides UUID tagging (`vip=`), Dagster run correlation on disk (`dagster_run=`, `dagster_run8=`), secret redaction, noisy third-party logger suppression, and **optional rotating files** when file logging is enabled (`LOG_TO_FILE` / `settings.log_to_file`).
-- Application modules rely on logger **propagation** to root handlers configured at entry; they do not attach their own handlers.
-- When **`DAGSTER_HOME`** is set (Dagster dev / materialize subprocess), root **console** handlers are **not** attached — `managed_python_loggers` owns stderr/UI formatting; avoids duplicate lines. **`LOG_TO_FILE=1`** still writes VIP-formatted rotating logs under `logs/` with `vip=` and `dagster_run8=`.
+## Completion and empty results
 
-### Dagster orchestration (`vip_dagster_pipeline.py`, assets/ops, sensors)
+Make successful completion visible at the application boundary.
 
-- Use **`context.log`** (or the logger passed on the execution context) for **orchestration-specific** messages: partition selected, materialization boundaries, sensor skip/run decisions, job-level summaries.
-- Do **not** push orchestration concerns into delegated `src/` functions — keep lifecycle narration at the Dagster boundary.
-- Module-level **`logging.getLogger(__name__)`** is fine in Dagster wiring modules for non-orchestration diagnostics.
+A valid query returning zero rows must explicitly indicate successful execution
+with zero rows in the CLI, interface, or response metadata. Do not leave the user
+to infer whether execution succeeded, failed, or never ran.
 
-### Dagster UI capture (`dagster.yaml`)
+Preserve query semantics. Do not insert explanatory rows into a result set or
+confuse a zero-valued aggregate with a query returning no rows.
 
-- Instance config lives at **`$DAGSTER_HOME/dagster.yaml`** (default home via `settings.dagster_home` / `tools/run_dagster.py`).
-- List project namespaces under **`python_logs.managed_python_loggers`** so stdlib log records appear in the Dagster UI the same way as `context.log`:
+Treat partial results as partial. If an operation cannot establish completeness,
+report that limitation explicitly rather than presenting a complete result.
 
-```yaml
-python_logs:
-  managed_python_loggers:
-    - vip_scraping_pipeline
-  python_log_level: INFO
-```
+## Errors and recovery
 
-- Logger names are **hierarchical** — `vip_scraping_pipeline` captures all child loggers under that prefix.
-- Align **`python_log_level`** with **`settings.log_level`** unless there is a documented reason to diverge.
-- Committed template: `poc/dagster/dagster_integration/templates/dagster.yaml` (bootstrap into `$DAGSTER_HOME` when missing — see lesson 18b).
+Handle errors where meaningful recovery is possible; otherwise propagate them
+to the responsible caller.
 
-### Standalone CLIs and tools (`src/tools/`, offline scripts)
+Preserve useful context and underlying causes when adding an explanation.
+Describe the failed operation and relevant safe identifiers.
 
-- Use **`logging.getLogger(__name__)`**; call **`setup_logging`** from the CLI entry only.
-- Tools are **not** listed in `managed_python_loggers` unless there is an explicit ops requirement.
+Do not silently skip invalid data, swallow failures, or substitute defaults that
+make a failed operation appear successful.
 
-### Levels & content
+If skipping or partial processing is an agreed feature, make its behavior and
+effect on completeness visible to the caller.
 
-- **debug** — diagnostics; **info** — normal lifecycle (start/finish, milestones); **warning** / **error** — recoverable or fatal problems.
-- Include context: IDs, paths, URLs, chunk indices, contract keys, attempt counts, etc.
-- **Retries (Selenium, HTTP, sessions):** Log a **warning** on **each** retry with attempt number and enough context to debug flakiness.
+Avoid logging the same propagated error at every layer. Report it at the boundary
+responsible for handling or presenting it, with enough context to diagnose it.
 
-## Observability rationale
+Use bounded retries only where retrying is appropriate and safe. Make exhausted
+retries visible. Do not introduce automatic retries that can duplicate side effects.
 
-For new metrics, alerts, health checks, or log lines that gate operations, document **why** that signal exists, what anomaly it catches, threshold rationale, and **known blind spots**. Standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §6.
+## Logging content and volume
 
-- Distinguish **catastrophic failure**, **graceful degradation** (partial scrape, retries exhausted), and **silent corruption** (pipeline “healthy” but wrong data — common in scrapers).
-- Prefer intent comments on non-obvious logging choices (e.g. domain-level vs request-level latency).
-- Alerting thresholds and pipeline health semantics that affect ops → also `DECISIONS.md` (`documentation_decisions.mdc`).
+Use consistent severity levels:
+- Debug: detailed troubleshooting information.
+- Info: useful lifecycle events and completion summaries.
+- Warning: unexpected conditions requiring attention, including degraded operation.
+- Error: failed operations requiring handling or intervention.
 
-## Errors
+Keep routine output concise. Avoid per-point or per-row logging by default.
+Summarize repeated events where individual messages would obscure useful information.
 
-- Fail loudly unless there is a deliberate, documented recovery path.
-- Do not use bare `except:`; catch specific exceptions and log or re-raise with context.
+Include relevant context such as the operation, component, safe resource identifier,
+and counts. Add timings or correlation identifiers when they serve a concrete need.
+
+Debug logging must follow the same privacy rules as other levels.
+
+## Privacy and sensitive information
+
+Use common sense when composing messages: do not include secrets, credentials,
+tokens, or unnecessary personally identifiable information in the first place.
+An automatic scrubber does not make logging a password or dumping a record acceptable.
+
+Prefer selected safe fields and identifiers over dumping records, request bodies,
+query parameters, environment variables, or complete configuration objects.
+
+Scrub or omit sensitive values in messages, exception details, URLs, and diagnostic
+payloads before they reach logs. Do not assume third-party error messages are safe.
+
+Plan for a centralized logging scrubber that automatically checks and redacts
+sensitive information before messages reach configured output destinations.
+Treat this as an additional safeguard with known detection limits, not a guarantee
+that every form of PII will be detected. Scope its implementation separately and
+verify it with synthetic sensitive values, including exception and debug output.
+
+Keep protected values out of source code, ordinary configuration, and logs.
+Where the application must not access their actual values, keep them in an isolated,
+access-controlled store or service and expose only the permitted operations or
+opaque references. A variable name, hidden directory, or in-process scrubber alone
+does not provide that isolation. Agree on the sandbox and access boundary when
+implementing secret handling; do not claim it already exists.
+
+Avoid logging raw point records, exact locations, or source paths when they could
+identify people or expose sensitive information.
+
+Apply privacy controls to diagnostics without silently changing legitimate query
+results or source data. Data-access and output policies are separate concerns.
+
+## Language-specific guidance
+
+### Rust
+
+Return expected failures through explicit error results.
+Use console output for intentional application output and a suitable logging
+facility for configurable diagnostics.
+
+Preserve error causes and context. Do not use panic as routine handling of
+fallible external inputs.
+
+### Python
+
+Use the standard logging module unless the component has an agreed alternative.
+Configure handlers and verbosity at the application boundary.
+
+Catch exceptions that can be handled meaningfully. Avoid broad catches that hide
+failures, and preserve causes when translating exceptions.
+
+### Swift
+
+Use Swift's error-handling mechanisms for recoverable failures and the component's
+chosen logging facilities for diagnostics.
+
+Keep user-facing status separate from diagnostic detail. Do not use force
+unwrapping or error suppression to conceal expected failure conditions.
+
+### SQL
+
+Let the executing engine and host application report query status and failures.
+Preserve the distinction between empty results, null values, and execution errors.
+
+Keep raw query text and parameter values out of routine logs when they may expose
+sensitive information. Prefer a safe operation or query identifier.
+
+## Logging framework evolution
+
+A robust logging framework may be introduced when project needs justify it.
+Explain the required capabilities and choose a coherent approach for the affected
+components.
+
+Do not require every language to use the same library. Agree on shared conventions
+where components interact.
+
+Add structured events, tracing, metrics, persistent logs, or retention configuration
+as scoped capabilities rather than speculative infrastructure.
+
+Follow [dependencies.mdc](dependencies.mdc) for tool adoption and
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc) for implementation ownership
+and scope.

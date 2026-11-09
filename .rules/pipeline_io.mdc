@@ -1,41 +1,130 @@
 ---
-description: Parquet-first file interchange, repo data/ tree, scrape layout
+description: Medallion data stages, auditability, preservation, and Git exclusion
 alwaysApply: true
 ---
 
-# Pipeline I/O & scrape data layout
+# Data and artifacts
 
-## Parquet-first (tabular file artifacts)
+## Purpose and applicability
 
-- **Default on-disk format** for serialized **tabular** pipeline data (snapshots, transfers, exports, intermediate materializations outside DuckDB) is **Apache Parquet** — not CSV, not pickle, and not ad hoc binary blobs unless there is a documented exception.
-- **Delaware** (`poc/dagster/dagster_integration/scraping_pipelines/de_scraping_pipeline.py` and **`src/vip_scraping_pipeline/assets/delaware_dot/`** helpers) and **other state pipelines** should follow this pattern: read/write Parquet under the appropriate `data/<state>/` (or env-driven warehouse-adjacent paths when the design explicitly uses Parquet there).
-- **DuckDB** remains the primary **warehouse** for queryable tables (`.duckdb`); Parquet complements it for **portable files**, Dagster-friendly blobs, and interchange — align with existing `transfer_exports/*.parquet` usage in Dagster integration code.
-- **Exceptions (use sparingly):** CSV when an **external system or human** requires it (downloads from a DOT site, one-off spreadsheets). **Pickle** is not for durable pipeline datasets (operational risk, version coupling); Dagster’s own partition storage under **`DAGSTER_HOME`** is out of scope for this rule.
+Preserve data lineage, support audit and rollback, and keep datasets outside
+version control.
 
-## Repository `data/` tree
+These rules govern project implementation. Coursework follows its applicable
+course instructions.
 
-- **Root:** All scrape-generated durable files that are **not** the main DuckDB warehouse belong under **`<repo_root>/data/`**, not under `src/`, `poc/dagster/dagster_integration/`, or next to individual scraper modules unless a deliberate exception is documented.
-- **Per state:** Use **`<repo_root>/data/<state>/`** where `<state>` is the lowercase two-letter code (e.g. `de`, `ny`).
-- **API:** Prefer ``settings.state_scrape_data_dir("<state>")`` from `src/config` so path rules stay centralized and testable.
+## Source preservation and medallion stages
 
-## Conventions (current)
+Never modify, overwrite, or perform in-place processing on original source data.
+Read it only as needed to acquire or establish the preserved raw stage.
 
-- **Delaware:** Progress and status JSON live in `data/de/` (`de_progress.txt`, `de_progress_status.json`). DuckDB paths remain env-driven (`DB_PATH` + `DE_*` export settings); do not conflate warehouse paths with scrape scratch under `data/`.
-- **NY:** State downloads and archives resolve under `data/ny/` (see `ny_scraping_pipeline.py`).
-- **Dagster transfer parquet:** `vip_dagster_pipeline.py` writes `data/<state>/transfer_exports/*.parquet` for NY/DE raw snapshots used in asset metadata.
+Use a medallion-style flow:
 
-## Not under `data/de/` (by design — avoid “stray” confusion)
+- Raw: an unchanged, preserved copy of the acquired source.
+- Working: intermediate outputs produced from raw data or earlier working stages.
+- Final: outputs prepared for their intended consumers.
 
-- **DuckDB warehouse:** ``vip_scraping_pipeline.assets.delaware_dot.de_duckdb_paths.resolve_de_duckdb_target()`` returns the `.duckdb` path and configured table name from **`DB_PATH`** / ``DE_*`` settings. The scraper and ``transform_and_load_de`` both use this helper. That store is separate from scrape scratch under ``data/de/``; point ``DB_PATH`` where you keep warehouse files.
-- **Application logs:** `<repo>/logs/` when `LOG_TO_FILE` (see `LOG_DIR` / `setup_logging`).
-- **Dagster run / IO-manager artifacts:** pickled partitions and Dagster’s own logs live under **`DAGSTER_HOME`** (not `data/de/`).
-- **Ephemeral browser / OS temp:** Selenium/Chrome may use system temp directories; nothing in-repo unless you explicitly download to a path under `data/de/`.
+Perform transformations on separate outputs. Do not overwrite an earlier stage
+when producing the next one.
 
-## Git
+Retain raw data and meaningful intermediate stages needed to explain processing
+and roll back to an earlier state. This does not require persisting every
+temporary in-memory operation.
 
-- The **`data/`** directory is listed in `.gitignore` so generated trees stay out of version control.
-- **`*.parquet`** is ignored at repo scope for generated parquet outside committed fixtures; if you intentionally version small parquet test fixtures, narrow the ignore or use an exception path.
+Use distinct run or version locations so reruns do not silently replace retained
+data. Record which inputs and processing steps produced each retained output.
 
-## When adding scrapers
+This architecture can use ordinary files and directories. It does not require
+a data platform, orchestration framework, or additional service.
 
-- New pipelines should call ``settings.state_scrape_data_dir("xx")`` (with `mkdir` as needed) for checkpoints, **Parquet** (or other agreed) materializations, browser downloads, and similar artifacts—avoid `Path(__file__).parent` for anything that must survive refactors or relocation of the POC module. Prefer **Parquet** for any tabular checkpoint the code writes itself (see **Parquet-first** above).
+## Locations
+
+Use a Git-ignored `data/` directory for local project datasets and generated
+data artifacts.
+
+Within it, distinguish raw, working, and final stages and separate runs or
+versions where needed. Agree on the concrete layout for the component or task.
+
+Keep source datasets, data fixtures, intermediate data, final datasets, and saved
+result datasets out of source-code directories.
+
+Other storage locations may be agreed when required by the component.
+The same preservation, staging, and Git-exclusion rules apply there.
+
+`benchmarks/` is noncanonical and potentially legacy material, as described in
+[architecture.mdc](architecture.mdc). Its layout is not a default for new work.
+
+## Formats and data meaning
+
+Choose formats that suit each stage, its consumers, and the relevant ecosystem.
+Do not require conversion to Parquet or another format without a demonstrated need.
+
+Keep the raw stage unchanged. Write conversions to working or final outputs.
+
+Preserve information needed to interpret data, including relevant schema, CRS,
+axis order, units, scale/offset, and null or missing-value conventions.
+
+If a conversion cannot preserve required information, report the limitation and
+agree on its representation before proceeding.
+
+Clearly identify sampled, filtered, transformed, or incomplete outputs.
+
+## Provenance and rollback
+
+Retain enough lineage to identify the source, acquisition, processing steps,
+and relationships between stages.
+
+Record applicable licenses and attribution. Include versions, checksums, and
+parameters when needed to identify inputs or interpret outputs.
+
+Keep lineage proportional to the task and understandable to a future reviewer.
+A concise manifest can suffice.
+
+Rollback uses a retained earlier stage. Do not alter historical stages or relabel
+old results as though they came from a newer processing method.
+
+Agree on retention and storage costs when scoping data work. Do not silently
+delete intermediate stages to reclaim space.
+
+## Writes and failures
+
+Make destinations explicit and protect retained stages from accidental overwrite.
+
+Where interrupted writes could leave misleading artifacts, use an appropriate
+safe-write approach or clearly distinguish incomplete output.
+
+Report failed writes and partial outputs accurately. A file's existence does not
+establish that it is complete or valid.
+
+Use focused checks appropriate to the operation, such as required metadata,
+expected structure, or a small read-back when warranted.
+
+## Git and GitHub
+
+Do not commit or upload project datasets to Git or GitHub, including raw data,
+intermediate stages, final datasets, data fixtures, and saved result datasets.
+Do not use Git LFS to bypass this policy.
+
+Keep `data/` ignored. Apply appropriate exclusions to any agreed alternative
+data locations before generating or acquiring data there.
+
+Version code, fixture generators, schemas, acquisition instructions, and concise
+documentation rather than datasets. Keep generated fixture files outside Git.
+
+Ignoring a path does not remove previously tracked files or historical data.
+Identify existing tracked data for a separately agreed migration; do not delete
+it or rewrite Git history as incidental cleanup.
+
+## Cleanup
+
+Ignored or untracked status does not imply permission to delete.
+
+Do not remove or relocate retained stages, source data, or evidence without
+agreement. Temporary files created solely for the current operation may be
+cleaned up when their ownership and disposable purpose are clear.
+
+## Related rules
+
+Follow [dependencies.mdc](dependencies.mdc) for tooling and installation costs,
+[research.mdc](research.mdc) for research evidence, and
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc) for scope and ownership.
