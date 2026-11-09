@@ -1,47 +1,78 @@
 ---
-description: Safe Python sinks — shell, eval, pickle, paths, XML
+description: Python-specific safeguards for processes, parsing, and filesystem access
 alwaysApply: true
 ---
 
-# Secure Python sinks
+# Safe Python execution and I/O
 
-**Mental model:** Untrusted input must never reach code execution, shell parsing, unsafe deserializers, or unconstrained filesystem paths.
+Apply these practices to project Python code using the capabilities below.
+Shared security requirements are defined in [security.mdc](security.mdc).
+Coursework follows its applicable course instructions.
 
-## Shell & subprocess
+## External programs
 
-- Prefer stdlib (`pathlib`, `shutil`, `socket`) over shelling out.
-- If you must run a binary: `subprocess.run([...], shell=False, check=True)` with an **argv list** — never `os.system` or `shell=True` with interpolated strings.
+Prefer suitable existing Python APIs when they meet the task's needs.
 
-## Code execution & dynamic parsing
+When invoking a program, use an argument list with shell interpretation disabled.
+Do not interpolate external input into shell commands.
 
-- No `eval` / `exec` on external or configurable strings.
-- Structured data → `json.loads`; Python literals only → `ast.literal_eval`.
+Validate arguments that select executables, options, paths, or sensitive behavior.
+An argument list prevents shell interpretation; it does not prevent a program
+from interpreting an external value as an option or performing an unsafe operation.
 
-## Deserialization
+Handle nonzero exit status explicitly, using `check=True` or deliberate return-code
+handling. Set appropriate timeouts when a process could stall the operation.
 
-- Do **not** `pickle.loads` / `shelve` / `marshal` untrusted bytes (pipeline tabular data is **Parquet/JSON**, not pickle — see `pipeline_io.mdc`).
-- YAML: `yaml.safe_load` only if YAML is required; prefer JSON.
+Choose the working directory and inherited environment deliberately.
+Avoid passing secrets through command-line arguments.
 
-## Path traversal
+## Parsing and deserialization
 
-Resolve then confine to an approved base (e.g. `settings.state_scrape_data_dir(...)`, download dir):
+Do not use `eval` or `exec` to interpret external or configurable data.
 
-```python
-base = BASE_DIR.resolve()
-target = (base / user_supplied_name).resolve()
-if not target.is_relative_to(base):
-    raise PermissionError("path escapes base directory")
-```
+Do not load untrusted data through pickle, shelve, marshal, or other mechanisms
+that can execute code or reconstruct unsafe objects.
 
-Never open paths built only by concatenating untrusted filenames onto a root.
+Use a parser appropriate to the required format:
+- JSON parsing for JSON.
+- Safe-loading facilities for YAML.
+- XML parsing configured to prevent unsafe entity and external-resource handling.
 
-## XML
+Validate the parsed structure and relevant values before use.
 
-Untrusted XML → `defusedxml` (or avoid XML). Do not use default `xml.etree` / unrestricted `lxml` on portal/attacker-controlled markup.
+Do not assume a data-only parser makes unlimited input safe. Apply relevant
+input-size and complexity bounds. `ast.literal_eval` is not a general-purpose
+safe parser for arbitrary untrusted input.
 
-## VIP notes
+Introduce additional parsing libraries through [dependencies.mdc](dependencies.mdc)
+when the format and threat boundary justify them.
 
-- Browser download filenames and debug artifact stems are untrusted relative to `data/<state>/` — keep writes under resolved scrape/download bases.
-- Fail closed on path/exec violations; log context without dumping file contents that may contain secrets.
+## Filesystem access
 
-Related: `secure_sql.mdc`, `security.mdc`, `secure_input_and_crypto.mdc`.
+Use `pathlib` or suitable filesystem APIs rather than constructing shell commands.
+
+For externally supplied paths, establish the permitted base or resource scope.
+Resolve and validate paths using path-aware operations, accounting for absolute
+paths, parent traversal, and symlinks where relevant.
+
+Do not rely on string-prefix comparisons to establish path containment.
+Resolution followed by a containment check is not sufficient isolation when
+another actor can change filesystem entries between validation and access.
+Use stronger filesystem or operating-system controls when that boundary requires it.
+
+Validate archive extraction destinations and links before extraction.
+Use appropriate library safeguards and bounds for extracted size and file count.
+
+Use temporary-file APIs rather than predictable filenames in shared temporary
+directories.
+
+Follow [pipeline_io.mdc](pipeline_io.mdc) for destinations, preservation,
+overwrites, retained stages, and cleanup.
+
+## Related rules
+
+- [logging_and_errors.mdc](logging_and_errors.mdc): diagnostic content and errors.
+- [secure_input_and_crypto.mdc](secure_input_and_crypto.mdc): input, network,
+  and cryptographic safeguards.
+- [testing.mdc](testing.mdc): focused verification of affected behavior.
+- [coauthoring_protocol.mdc](coauthoring_protocol.mdc): ownership and scope.

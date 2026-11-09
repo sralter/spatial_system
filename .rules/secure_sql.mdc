@@ -1,46 +1,93 @@
 ---
-description: Safe SQL/DuckDB — parameterized values, allowlisted identifiers
+description: Safe query construction, SQL execution boundaries, and resource controls
 alwaysApply: true
 ---
 
-# Secure SQL & DuckDB
+# Secure SQL
 
-**Mental model:** Untrusted or external input must never control SQL **structure**. Values use bind parameters; table/column/schema names use **strict allowlists** (or vetted identifiers), never string concat / f-strings.
+## Purpose and applicability
 
-## Values (always bind)
+Support intentional SQL execution while protecting data, credentials, resources,
+and access boundaries.
 
-```python
-# ❌ BAD
-con.execute(f"SELECT * FROM t WHERE id = '{row_id}'")
+These principles apply across project languages and SQL engines.
+Coursework follows its applicable course instructions.
 
-# ✅ GOOD — DuckDB / DB-API style placeholders for your driver
-con.execute("SELECT * FROM t WHERE id = ?", [row_id])
-```
+## Application-generated queries
 
-Treat data read back from the warehouse as **untrusted for the next query** (second-order injection): bind again; do not interpolate.
+When constructing SQL, keep external values separate from query structure.
+Use the selected engine's supported parameter-binding or typed expression
+mechanisms rather than interpolating values into SQL text.
 
-## Identifiers (never “parameterize” — allowlist)
+Data previously read from storage remains external input when used in another query.
 
-Dynamic table/column/ORDER BY names cannot be bound as values. Compare to a module-level frozenset/tuple of allowed names; reject otherwise.
+Dynamic identifiers, operators, and other structural choices require validation
+against the permitted schema or supported choices. Use appropriate engine-specific
+identifier handling; value parameters do not substitute for identifiers.
 
-```python
-ALLOWED_TABLES = frozenset({"DE_DOT", "NY_DOT"})
+Reject unsupported structural input explicitly. Do not strip suspicious characters
+and assume the resulting query is safe.
 
-if table_name not in ALLOWED_TABLES:
-    raise ValueError(f"table not allowlisted: {table_name!r}")
-# then use only the allowlisted string in the SQL text
-```
+For pattern matching, distinguish intentional wildcard behavior from literal text.
+Parameter binding does not change wildcard semantics.
 
-Prefer shared helpers (`warehouse_io`, schema builders) that already take validated names over ad hoc SQL in adapters.
+## User-submitted SQL
 
-## LIKE / pattern queries
+Accepting SQL is an intended engine capability. Treat it as an explicit execution
+interface with defined permissions.
 
-If user or portal text feeds a `LIKE` pattern, escape `%` and `_` (and the escape char) or document why wildcards are intentional. Prefer equality/`IN` when possible.
+Successful parsing or planning does not establish that an operation is authorized.
 
-## VIP notes
+Define which datasets, statements, functions, file locations, network destinations,
+and extension capabilities are available as those features are introduced.
 
-- Scrapers often build DDL/upsert SQL from **schema modules** — keep column lists as named module constants (see coding conventions), not free-form strings from env/UI.
-- Do not log full SQL with secrets or raw PII payloads; bind params stay out of log lines unless redacted.
-- Fail closed: invalid identifier → raise; do not “sanitize” with regex strip and proceed.
+Do not let query text automatically grant access to arbitrary resources or
+privileged operations. Use established engine and application controls rather than
+attempting to secure arbitrary SQL with keyword filtering.
 
-Full pattern catalog (personal reference): `sam/safe-python-and-sql-practices.md` (not shipped). Related: `security.mdc`, `secure_python_sinks.mdc`.
+Keep authorization appropriate to the implemented interface. This rule does not
+require a speculative service or user-account system.
+
+## Resource ownership and enforcement
+
+The application or deployment owns maximum resource budgets.
+User-supplied SQL or request settings must not raise or disable those ceilings.
+
+An interface may allow callers to request lower limits within the permitted budget.
+
+Introduce relevant controls as execution capabilities develop, such as memory
+budgets, deadlines or cancellation, concurrency limits, and bounded external I/O.
+
+Verify what each control actually enforces. Engine-level limits may cover only
+part of process memory or execution; document material gaps and use external
+enforcement when stronger isolation is required.
+
+A result row limit is not a general bound on scanning, sorting, aggregation,
+memory use, or execution time.
+
+Report exhausted budgets and cancellation explicitly. Do not present interrupted
+or partial execution as a complete successful result.
+
+## Data and diagnostics
+
+Preserve original data and respect the staged-data and output rules in
+[pipeline_io.mdc](pipeline_io.mdc).
+
+Keep sensitive query text, literals, and parameter values out of routine logs.
+Use safe identifiers and summaries under
+[logging_and_errors.mdc](logging_and_errors.mdc).
+
+Distinguish successful empty results, null values, execution failures,
+and incomplete results.
+
+## Verification and evolution
+
+Add focused checks when introducing query construction, resource controls,
+or access boundaries. Verify relevant rejection and failure behavior as well
+as successful execution under [testing.mdc](testing.mdc).
+
+Do not assume an engine feature is available or enforced without checking the
+selected version and integration.
+
+Follow [security.mdc](security.mdc) for shared security principles and
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc) for ownership and scope.

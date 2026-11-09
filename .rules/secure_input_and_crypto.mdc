@@ -1,46 +1,96 @@
 ---
-description: Input validation, SSRF, crypto/timing, ReDoS — secure defaults
+description: Input validation, bounded network use, and established cryptographic facilities
 alwaysApply: true
 ---
 
-# Secure input, network & crypto
+# Input, network, and cryptographic safeguards
 
-**Mental model:** Validate with **allowlists / schemas / bounds**; authenticate ≠ authorize; crypto and comparisons must be constant-time where secrets are involved.
+Apply the relevant sections when project code introduces these capabilities.
+Shared security requirements are defined in [security.mdc](security.mdc).
+Coursework follows its applicable course instructions.
 
-## Input & object binding
+## Input handling
 
-- Prefer explicit typed models (e.g. Pydantic Settings/leaf configs) over `setattr` loops over arbitrary dict keys (mass assignment).
-- Env/config: only via central **`Settings`** (`security.mdc`) — no scattered `os.environ` in adapters.
+Accept the fields and structures defined by the operation's contract.
+Do not automatically assign arbitrary input fields to configuration or
+privileged objects.
 
-## Network (SSRF-shaped risks)
+Validate relevant types, ranges, lengths, and relationships between fields.
+Distinguish missing, invalid, and unsupported values.
 
-When code fetches a URL influenced by config, portal HTML, or operator input:
+Bound input size, nesting, or processing complexity where external input could
+cause excessive work. Avoid regex patterns with pathological execution behavior;
+use simpler parsing approaches when appropriate.
 
-- Allowlist schemes (`https` preferred) and hosts where practical.
-- Set timeouts; do not follow redirects to arbitrary internal IPs without checks.
-- Scrape target URLs should live in adapter URL modules / Settings — not free-form strings from untrusted rows without validation.
+For Python parsing and deserialization, follow
+[secure_python_sinks.mdc](secure_python_sinks.mdc).
+For SQL construction and execution, follow [secure_sql.mdc](secure_sql.mdc).
 
-## AuthZ (when APIs/UI exist)
+## Network destinations
 
-Checking “logged in” is not enough — scope queries to the caller’s resources (IDOR). Batch scrapers without end-user tenancy still must not expose admin DuckDB paths or MFT credentials via debug endpoints.
+Define permitted schemes and destinations for the operation.
+Prefer HTTPS for external services.
 
-## Crypto & secrets
+Validate redirects against the same destination policy.
+Account for resolved addresses when enforcing restrictions on access to local,
+private, or otherwise privileged services.
 
-- Tokens/secrets: `secrets` module — not `random`.
-- Compare secrets with `hmac.compare_digest`, not `==`.
-- Passwords (if ever stored): memory-hard hash (Argon2id/bcrypt) — never bare MD5/SHA for passwords.
-- No hardcoded API keys; load via Settings / secret store (`security.mdc`).
+Do not allow externally supplied URLs to grant unintended access to local
+services, cloud metadata endpoints, or credentials.
 
-## ReDoS
+Forward authentication material only to its intended destination.
+A redirect does not authorize forwarding credentials to another host.
 
-Avoid nested quantifiers on untrusted strings; bound input length before heavy regex. Prefer simple patterns for parsing portal text.
+## Network budgets
 
-## Logging
+Establish network limits appropriate to the task and service before execution.
+These may include:
+- Request count, rate, and concurrency.
+- Per-request timeouts and an overall operation deadline.
+- Response size and cumulative transfer volume.
+- Service quotas, billable usage, and API or model-token budgets where applicable.
 
-Do not log secrets, tokens, or full request/SQL payloads. Be deliberate with person-level scrape fields at `info` (`security.mdc` PII note; `logging_and_errors.mdc`). Sanitize newlines if logging attacker-controlled strings.
+Keep enforcement within application or operator-controlled limits. Caller settings
+may request smaller budgets but must not bypass those ceilings.
 
-## Checklist (before merge)
+Count retries, redirects, pagination, and parallel requests toward the relevant
+overall budget. Follow [logging_and_errors.mdc](logging_and_errors.mdc) for retry
+and failure behavior.
 
-Input validated/allowlisted · SQL/paths/shell safe · timeouts on network · fail closed · no pickle/eval · secrets not in repo/logs.
+Use available usage metadata to track consumption. Where exact cost or token use
+is known only after a request, leave appropriate headroom and document that limit.
+Do not describe estimates as hard enforcement.
 
-Related: `secure_sql.mdc`, `secure_python_sinks.mdc`, `security.mdc`. Reference: `sam/safe-python-and-sql-practices.md` (personal, not shipped).
+Stop or cancel further work when a budget is exhausted, and report the outcome
+explicitly. Increasing a budget follows the scope process in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc).
+
+## Cryptographic operations
+
+Apply the inspection and reuse guidance referenced in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc), including Ponytail, when
+selecting existing facilities.
+
+Use established platform or maintained library implementations for the required
+operation:
+- Cryptographically secure randomness for secrets and tokens.
+- Appropriate constant-time comparison facilities for secret verification.
+- Dedicated password-hashing facilities if password storage is introduced.
+- Established authenticated-encryption facilities when encryption is required.
+
+Distinguish ordinary checksums from authenticity verification and password
+protection. A checksum alone does not establish who supplied an artifact.
+
+Select algorithms, parameters, and key-handling mechanisms when a concrete
+requirement exists. Do not introduce custom cryptographic constructions.
+
+Follow [dependencies.mdc](dependencies.mdc) for adopting libraries or tools.
+
+## Verification
+
+Use [testing.mdc](testing.mdc) to select focused checks for the boundaries
+introduced, including relevant invalid inputs, denied destinations, exhausted
+budgets, and failure paths.
+
+Use synthetic credentials and local test doubles where suitable. Verifying a
+budget mechanism should not require consuming a substantial real-service quota.
