@@ -1,6 +1,6 @@
 {
-  "format_version": 1,
-  "fingerprint": "544e9cdb357afb3aeabdc2117413f864f7a882941a8c50a3f59431b2a4f5892c",
+  "format_version": 2,
+  "fingerprint": "1a2e1d6c5638ae65b13fe0fc4520405d928898c755a77a7d1dc259240231b0c6",
   "directories": {
     ".": [
       ".gitignore",
@@ -8,6 +8,9 @@
       "LICENSE",
       "README.md",
       "mise.toml"
+    ],
+    ".githooks": [
+      "pre-commit"
     ],
     ".rules": [
       "architecture.mdc",
@@ -59,9 +62,195 @@
       "spatial_edge_platform_sprint_1_v0.0.1.md"
     ],
     "tools": [
+      "README.md",
+      "pyproject.toml",
       "repo_map.py",
-      "test_repo_map.py"
+      "repo_symbols.py",
+      "test_repo_hook.py",
+      "test_repo_map.py",
+      "test_repo_symbols.py"
     ]
   },
+  "symbols": {
+    "rust/spatial-core/src/bin/first_rust_script.rs": [
+      [
+        "double_distance",
+        3
+      ],
+      [
+        "main",
+        8
+      ]
+    ],
+    "rust/spatial-core/src/bin/unit1_consolidation.rs": [
+      [
+        "classify_distance",
+        50
+      ],
+      [
+        "classify_quality",
+        65
+      ],
+      [
+        "main",
+        74
+      ],
+      [
+        "tests.classifies_distance_boundaries",
+        96
+      ],
+      [
+        "tests.classifies_quality_codes",
+        108
+      ]
+    ],
+    "rust/spatial-core/src/bin/unit1_notes.rs": [],
+    "rust/spatial-core/src/bin/unit2_notes.rs": [],
+    "rust/spatial-core/src/lib.rs": [
+      [
+        "add",
+        1
+      ],
+      [
+        "tests.it_works",
+        10
+      ]
+    ],
+    "tools/repo_map.py": [
+      [
+        "_git",
+        41
+      ],
+      [
+        "_inventory",
+        58
+      ],
+      [
+        "build_map",
+        90
+      ],
+      [
+        "_write_map",
+        154
+      ],
+      [
+        "_stage_map",
+        168
+      ],
+      [
+        "main",
+        184
+      ]
+    ],
+    "tools/repo_symbols.py": [
+      [
+        "_parser",
+        31
+      ],
+      [
+        "_python_symbols",
+        36
+      ],
+      [
+        "extract_symbols",
+        53
+      ]
+    ],
+    "tools/test_repo_hook.py": [
+      [
+        "HookTests.setUp",
+        15
+      ],
+      [
+        "HookTests.git",
+        38
+      ],
+      [
+        "HookTests.run_hook",
+        44
+      ],
+      [
+        "HookTests.entries",
+        50
+      ],
+      [
+        "HookTests.test_staged_snapshot_preserves_partial_staging_and_uses_staged_ignores",
+        56
+      ],
+      [
+        "HookTests.test_real_commit_includes_current_map",
+        71
+      ],
+      [
+        "HookTests.test_preserves_unstaged_map_edits",
+        77
+      ],
+      [
+        "HookTests.test_uses_staged_generator_modules",
+        89
+      ],
+      [
+        "HookTests.test_missing_environment_blocks_commit_without_staging_changes",
+        94
+      ]
+    ],
+    "tools/test_repo_map.py": [
+      [
+        "RepositoryMapTests.setUp",
+        17
+      ],
+      [
+        "RepositoryMapTests.write",
+        23
+      ],
+      [
+        "RepositoryMapTests.run_cli",
+        29
+      ],
+      [
+        "RepositoryMapTests.test_deterministic_and_no_source_bodies",
+        38
+      ],
+      [
+        "RepositoryMapTests.test_excludes_data_learning_benchmarks_ignored_files_and_links",
+        47
+      ],
+      [
+        "RepositoryMapTests.test_freshness_covers_edits_additions_deletions_and_check_does_not_write",
+        67
+      ],
+      [
+        "RepositoryMapTests.test_reports_oversized_and_binary_files",
+        85
+      ],
+      [
+        "RepositoryMapTests.test_refuses_linked_output_without_overwriting_its_target",
+        94
+      ]
+    ],
+    "tools/test_repo_symbols.py": [
+      [
+        "SymbolTests.test_python_async_methods_nested_functions_and_strings",
+        9
+      ],
+      [
+        "SymbolTests.test_rust_modules_trait_requirements_and_impls",
+        21
+      ],
+      [
+        "SymbolTests.test_swift_methods_overloads_initializers_protocols_and_extensions",
+        38
+      ],
+      [
+        "SymbolTests.test_sql_declared_functions_and_procedures_not_calls_or_tables",
+        59
+      ],
+      [
+        "SymbolTests.test_parse_failures_are_explicit",
+        71
+      ]
+    ]
+  },
+  "symbol_warnings": {},
   "omitted": {}
 }

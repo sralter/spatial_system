@@ -1,7 +1,7 @@
 # Project follow-ups
 
 Created: 2026-11-10T15:55:25Z
-Last updated: 2026-11-10T16:40:55Z
+Last updated: 2026-11-10T17:00:44Z
 
 Deferred items from the project-rules review. Check the revisit triggers when
 scoping new work; entries are not implementation authorization or scheduled jobs.
@@ -9,8 +9,8 @@ Update each item's status and link its agreed task or resolution when work begin
 
 | Item | Status | Revisit trigger | Next bounded action |
 |---|---|---|---|
-| Repository intelligence | Compact map implemented; human review pending | Normal project navigation tasks | Use the deterministic file map and context-efficiency guidance. Observe usefulness before considering a symbol indexer; token savings are not yet measured. See the implementation checkpoint below. |
-| Index automation and storage | Deferred | Before adopting an index | Agree on freshness, exclusions, local storage versus versioning, and token costs. Decide whether a watcher, hook, or CI check is warranted. |
+| Repository intelligence | Callable map implemented; human review pending | Normal project navigation tasks | Use the file/callable map and context-efficiency guidance. Observe usefulness before adding a reference graph; token savings remain unmeasured. See tools/README.md and the implementation checkpoint below. |
+| Index automation and storage | Pre-commit refresh implemented; human review pending | First commit with the tooling update | The hook generates from staged source and stages only repo-map.json. Watchers and CI remain separate decisions; new clones need explicit local hook setup. |
 | Tool-specific rule loading | Deferred | Before using another agent/editor integration | Verify it reads root AGENTS.md and relevant topic rules. Add an entry point only if required, referencing the authoritative rules. |
 | Verification tooling and CI | Deferred | When a component has meaningful code to verify | Select its formatter, linter, tests, and minimal CI checks using existing ecosystem tools. Do not standardize an unused language's stack in advance. |
 | Additional navigation or token tools | Deferred | After a specific gap or repeated cost is observed | Evaluate one capability at a time; avoid overlapping memory systems and speculative agent orchestration. |
@@ -66,25 +66,25 @@ both products or the rest of the previously suggested tool stack.
 
 ## Deterministic map implementation
 
-The human delegated this bounded implementation on 2026-11-10.
-[AGENTS.md](../AGENTS.md#repository-discovery) documents the generated
-[repo-map.json](../repo-map.json), its scope, freshness commands, and context-use
-behavior. [tools/repo_map.py](../tools/repo_map.py) uses existing Git and Python
-standard-library facilities; no external indexer, package, watcher, hook, or MCP
-registration was introduced.
+The human delegated the initial file map and subsequently requested callable
+locations across Python, Rust, Swift, and SQL, plus automatic commit-time refresh.
+The human approved an isolated parser environment and automatic staging of only
+the map generated from staged files.
 
-The map lists filenames grouped by directory and a content fingerprint. It does
-not embed source bodies, extract symbols, or generate semantic summaries. Its
-coverage follows the working tree's effective Git ignores and explicit scope
-exclusions. Inspect the generator and the map's omitted-file entries when coverage
-matters; a file map does not establish implementation capability or resolved
-references.
+[tools/README.md](../tools/README.md) is the authoritative setup and usage guide.
+The parser set is declared in tools/pyproject.toml and tools/uv.lock; the ignored
+local environment occupies approximately 18 MB. No external indexer, LLM-assisted
+summaries, reference graph, watcher, or CI setup was introduced.
 
-Five focused tests in [tools/test_repo_map.py](../tools/test_repo_map.py) passed,
-covering deterministic output, exclusions, working-tree freshness, check-only
-behavior, omitted large/binary files, and output symlink rejection. Human review
-remains pending. Usefulness and token savings remain unmeasured; evaluate them
-through normal tasks before adding more retrieval infrastructure.
+Fifteen tests passed, covering four-language extraction, explicit parse warnings,
+working-tree freshness and exclusions, and the real pre-commit hook in isolated
+repositories. Hook tests cover partial staging, staged ignore files and generator
+modules, preservation of unstaged map edits, and failure without the environment.
+Only temporary test repositories received test commits; this project has not been
+staged or committed by the agent.
+
+Human review remains pending. Usefulness and token savings remain unmeasured;
+evaluate them during normal tasks before adding more retrieval infrastructure.
 
 ## Governing guidance
 

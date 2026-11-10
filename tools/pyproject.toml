@@ -1,0 +1,14 @@
+[project]
+name = "spatial-repository-tools"
+version = "0.1.0"
+requires-python = ">=3.12"
+# Grammar versions affect the generated symbol map; keep its parser set reproducible.
+dependencies = [
+    "tree-sitter==0.26.1",
+    "tree-sitter-rust==0.24.2",
+    "tree-sitter-swift==0.7.4",
+    "tree-sitter-sql==0.3.12",
+]
+
+[tool.uv]
+package = false

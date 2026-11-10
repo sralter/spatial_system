@@ -1,7 +1,7 @@
 # Spatial System agent instructions
 
 Created: 2026-11-10T15:41:23Z
-Last updated: 2026-11-10T16:40:55Z
+Last updated: 2026-11-10T17:00:44Z
 
 ## Start here
 
@@ -37,28 +37,16 @@ project implementation.
 Before changing project code, locate the relevant implementation, callers,
 tests, and configuration using focused searches or available navigation tools.
 
-Use [repo-map.json](repo-map.json) for compact directory and file orientation.
-It contains paths and a freshness fingerprint, not source bodies, symbols, or
-architectural claims. Coverage follows Git ignores and the generator's explicit
-exclusions, including `data/`, `benchmarks/`, `rust/learn/`, environment/build
-artifacts, links, and unsupported file formats. Eligible oversized or binary files
-are reported in `omitted`. Files listed within a package may still be historical
-learning material; verify their role against the architecture and source.
+Use [repo-map.json](repo-map.json) for compact directory/file orientation and
+qualified callable locations. Before relying on it, check freshness from the
+repository root with `tools/.venv/bin/python tools/repo_map.py --check`.
+Refresh a stale working-tree map with `tools/.venv/bin/python tools/repo_map.py`.
 
-From the repository root, check freshness before relying on the map:
-
-```sh
-python3 tools/repo_map.py --check
-```
-
-If it is missing or stale, regenerate it with `python3 tools/repo_map.py`, then
-read the relevant map entries. The generator uses current working-tree content,
-including eligible untracked files. `--check` does not write. Concurrent source
-edits can invalidate the snapshot; recheck when needed.
-
-The [generator](tools/repo_map.py) uses Git and Python's standard library.
-Its focused checks run with
-`python3 -m unittest discover -s tools -p 'test_repo_map.py' -v`.
+The pre-commit hook automatically refreshes and stages the map from the index;
+it does not refresh continuously. Read [tools/README.md](tools/README.md) for
+setup, symbol format, exclusions, parse warnings, and partial-staging behavior.
+Do not treat a syntactic map as proof of compiler-resolved references or delivered
+capabilities.
 
 Treat generated indexes and summaries as navigation aids. Verify consequential
 implementation claims against current source code. Use human-reviewed project

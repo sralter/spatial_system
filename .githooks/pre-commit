@@ -1,0 +1,19 @@
+#!/bin/sh
+# Use the staged generator so unstaged tooling edits do not affect this commit.
+set -eu
+root=$(git rev-parse --show-toplevel)
+cd "$root"
+python="$root/tools/.venv/bin/python"
+if [ ! -x "$python" ]; then
+    echo "Repository-map hook: tools/.venv is missing. Provision it with uv sync --project tools." >&2
+    exit 1
+fi
+temporary=$(mktemp -d "${TMPDIR:-/tmp}/spatial-repo-hook.XXXXXX")
+trap 'rm -rf "$temporary"' EXIT HUP INT TERM
+for module in repo_map.py repo_symbols.py; do
+    if ! git show ":tools/$module" > "$temporary/$module"; then
+        echo "Repository-map hook: stage tools/$module with the tooling change first." >&2
+        exit 1
+    fi
+done
+PYTHONDONTWRITEBYTECODE=1 "$python" "$temporary/repo_map.py" --staged --stage-map

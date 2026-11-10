@@ -36,12 +36,13 @@ class RepositoryMapTests(unittest.TestCase):
         )
 
     def test_deterministic_and_no_source_bodies(self):
-        self.write("src/b.rs", "pub fn unique_source_body() {}")
+        self.write("src/b.rs", 'pub fn named() { let body = "UNIQUE_BODY_SENTINEL"; }')
         self.write("src/a.rs", "pub fn a() {}")
         first = build_map(self.root)
         self.assertEqual(first, build_map(self.root))
         self.assertEqual(json.loads(first)["directories"], {"src": ["a.rs", "b.rs"]})
-        self.assertNotIn("unique_source_body", first)
+        self.assertEqual(json.loads(first)["symbols"]["src/b.rs"], [["named", 1]])
+        self.assertNotIn("UNIQUE_BODY_SENTINEL", first)
 
     def test_excludes_data_learning_benchmarks_ignored_files_and_links(self):
         self.write(".gitignore", "ignored/\n")
