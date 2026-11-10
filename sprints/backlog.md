@@ -1,11 +1,29 @@
 # Project follow-ups
 
 Created: 2026-11-10T15:55:25Z
-Last updated: 2026-11-10T17:00:44Z
+Last updated: 2026-11-10T19:59:40Z
 
 Deferred items from the project-rules review. Check the revisit triggers when
 scoping new work; entries are not implementation authorization or scheduled jobs.
 Update each item's status and link its agreed task or resolution when work begins.
+
+## Backlog maintenance
+
+Mark finished items `Complete` with a concise resolution and a link to the
+relevant task, implementation, or decision. Do not delete them simply because
+the work is finished. Keep recently completed items visible alongside active
+items until a later backlog review.
+
+Preserve unresolved parts explicitly. Implementation finished, human review
+pending, and usefulness evaluation pending are distinct states; completing one
+does not close the others. Keep remaining work visible in the item's status or
+as a linked follow-up.
+
+During backlog reviews, move older completed entries into a `Completed` section.
+If that section becomes unwieldy, move its history into a linked yearly archive.
+Create the section or archive when needed, retaining resolutions and links.
+
+## Open and recently completed items
 
 | Item | Status | Revisit trigger | Next bounded action |
 |---|---|---|---|
@@ -13,7 +31,7 @@ Update each item's status and link its agreed task or resolution when work begin
 | Index automation and storage | Pre-commit refresh implemented; human review pending | First commit with the tooling update | The hook generates from staged source and stages only repo-map.json. Watchers and CI remain separate decisions; new clones need explicit local hook setup. |
 | Tool-specific rule loading | Deferred | Before using another agent/editor integration | Verify it reads root AGENTS.md and relevant topic rules. Add an entry point only if required, referencing the authoritative rules. |
 | Verification tooling and CI | Deferred | When a component has meaningful code to verify | Select its formatter, linter, tests, and minimal CI checks using existing ecosystem tools. Do not standardize an unused language's stack in advance. |
-| Additional navigation or token tools | Deferred | After a specific gap or repeated cost is observed | Evaluate one capability at a time; avoid overlapping memory systems and speculative agent orchestration. |
+| Additional navigation or token tools | Deferred | After a specific gap or repeated cost is observed | Evaluate one capability at a time; avoid overlapping memory systems and speculative agent orchestration. A repository MCP server is deferred; reconsider a query interface over the existing map if map size or repeated retrieval costs justify it. |
 | Existing tracked datasets | Deferred | Before maintaining or extending the legacy benchmark work | Inventory tracked fixtures/results and propose migration outside Git while retaining provenance. Obtain agreement before moving, deleting, untracking, or rewriting history. |
 | Root changelog | Deferred | Next agreed project documentation checkpoint | Establish CHANGELOG.md under the changelog rule with a concise initial entry; do not backfill every historical commit. |
 | Durable task records | Deferred | Before the next sprint or task record | Decide which records must be versioned and adjust ignore exceptions narrowly. Only this backlog receives a new tracking exception; other new sprint files remain ignored. |
