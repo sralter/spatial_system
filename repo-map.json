@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "fingerprint": "544e9cdb357afb3aeabdc2117413f864f7a882941a8c50a3f59431b2a4f5892c",
+  "directories": {
+    ".": [
+      ".gitignore",
+      "AGENTS.md",
+      "LICENSE",
+      "README.md",
+      "mise.toml"
+    ],
+    ".rules": [
+      "architecture.mdc",
+      "changelog.mdc",
+      "coauthoring_protocol.mdc",
+      "coding_conventions.mdc",
+      "dates_and_times.mdc",
+      "dependencies.mdc",
+      "documentation_commits.mdc",
+      "documentation_core.mdc",
+      "documentation_debrief.mdc",
+      "documentation_decisions.mdc",
+      "documentation_review.mdc",
+      "logging_and_errors.mdc",
+      "pipeline_io.mdc",
+      "research.mdc",
+      "rules.mdc",
+      "secure_input_and_crypto.mdc",
+      "secure_python_sinks.mdc",
+      "secure_sql.mdc",
+      "security.mdc",
+      "testing.mdc"
+    ],
+    "docs/decisions": [
+      "0001-prioritize-selective-copc-sql.md"
+    ],
+    "docs/research": [
+      "1-point-cloud-rust-ecosystem-review.md",
+      "point-cloud-query-landscape.md",
+      "sprint-1-retrospective.md"
+    ],
+    "rust": [
+      "COURSE_PROGRESS.md"
+    ],
+    "rust/spatial-core": [
+      "Cargo.toml"
+    ],
+    "rust/spatial-core/src": [
+      "lib.rs"
+    ],
+    "rust/spatial-core/src/bin": [
+      "first_rust_script.rs",
+      "unit1_consolidation.rs",
+      "unit1_notes.rs",
+      "unit2_notes.rs"
+    ],
+    "sprints": [
+      "backlog.md",
+      "spatial_edge_platform_sprint_1_v0.0.1.md"
+    ],
+    "tools": [
+      "repo_map.py",
+      "test_repo_map.py"
+    ]
+  },
+  "omitted": {}
+}

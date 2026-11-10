@@ -6,7 +6,7 @@ alwaysApply: true
 # Architecture and boundaries
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-05T16:46:28Z
+Last updated: 2026-11-10T16:40:55Z
 
 ## Project direction
 
@@ -45,6 +45,7 @@ Current project and supporting locations:
 - `docs/research/`: investigations, findings, limitations, and retrospectives.
 - `docs/decisions/`: architectural decisions and their rationale.
 - `sprints/`: scoped project plans and progress.
+- `tools/`: repository maintenance utilities, separate from engine implementation.
 - `rust/learn/`: separately governed coursework and supporting learning material.
 
 Expected growth:
