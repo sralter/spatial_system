@@ -1,9 +1,12 @@
 ---
 description: Clear results, actionable diagnostics, explicit failures, and private logs
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Logging and errors
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -66,6 +69,7 @@ retries visible. Do not introduce automatic retries that can duplicate side effe
 ## Logging content and volume
 
 Use consistent severity levels:
+
 - Debug: detailed troubleshooting information.
 - Info: useful lifecycle events and completion summaries.
 - Warning: unexpected conditions requiring attention, including degraded operation.
@@ -97,12 +101,9 @@ Treat this as an additional safeguard with known detection limits, not a guarant
 that every form of PII will be detected. Scope its implementation separately and
 verify it with synthetic sensitive values, including exception and debug output.
 
-Keep protected values out of source code, ordinary configuration, and logs.
-Where the application must not access their actual values, keep them in an isolated,
-access-controlled store or service and expose only the permitted operations or
-opaque references. A variable name, hidden directory, or in-process scrubber alone
-does not provide that isolation. Agree on the sandbox and access boundary when
-implementing secret handling; do not claim it already exists.
+Follow [security.mdc](security.mdc) for protected-value storage and isolation.
+The planned scrubber provides log redaction; it does not establish a secret-access
+boundary.
 
 Avoid logging raw point records, exact locations, or source paths when they could
 identify people or expose sensitive information.
@@ -118,8 +119,8 @@ Return expected failures through explicit error results.
 Use console output for intentional application output and a suitable logging
 facility for configurable diagnostics.
 
-Preserve error causes and context. Do not use panic as routine handling of
-fallible external inputs.
+Follow [coding_conventions.mdc](coding_conventions.mdc) for Rust error-handling
+conventions.
 
 ### Python
 
@@ -134,8 +135,8 @@ failures, and preserve causes when translating exceptions.
 Use Swift's error-handling mechanisms for recoverable failures and the component's
 chosen logging facilities for diagnostics.
 
-Keep user-facing status separate from diagnostic detail. Do not use force
-unwrapping or error suppression to conceal expected failure conditions.
+Follow [coding_conventions.mdc](coding_conventions.mdc) for Swift optional-value
+and error-handling conventions.
 
 ### SQL
 

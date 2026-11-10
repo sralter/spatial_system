@@ -1,12 +1,12 @@
 ---
 description: Architectural decision records, historical context, and supersession
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Decision documentation
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-09T23:30:12Z
+Last updated: 2026-11-10T15:55:25Z
 
 ## When to write an ADR
 

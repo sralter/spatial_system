@@ -5,6 +5,9 @@ alwaysApply: true
 
 # Security
 
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-09T22:40:51Z
+
 ## Purpose and applicability
 
 Build security into the capabilities being implemented.

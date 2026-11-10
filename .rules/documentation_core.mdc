@@ -6,7 +6,7 @@ alwaysApply: true
 # Documentation
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-09T23:24:33Z
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -27,6 +27,8 @@ Put information where its reader would expect to find it:
 - `docs/decisions/`: durable architectural decisions and their rationale.
 - `docs/research/`: investigations, evidence, conclusions, and limitations.
 - Existing task or sprint records: agreed scope, progress, and next actions.
+  Deferred work and revisit triggers are recorded in
+  [sprints/backlog.md](../sprints/backlog.md).
 - Code documentation: local contracts and implementation reasoning, governed by
   [coding_conventions.mdc](coding_conventions.mdc).
 
@@ -71,13 +73,10 @@ pending clarification rather than presenting a guessed timestamp.
 Add this metadata when creating or substantively maintaining documents.
 A repository-wide backfill is a separately scoped task.
 
-## Related rules and final reconciliation
+## Related rules
 
 Follow [coauthoring_protocol.mdc](coauthoring_protocol.mdc) for task records,
 review, and ownership.
 
 Detailed decision, debrief, review, commit, and changelog practices belong in their
 respective documentation rules. Link to those practices instead of repeating them.
-
-During the final rules review, reconcile cross-links, document responsibilities,
-and any remaining assumptions about files or workflows.

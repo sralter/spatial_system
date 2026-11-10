@@ -1,9 +1,12 @@
 ---
 description: Shared coding principles and language-specific conventions
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Coding conventions
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 

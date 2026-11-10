@@ -1,12 +1,12 @@
 ---
 description: Active human review, understanding, and explicit acceptance
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Human review and acceptance
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-10T14:48:43Z
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 

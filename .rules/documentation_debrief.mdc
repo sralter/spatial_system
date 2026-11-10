@@ -1,12 +1,12 @@
 ---
 description: Preserve consequential reasoning while task context is fresh
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Reasoning debrief
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-10T14:48:43Z
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -40,10 +40,8 @@ the work. They are not a mandatory questionnaire or acceptance gate:
 6. How was correct behavior verified?
 7. How would you explain the work briefly to someone unfamiliar with it?
 
-Use existing explanations where they suffice; do not create a second set of
-answers merely to complete the list.
-
-Link to reasoning already recorded rather than answering the same questions again.
+Link to existing explanations where they suffice; do not create a second set
+of answers merely to complete the list.
 Distinguish decisions actually made from later interpretations or suggestions.
 
 ## Where to record it

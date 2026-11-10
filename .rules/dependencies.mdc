@@ -1,9 +1,12 @@
 ---
 description: Introducing, managing, and explaining project dependencies
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Dependencies
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -29,6 +32,7 @@ one small capability is a project goal.
 
 Explain the dependency's utility and relevant trade-offs before adoption.
 Keep the explanation proportional to the decision:
+
 - Routine choices need a brief rationale in the existing task record.
 - Consequential architectural or maintenance choices belong in a decision record.
 
@@ -58,6 +62,7 @@ Selecting a dependency and installing it are separate decisions.
 They may be authorized together within an agreed task.
 
 Before installation, establish:
+
 - What is needed and why.
 - Where tools, packages, environments, and caches will be installed.
 - Expected download, disk, and build costs, including significant transitive

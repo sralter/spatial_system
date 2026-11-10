@@ -1,9 +1,12 @@
 ---
 description: Safe query construction, SQL execution boundaries, and resource controls
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Secure SQL
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 

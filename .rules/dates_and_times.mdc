@@ -1,9 +1,12 @@
 ---
 description: UTC timestamps, calendar dates, source time semantics, and durations
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Dates and times
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 These conventions apply across project languages. Coursework follows its
 applicable course instructions.

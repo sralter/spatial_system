@@ -1,12 +1,12 @@
 ---
 description: Clear commit messages, coherent changes, and deliberate Git authorization
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Commit documentation
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-10T15:02:03Z
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -28,6 +28,7 @@ Avoid vague subjects such as "update files" or "fix things."
 ## Body
 
 For substantive changes, explain:
+
 - The problem or purpose.
 - Significant behavior changes.
 - Verification performed and relevant limitations.

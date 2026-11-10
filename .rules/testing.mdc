@@ -1,9 +1,12 @@
 ---
 description: Proportionate verification across languages and project components
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Testing
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -70,6 +73,7 @@ Do not generate expected results from the implementation under test and treat
 agreement as independent confirmation.
 
 Select edge cases relevant to the behavior. For geospatial work, these may include:
+
 - Empty inputs, duplicates, and points on or outside selection boundaries.
 - CRS, axis order, coordinate units, and scale/offset.
 - Invalid or unsupported inputs.
@@ -78,8 +82,9 @@ Select edge cases relevant to the behavior. For geospatial work, these may inclu
 Explain numerical tolerances where needed. Distinguish exact assertions from
 approximate comparisons.
 
-Use small, inspectable fixtures where possible. Preserve relevant provenance
-and licensing for external test data.
+Use small, inspectable fixtures where possible. Follow
+[pipeline_io.mdc](pipeline_io.mdc) for fixture generation, locations, provenance,
+retention, and exclusion of dataset files from Git.
 
 ## Rust
 

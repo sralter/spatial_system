@@ -1,53 +1,71 @@
 ---
-description: Project index — stack, entry points, reference scraper, pointers to themed rules
+description: Spatial System rule index and applicability
 alwaysApply: true
 ---
 
-# VIP project rules (index)
+# Project rules index
 
-## Stack & entry points
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
-- **Stack:** Python, Dagster, DuckDB, Selenium, Pandas — see themed rules for detail.
-- **CLI:** Prefer **Typer** for new command-line interfaces (when/where CLIs are added).
-- **Main locations:** `src/vip_scraping_pipeline/` (durable library — **prefer for new work**), `src/config/`, `src/tests/`, `src/tools/`. **`poc/` is legacy** (Dagster wiring today); migrate to `src/` over time — see **`architecture.mdc`** (`poc/` must not be imported from `src/`).
-- **Run / tooling:** `uv run`, `pytest`, `dagster dev`, **`black`** (formatting), Typer-based CLIs when present.
+Use this index to select guidance for the current task.
+Read the baseline rules, then the relevant topic-specific rules before acting.
+Follow each document's stated applicability.
 
-## Scraping architecture (all jurisdictions)
+The root [AGENTS.md](../AGENTS.md) provides entry and discovery instructions.
 
-- **North star:** Scraping should be **as state-agnostic as practical** — shared orchestration and helpers under `src/vip_scraping_pipeline/`, jurisdiction-specific adapters under `assets/<jurisdiction>/`, thin Dagster POC wiring. Swapping state means config + adapter, not a forked pipeline copy. Pipelines should be **functional at the boundary**: explicit inputs/outputs and a converging **`run_pipeline(state, run_scope)`**-style entry (`latest` / `latest N` / lookback intervals). Details: **`architecture.mdc`**.
-- **Reference adapter (Delaware):** **`scraping_pipelines/de_scraping_pipeline.py`** and **`delaware_dot/`** show the **thin POC + delegated `src/` package** pattern. Match separation and modularity for new states; do not duplicate the whole Delaware tree per state when shared steps can be parameterized.
+## Baseline guidance
 
-## Languages & scripts
+| Rule | Responsibility |
+|---|---|
+| [coauthoring_protocol.mdc](coauthoring_protocol.mdc) | Ownership, bounded assignments, assistance, agent tools, and handoffs. |
+| [architecture.mdc](architecture.mdc) | Project direction, component boundaries, coursework, and noncanonical material. |
+| [security.mdc](security.mdc) | Shared security principles, secrets, trust, and permissions. |
+| [documentation_core.mdc](documentation_core.mdc) | Documentation audience, authoritative locations, accuracy, and freshness. |
 
-- **Primary:** Python — most themed rules target `**/*.py` and are **always applied** in Cursor so every session honors them.
-- **Shell / other:** If `*.sh` or other non-Python automation is added, **`security.mdc`** and **`dependencies.mdc`** still apply; Python-only rules (imports, pytest, etc.) do not. Add a dedicated shell rule file if/when shell scripts become common.
+## Implementation and investigation
 
-## Themed rules (details in separate `.mdc` files)
+| Rule | Read when working on |
+|---|---|
+| [research.mdc](research.mdc) | Investigations, evidence, and research conclusions. |
+| [dependencies.mdc](dependencies.mdc) | Package selection, installations, environments, and tool changes. |
+| [coding_conventions.mdc](coding_conventions.mdc) | Project code and language-specific conventions. |
+| [testing.mdc](testing.mdc) | Tests, fixtures, verification, and result reporting. |
+| [logging_and_errors.mdc](logging_and_errors.mdc) | Output, diagnostics, failure handling, and log privacy. |
+| [pipeline_io.mdc](pipeline_io.mdc) | Data stages, provenance, storage, preservation, and Git exclusion. |
+| [dates_and_times.mdc](dates_and_times.mdc) | Dates, timestamps, source time interpretation, and durations. |
 
-| Topic | File |
-|--------|------|
-| Documentation hub (Future Reader, tiers, artifacts) | `documentation_core.mdc` |
-| Substantive commit messages | `documentation_commits.mdc` |
-| Decision log (`DECISIONS.md`) | `documentation_decisions.mdc` |
-| Daily changelog (`CHANGELOG.md`) | `changelog.mdc` |
-| Intent comments and docstrings | `coding_conventions.mdc` |
-| Agent debrief before commit/merge | `documentation_debrief.mdc` |
-| Self-review before merge | `documentation_review.mdc` |
-| Layout, boundaries, Delaware as template | `architecture.mdc` |
-| Logging, observability rationale, errors | `logging_and_errors.mdc` |
-| Tests | `testing.mdc` |
-| Secrets, config, env | `security.mdc` |
-| Safe SQL / DuckDB (params + allowlists) | `secure_sql.mdc` |
-| Safe Python sinks (shell, eval, pickle, paths) | `secure_python_sinks.mdc` |
-| Input validation, SSRF-shaped fetches, crypto | `secure_input_and_crypto.mdc` |
-| Dependencies | `dependencies.mdc` |
-| Parquet-first I/O, scrape `data/` layout | `pipeline_io.mdc` |
-| Calendar dates in persisted / asset data | `dates_and_times.mdc` |
-| Pedagogical co-authoring (you implement → agent review) | `coauthoring_protocol.mdc` |
+## Specialized security
 
-Canonical prose: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md). Co-authoring: [`docs/notes/coauthoring-standards-v2.md`](docs/notes/coauthoring-standards-v2.md). Sprint records: [`docs/notes/sprint-record-template.md`](docs/notes/sprint-record-template.md).
+| Rule | Read when working on |
+|---|---|
+| [secure_sql.mdc](secure_sql.mdc) | Query construction, submitted SQL, execution access, and resource controls. |
+| [secure_python_sinks.mdc](secure_python_sinks.mdc) | Python subprocesses, parsing, deserialization, and filesystem access. |
+| [secure_input_and_crypto.mdc](secure_input_and_crypto.mdc) | Input handling, network destinations and budgets, and cryptographic operations. |
 
-## Changelog & collaboration
+## Documentation practices
 
-- Update **`CHANGELOG.md`** per **`changelog.mdc`** in the same session as substantive work unless the user opts out.
-- Externalize reasoning per documentation rules before merge; ask before large refactors. Align new scrapers with **`de_scraping_pipeline.py`** and `src/` layout.
+| Rule | Read when working on |
+|---|---|
+| [documentation_decisions.mdc](documentation_decisions.mdc) | ADRs, assumptions, invariants, commit references, and supersession. |
+| [documentation_debrief.mdc](documentation_debrief.mdc) | Preserving reasoning at substantive checkpoints. |
+| [documentation_review.mdc](documentation_review.mdc) | Active human review, understanding, and acceptance. |
+| [documentation_commits.mdc](documentation_commits.mdc) | Commit messages, boundaries, and Git authorization. |
+| [changelog.mdc](changelog.mdc) | Meaningful project change-history entries. |
+
+## Applicability and evolution
+
+The index and baseline rules use `alwaysApply: true`. Topic rules use
+`alwaysApply: false` with a description to identify their relevance. These are
+integration hints, not permission to disregard applicable rules. Root AGENTS.md
+requires agents to read and follow them explicitly; the custom `.rules/` directory
+is not assumed to be discovered automatically.
+
+Language-specific sections apply to the relevant language and capability.
+Do not introduce tooling or infrastructure merely because a rule describes it.
+
+Coursework follows its applicable course instructions, as routed by the root
+AGENTS.md. Project rules do not replace course teaching workflows.
+
+Keep this index synchronized with the rule files.
+Detailed requirements belong in their authoritative documents, not this index.

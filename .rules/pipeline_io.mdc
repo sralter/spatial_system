@@ -1,9 +1,12 @@
 ---
 description: Medallion data stages, auditability, preservation, and Git exclusion
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Data and artifacts
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -16,11 +19,14 @@ course instructions.
 ## Source preservation and medallion stages
 
 Never modify, overwrite, or perform in-place processing on original source data.
-Read it only as needed to acquire or establish the preserved raw stage.
+An explicitly designated immutable local or remote source may itself serve as
+the raw stage for read-only queries. A full copy is not required solely to query
+it. Record a stable source identity or version when available, and state any
+limits on reproducibility if immutability cannot be verified.
 
 Use a medallion-style flow:
 
-- Raw: an unchanged, preserved copy of the acquired source.
+- Raw: an unchanged, preserved copy or explicitly designated immutable source.
 - Working: intermediate outputs produced from raw data or earlier working stages.
 - Final: outputs prepared for their intended consumers.
 
@@ -29,7 +35,8 @@ when producing the next one.
 
 Retain raw data and meaningful intermediate stages needed to explain processing
 and roll back to an earlier state. This does not require persisting every
-temporary in-memory operation.
+temporary in-memory operation. Read-only queries do not require persisted
+working or final stages unless their results are deliberately retained.
 
 Use distinct run or version locations so reruns do not silently replace retained
 data. Record which inputs and processing steps produced each retained output.

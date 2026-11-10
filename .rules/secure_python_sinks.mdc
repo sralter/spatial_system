@@ -1,9 +1,12 @@
 ---
 description: Python-specific safeguards for processes, parsing, and filesystem access
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Safe Python execution and I/O
+
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 Apply these practices to project Python code using the capabilities below.
 Shared security requirements are defined in [security.mdc](security.mdc).
@@ -34,6 +37,7 @@ Do not load untrusted data through pickle, shelve, marshal, or other mechanisms
 that can execute code or reconstruct unsafe objects.
 
 Use a parser appropriate to the required format:
+
 - JSON parsing for JSON.
 - Safe-loading facilities for YAML.
 - XML parsing configured to prevent unsafe entity and external-resource handling.

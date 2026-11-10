@@ -5,6 +5,9 @@ alwaysApply: true
 
 # Architecture and boundaries
 
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-05T16:46:28Z
+
 ## Project direction
 
 Spatial System develops geospatial systems using Rust, Python, Swift, and SQL,
@@ -15,6 +18,7 @@ built on Apache DataFusion. This is the main architectural direction today.
 It is an objective, not a claim that the engine is already implemented.
 
 Distinguish:
+
 - Implemented capability, supported by inspected code and verification.
 - Accepted architectural direction, recorded in project decisions.
 - Proposed work that still requires evaluation and agreement.
@@ -118,6 +122,7 @@ Introduce Rust, Python, Swift, and SQL components when an agreed task justifies
 them. Language support in the roadmap does not require tooling installation now.
 
 Before introducing a boundary between languages or processes, explain:
+
 - Its purpose and the data crossing it.
 - Data types, ownership or copying, and relevant coordinate metadata.
 - Error behavior and resource lifecycle.

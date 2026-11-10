@@ -1,9 +1,12 @@
 ---
 description: Professional, proportionate research that supports project decisions and learning
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Research
+
+Created: 2026-11-05T23:11:56Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose and applicability
 
@@ -32,9 +35,8 @@ Do not build reusable research infrastructure unless the task calls for it.
 
 ## Reuse knowledge and existing capabilities
 
-Apply Ponytail's inspection and reuse guidance to avoid unnecessary work.
-Consult relevant reviewed Beacon memory when applicable, then check it against
-current code, documentation, and requirements.
+Follow the agent-tool guidance in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc) for Ponytail and Beacon use.
 
 Use suitable existing tools and libraries. Reconsider a choice when evidence
 shows a better fit, accounting for the cost of switching.

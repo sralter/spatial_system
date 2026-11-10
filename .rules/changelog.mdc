@@ -1,12 +1,12 @@
 ---
 description: Concise project change history focused on meaningful outcomes
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Changelog
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-10T15:10:27Z
+Last updated: 2026-11-10T15:55:25Z
 
 ## Purpose
 
@@ -19,6 +19,7 @@ Coursework follows its applicable course instructions.
 ## When to add an entry
 
 Record meaningful:
+
 - New capabilities and behavior changes.
 - Fixes affecting correctness or use.
 - Compatibility changes, deprecations, and removals.

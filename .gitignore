@@ -1,6 +1,9 @@
+# Project datasets and generated data remain local.
+/data/
 docs/research/open_source_repositories
 sprints/*
 !sprints/spatial_edge_platform_sprint_1_v0.0.1.md
+!sprints/backlog.md
 # Reproducible configurations are tracked; environments and measurements are local.
 benchmarks/pointcloud/.tools/
 benchmarks/pointcloud/.env/
