@@ -1,43 +1,77 @@
 ---
-description: Substantive commit message format — WHAT/WHY/HOW and invariants
+description: Clear commit messages, coherent changes, and deliberate Git authorization
 alwaysApply: true
 ---
 
-# Substantive commit messages
+# Commit documentation
 
-Use for commits where a coding agent did meaningful work or a **non-obvious** decision was made. **Trivial-only** edits (comment typos, format-only, no behavior change) may use a short 1–2 sentence message.
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:02:03Z
 
-Full example: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §1. User-rule draft to paste into Cursor: [`docs/notes/cursor_user_rules/committing-changes-with-git.md`](../../docs/notes/cursor_user_rules/committing-changes-with-git.md).
+## Purpose and applicability
 
-## Subject line
+Make future commits understandable to someone reviewing repository history.
+These conventions do not require revising existing commits.
 
-`[scope] Short imperative description` — under 72 characters.
+Coursework follows its applicable course instructions.
 
-Scope examples: `[scraper]`, `[pipeline]`, `[model]`, `[feature]`, `[infra]`, `[eval]`.
+## Subject
 
-## Body (required fields)
+Use a short, specific, imperative summary describing the change.
+Aim for about 72 characters without sacrificing clarity.
 
-```
-WHAT: Plain summary of what changed.
-WHY: Problem solved or goal advanced.
-HOW: Approach and why over alternatives.
-ASSUMPTIONS: What must remain true. (mandatory)
-OPERATIONAL INVARIANTS: Ordering, timing, idempotency, schema, rate limits, etc. (mandatory)
-RISKS: What could break or fail silently.
-TEST: How behavior was verified.
-```
+Use a scope label when it helps identify the affected component.
+Scope labels and a particular commit-message syntax are not mandatory.
 
-If **WHY**, **ASSUMPTIONS**, or **OPERATIONAL INVARIANTS** cannot be filled in, the change is not ready to merge.
+Avoid vague subjects such as "update files" or "fix things."
 
-Before drafting the body, run the agent debrief (`documentation_debrief.mdc`) while session context is still available.
+## Body
 
-Optional after required fields when co-authoring applied (`coauthoring_protocol.mdc`):
+For substantive changes, explain:
+- The problem or purpose.
+- Significant behavior changes.
+- Verification performed and relevant limitations.
 
-    CO-AUTHORING NOTE:
-    ASSIGNMENT: ...
-    HUMAN ATTEMPT: ...
-    AGENT REVIEW: ...
+Include assumptions, risks, or invariants when they help explain or assess
+the particular change. Do not require a fixed set of fields for every commit.
 
-(Legacy: `BRIEF` / `PLAN`, same as `ASSIGNMENT`.)
+Link to relevant ADRs or repository documents for fuller reasoning rather than
+copying debriefs or decision records into the message.
 
-(Legacy labels `PLAN` / `HUMAN PASS` / `AGENT PASS` are equivalent.) See [`coauthoring-standards-v2.md`](docs/notes/coauthoring-standards-v2.md).
+Small, obvious changes can use the subject alone.
+
+Follow [documentation_debrief.mdc](documentation_debrief.mdc) when important
+reasoning remains undocumented, and [testing.mdc](testing.mdc) for accurate
+verification reporting.
+
+## Commit boundaries
+
+Keep each commit coherent and independently understandable.
+Group related implementation, tests, and documentation when they form one change.
+
+Before an authorized commit, inspect the intended diff and staged contents.
+Include only the agreed work. Do not stage unrelated changes or all repository
+contents indiscriminately.
+
+If staged changes include work outside the agreed scope, identify it and agree
+on how to proceed without silently changing another person's staging choices.
+
+## Authorization and history
+
+Drafting a commit message does not authorize creating a commit.
+Authorization to commit does not authorize pushing, merging, amending existing
+commits, or rewriting history.
+
+Apply these conventions to future commits. Do not rewrite existing commit
+history to conform to them.
+
+Follow [coauthoring_protocol.mdc](coauthoring_protocol.mdc) for ownership,
+scope, and human review.
+
+## Related documentation
+
+Follow [documentation_core.mdc](documentation_core.mdc) for authoritative
+documentation locations and [documentation_decisions.mdc](documentation_decisions.mdc)
+for decision-to-commit references.
+
+Changelog practices belong in [changelog.mdc](changelog.mdc).

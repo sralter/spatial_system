@@ -1,26 +1,55 @@
 ---
-description: Self-review before merge — seven questions without agent context
+description: Active human review, understanding, and explicit acceptance
 alwaysApply: true
 ---
 
-# Self-review before merging
+# Human review and acceptance
 
-Applies to human-, agent-, or pair-authored work. Merging code you cannot explain defers confusion with compounding interest.
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T14:48:43Z
 
-Full standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §8.
+## Purpose and applicability
 
-## Checklist
+The human is an active implementation partner and must be able to explain
+the work in their own words, including its role in the project and relevant
+limitations.
 
-The author must answer **without** referring to the agent session:
+This rule complements [coauthoring_protocol.mdc](coauthoring_protocol.mdc).
+Coursework follows its applicable course instructions.
 
-1. What problem does this solve?
-2. Why this approach and not the most obvious alternative?
-3. What assumptions does it rely on?
-4. What operational invariants does it depend on?
-5. What breaks (silently or loudly) if assumptions or invariants change?
-6. How was correct behavior verified?
-7. How would you explain this in two minutes to someone who did not write it?
+## Understanding over memorization
 
-If any answer is missing, capture rationale first (commit body, `DECISIONS.md`, intent comments, docstrings) per `documentation_core.mdc`. Code is not done until reasoning is externalized.
+Consult code, documentation, and recorded reasoning as needed.
+Review is not a closed-book test or a requirement to memorize every detail.
 
-Use with the agent debrief (`documentation_debrief.mdc`) before merge; debrief supplies raw material, self-review confirms the human owns it.
+Use those references to develop and check understanding rather than merely
+repeat an agent-generated explanation.
+
+## Proportionate review
+
+Review the actual changes and relevant verification before accepting substantive
+work, including agent-authored changes.
+
+Trace important behavior through the implementation where needed. Ask questions
+and investigate unfamiliar decisions, unexplained behavior, or uncertain results.
+
+Scale review to the change. Small, obvious edits can use a quick inspection;
+they do not require a written questionnaire.
+
+## Outcomes and gaps
+
+Record human acceptance or unresolved concerns in the existing task record,
+following [documentation_core.mdc](documentation_core.mdc).
+
+Make gaps visible and agree on the next action. If reasoning is missing, use
+[documentation_debrief.mdc](documentation_debrief.mdc) to preserve it in the
+appropriate location.
+
+The agent may explain, ask questions, challenge assumptions, and identify gaps.
+It must not certify human understanding or record acceptance without human
+confirmation.
+
+Follow the checkpoint status distinctions in
+[coauthoring_protocol.mdc](coauthoring_protocol.mdc).
+Human acceptance does not itself authorize additional implementation, commits,
+or merges.

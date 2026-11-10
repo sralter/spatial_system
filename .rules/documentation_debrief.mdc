@@ -6,7 +6,7 @@ alwaysApply: true
 # Reasoning debrief
 
 Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
-Last updated: 2026-11-09T23:33:06Z
+Last updated: 2026-11-10T14:48:43Z
 
 ## Purpose and applicability
 
@@ -27,11 +27,21 @@ questionnaire or document for every edit.
 
 ## What to preserve
 
-Capture relevant gaps in the existing explanation, such as:
-- Why the chosen approach fit better than meaningful alternatives.
-- Assumptions and invariants the result depends on.
-- Failure modes, especially those that could produce plausible but wrong results.
-- Known uncertainty, limitations, and conditions for revisiting the approach.
+### Optional reflection prompts
+
+Use these prompts when they reveal missing reasoning or help the human explain
+the work. They are not a mandatory questionnaire or acceptance gate:
+
+1. What problem does this solve?
+2. Why this approach rather than the most obvious alternative?
+3. What assumptions does it rely on?
+4. What invariants must remain true?
+5. What fails, silently or visibly, if those conditions change?
+6. How was correct behavior verified?
+7. How would you explain the work briefly to someone unfamiliar with it?
+
+Use existing explanations where they suffice; do not create a second set of
+answers merely to complete the list.
 
 Link to reasoning already recorded rather than answering the same questions again.
 Distinguish decisions actually made from later interpretations or suggestions.
