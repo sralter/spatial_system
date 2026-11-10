@@ -44,7 +44,6 @@ alwaysApply: true
 | Parquet-first I/O, scrape `data/` layout | `pipeline_io.mdc` |
 | Calendar dates in persisted / asset data | `dates_and_times.mdc` |
 | Pedagogical co-authoring (you implement → agent review) | `coauthoring_protocol.mdc` |
-| Sprint-local lesson IDs (restart at 1; lettered workstream packages) | `lesson_numbering.mdc` |
 
 Canonical prose: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md). Co-authoring: [`docs/notes/coauthoring-standards-v2.md`](docs/notes/coauthoring-standards-v2.md). Sprint records: [`docs/notes/sprint-record-template.md`](docs/notes/sprint-record-template.md).
 

@@ -1,35 +1,71 @@
 ---
-description: CHANGELOG.md — daily what/when/verify; no rationale (see DECISIONS)
+description: Concise project change history focused on meaningful outcomes
 alwaysApply: true
 ---
 
-# Changelog (`CHANGELOG.md`)
+# Changelog
 
-Daily ledger of **what** changed, **when**, and **what was verified**. Does **not** record rationale, alternatives, or assumptions — those belong in `DECISIONS.md` and substantive commits. Full standard: [`docs/notes/documentation_standard.md`](docs/notes/documentation_standard.md) §3.
+Created: 2026-11-04T21:45:23Z (first recorded addition in Git)
+Last updated: 2026-11-10T15:10:27Z
 
-## Different readers
+## Purpose
 
-- Reconstructing **why** → `DECISIONS.md` (`documentation_decisions.mdc`).
-- Asking what changed on a given day → `CHANGELOG.md`.
+Maintain a concise project change history in the root `CHANGELOG.md`.
+Help readers understand what meaningfully changed and its practical effect.
 
-## When to update
+The changelog is not a daily activity log, task tracker, or copy of Git history.
+Coursework follows its applicable course instructions.
 
-- Same session as substantive work: code under `src/` or `poc/`, `pyproject.toml` / lockfile, config, tests, Dagster defs, tooling, `.cursor/rules/`, behavior-affecting docs.
-- Non-obvious architectural/operational choices: also add `DECISIONS.md` in that session.
-- Trivial-only (comment typos, format-only, no behavior change) may omit a line; when in doubt, add a brief bullet.
+## When to add an entry
 
-## File layout (living doc)
+Record meaningful:
+- New capabilities and behavior changes.
+- Fixes affecting correctness or use.
+- Compatibility changes, deprecations, and removals.
+- Changes affecting setup or project workflow.
 
-1. `# Changelog` + one-line purpose.
-2. `## Changelog Policy` immediately under the title (always visible when editing).
-3. Dated history below policy: `## YYYY-MM-DD`, **newest date first**, oldest last. New day → insert section **directly under policy**; same day → append bullets under that date’s subsections.
+Skip typo corrections, formatting, routine internal edits, and dependency updates
+with no meaningful impact.
 
-## Subsections (per date, in order)
+Add or consolidate entries at coherent task checkpoints rather than after
+every edit. Group related changes into a useful outcome.
 
-`### Added`, `### Changed`, `### Deprecated`, `### Dependencies`, `### Verification` — omit empty. Use **Verification** when behavior or infrastructure changed (command + outcome).
+## Organization
 
-## Style
+Use a short purpose statement followed by dated sections, newest first.
+Use `YYYY-MM-DD` headings under the conventions in
+[dates_and_times.mdc](dates_and_times.mdc).
 
-- Factual, concise bullets; paths and modules in backticks.
-- **No WHY**, no alternatives, no assumptions in changelog text.
-- Present or past tense consistently within a day’s list.
+Add categories such as Added, Changed, Fixed, or Deprecated only when they
+improve readability. Omit empty categories.
+
+Follow [documentation_core.mdc](documentation_core.mdc) for document timestamps
+and freshness. Keep detailed changelog policy here rather than copying it into
+`CHANGELOG.md`.
+
+Do not introduce release versions or a release process before they are needed.
+Do not reconstruct every historical commit when establishing the changelog.
+
+## Entry content
+
+State the outcome and practical effect in concise, factual language.
+Identify breaking changes or required user action clearly.
+
+Describe delivered behavior accurately. Do not present plans, incomplete work,
+or unverified capabilities as completed changes.
+
+Link to relevant ADRs for rationale, commits for implementation, and existing
+verification records when useful. Include commit references only when available;
+do not delay an otherwise useful entry solely to obtain a hash.
+
+Do not copy decision narratives, task records, or test logs into entries.
+A verification subsection is not required for every change.
+
+## Related rules
+
+- [documentation_decisions.mdc](documentation_decisions.mdc): architectural
+  rationale and decision history.
+- [documentation_commits.mdc](documentation_commits.mdc): individual commit
+  documentation.
+- [coauthoring_protocol.mdc](coauthoring_protocol.mdc): checkpoints, scope,
+  and ownership.
