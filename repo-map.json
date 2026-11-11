@@ -1,10 +1,11 @@
 {
   "format_version": 2,
-  "fingerprint": "bfece2ca161284d94b2618afac017298de6e3d091a0977f0c58c26b69258c357",
+  "fingerprint": "2ed6a4079054d766630589da9a1f374311627d60b1c1dbb624c4d2a6584cc12d",
   "directories": {
     ".": [
       ".gitignore",
       "AGENTS.md",
+      "CHANGELOG.md",
       "LICENSE",
       "README.md",
       "mise.toml"

@@ -1,7 +1,7 @@
 # Project follow-ups
 
 Created: 2026-11-10T15:55:25Z
-Last updated: 2026-11-10T19:59:40Z
+Last updated: 2026-11-10T21:57:35Z
 
 Deferred items from the project-rules review. Check the revisit triggers when
 scoping new work; entries are not implementation authorization or scheduled jobs.
@@ -33,8 +33,10 @@ Create the section or archive when needed, retaining resolutions and links.
 | Verification tooling and CI | Deferred | When a component has meaningful code to verify | Select its formatter, linter, tests, and minimal CI checks using existing ecosystem tools. Do not standardize an unused language's stack in advance. |
 | Additional navigation or token tools | Deferred | After a specific gap or repeated cost is observed | Evaluate one capability at a time; avoid overlapping memory systems and speculative agent orchestration. A repository MCP server is deferred; reconsider a query interface over the existing map if map size or repeated retrieval costs justify it. |
 | Existing tracked datasets | Deferred | Before maintaining or extending the legacy benchmark work | Inventory tracked fixtures/results and propose migration outside Git while retaining provenance. Obtain agreement before moving, deleting, untracking, or rewriting history. |
-| Root changelog | Deferred | Next agreed project documentation checkpoint | Establish CHANGELOG.md under the changelog rule with a concise initial entry; do not backfill every historical commit. |
-| Durable task records | Deferred | Before the next sprint or task record | Decide which records must be versioned and adjust ignore exceptions narrowly. Only this backlog receives a new tracking exception; other new sprint files remain ignored. |
+| Root changelog | Initial document established; human review pending | Current planning-document checkpoint | See [CHANGELOG.md](../CHANGELOG.md). No historical backfill or release process was introduced. |
+| Durable task records | Existing Sprint 1 record reused; future tracking decisions deferred | Before creating a later sprint/task record | The already tracked [Sprint 1 plan](spatial_edge_platform_sprint_1_v0.0.1.md) holds the closeout and provisional sequence. Do not create every future record now; agree on its durable location and a narrow ignore exception when scoped. No ignore rules changed in this checkpoint. |
+| Sprint 1 closeout and engine sequence | Plan rewritten; human review pending | Review the rules-aligned Sprint 1 plan | Agree on checkpoint 1A, then complete the evidence/contract discussion. Later SQL, reader, pruning and operating-mode milestones remain proposals, not implementation authorization. See [Sprint 1](spatial_edge_platform_sprint_1_v0.0.1.md). |
+| Legacy benchmark runtime footprint | Deferred; keep local artifacts | Separately agreed Sprint 1 inventory checkpoint | Inventory environments, caches, downloaded/generated data and raw runs read-only. Retain the retrospective and evidence; no cleanup, untracking, package adoption or benchmark rerun is authorized. Tracked-data migration remains the separate unresolved item above. |
 | Future language directories | Deferred | Before adding project Python or Swift source | Review the existing python/ and swift/ ignore rules and agree on the component layout before exposing intended source files to Git. |
 | Logging framework and scrubber | Deferred | When diagnostic needs justify implementation | Scope the logging framework and automatic scrubber, including synthetic privacy checks. Define a separate access boundary if protected values must be inaccessible to the application. |
 
